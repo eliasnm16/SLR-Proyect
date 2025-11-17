@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="586.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="624.0" fitWidth="576.0" layoutX="7.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@logo.jpg" />
+         </image>
+      </ImageView>
+      <ButtonBar layoutX="62.0" layoutY="449.0" prefHeight="74.0" prefWidth="414.0">
+        <buttons>
+          <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="103.0" style="-fx-background-color: #b99a41;" text="Alquiler">
+               <font>
+                  <Font name="Gill Sans MT Condensed" size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #b99a41;" text="Usuarios">
+               <font>
+                  <Font name="Gill Sans MT Condensed" size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="34.0" style="-fx-background-color: #b99a41;" text="Chofer">
+               <font>
+                  <Font name="Gill Sans MT Condensed" size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="110.0" style="-fx-background-color: #b99a41;" text="Coches">
+               <font>
+                  <Font name="Gill Sans MT Condensed" size="18.0" />
+               </font>
+            </Button>
+        </buttons>
+      </ButtonBar>
+      <ComboBox layoutX="485.0" layoutY="22.0" prefHeight="14.0" prefWidth="86.0" promptText="Admin" style="-fx-background-color: grey;" />
+   </children>
+</AnchorPane>
