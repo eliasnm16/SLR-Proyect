@@ -1,4 +1,4 @@
-package DTO;
+package dto;
 
 public class ChoferDTO {
 	
@@ -8,9 +8,8 @@ public class ChoferDTO {
 	private long telefono;
 	private boolean disposicion = true;
 	
-	public ChoferDTO(int id_chofer, String nombre_completo, String dni, long telefono, boolean disposicion) {
+	public ChoferDTO(String nombre_completo, String dni, long telefono, boolean disposicion) {
 		super();
-		this.id_chofer = id_chofer;
 		this.nombre_completo = nombre_completo;
 		this.dni = dni;
 		this.telefono = telefono;
@@ -24,7 +23,7 @@ public class ChoferDTO {
 	public void setId_chofer(int id_chofer) {
 		this.id_chofer = id_chofer;
 	}
-
+	
 	public String getNombre_completo() {
 		return nombre_completo;
 	}
