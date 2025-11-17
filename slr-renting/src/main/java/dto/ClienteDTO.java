@@ -1,10 +1,10 @@
-package DTO;
+package dto;
 
 import java.time.LocalDate;
 
 public class ClienteDTO {
 	
-	private int id;
+	private int idCliente;
 	private String nombreCompleto;
 	private String nif_nie;
 	private String correo;
@@ -12,9 +12,12 @@ public class ClienteDTO {
 	private boolean carnet = false;
 	private long telefono;
 	private LocalDate fechaRegistro;
+	private boolean admin = false;
 	
+    public ClienteDTO() {}  // ← Añadir constructor vacío
+
 	public ClienteDTO(String nombreCompleto, String nif_nie, String correo, String contrasena, boolean carnet,
-			long telefono) {
+			long telefono, boolean admin) {
 		super();
 		this.nombreCompleto = nombreCompleto;
 		this.nif_nie = nif_nie;
@@ -22,6 +25,7 @@ public class ClienteDTO {
 		this.contrasena = contrasena;
 		this.carnet = carnet;
 		this.telefono = telefono;
+		this.admin = true;
 	}
 
 	public String getNombreCompleto() {
@@ -80,8 +84,16 @@ public class ClienteDTO {
 		this.fechaRegistro = fechaRegistro;
 	}
 
-	public int getId() {
-		return id;
+	public int getIdCliente() {
+		return idCliente;
+	}
+	
+	public void setIdCliente(int idCliente) {
+		this.idCliente = idCliente;
+	}
+	
+	public boolean getAdmin() {
+		return admin;
 	}
 	
 	
