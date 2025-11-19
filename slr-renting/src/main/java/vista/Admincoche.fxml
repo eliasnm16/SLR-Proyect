@@ -8,16 +8,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="451.0" prefWidth="648.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="451.0" prefWidth="648.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.AdminCocheControlador">
    <children>
-      <TableView layoutY="175.0" prefHeight="275.0" prefWidth="648.0" style="-fx-background-color: black; -fx-border-color: fcdb00; -fx-border-width: 6px;">
+      <TableView fx:id="tblCoche" layoutY="175.0" prefHeight="275.0" prefWidth="648.0" style="-fx-background-color: black; -fx-border-color: fcdb00; -fx-border-width: 6px;">
         <columns>
-          <TableColumn prefWidth="58.4000244140625" text="Nº Bastidor" />
-          <TableColumn prefWidth="120.0" text="Matricula" />
-            <TableColumn prefWidth="146.39996337890625" text="Marca" />
-            <TableColumn prefWidth="84.0" text="Modelo" />
-            <TableColumn prefWidth="126.40008544921875" text="Precio" />
-            <TableColumn prefWidth="99.199951171875" text="Disponibilidad" />
+          <TableColumn fx:id="clmBast" prefWidth="58.4000244140625" text="Nº Bastidor" />
+          <TableColumn fx:id="clmMtr" prefWidth="120.0" text="Matricula" />
+            <TableColumn fx:id="clmMarca" prefWidth="146.39996337890625" text="Marca" />
+            <TableColumn fx:id="clmMdl" prefWidth="84.0" text="Modelo" />
+            <TableColumn fx:id="clmPr" prefWidth="126.40008544921875" text="Precio" />
+            <TableColumn fx:id="clmDisp" prefWidth="99.199951171875" text="Disponibilidad" />
         </columns>
       </TableView>
       <Text fill="WHITE" layoutX="7.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Panel administracion de coches" wrappingWidth="634.6878051757812">
@@ -25,12 +25,12 @@
             <Font size="43.0" />
          </font>
       </Text>
-      <Button layoutX="573.0" layoutY="22.0" mnemonicParsing="false" text="Volver" />
+      <Button fx:id="btnVolver" layoutX="573.0" layoutY="22.0" mnemonicParsing="false" text="Volver" />
       <ButtonBar layoutX="377.0" layoutY="141.0" prefHeight="34.0" prefWidth="261.0">
         <buttons>
-          <Button minWidth="56.0" mnemonicParsing="false" prefHeight="14.0" text="Añadir" />
-            <Button mnemonicParsing="false" text="Borrar" />
-            <Button mnemonicParsing="false" text="Editar" />
+          <Button fx:id="btnAñadir" minWidth="56.0" mnemonicParsing="false" prefHeight="14.0" text="Añadir" />
+            <Button fx:id="btnBorrar" mnemonicParsing="false" text="Borrar" />
+            <Button fx:id="btnEditar" mnemonicParsing="false" text="Editar" />
         </buttons>
       </ButtonBar>
    </children>

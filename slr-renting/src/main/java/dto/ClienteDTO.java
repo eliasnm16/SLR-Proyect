@@ -10,14 +10,14 @@ public class ClienteDTO {
 	private String correo;
 	private String contrasena;
 	private boolean carnet = false;
-	private long telefono;
+	private String telefono;
 	private LocalDate fechaRegistro;
 	private boolean admin = false;
 	
     public ClienteDTO() {}  // ← Añadir constructor vacío
 
 	public ClienteDTO(String nombreCompleto, String nif_nie, String correo, String contrasena, boolean carnet,
-			long telefono, boolean admin) {
+			String telefono, boolean admin) {
 		super();
 		this.nombreCompleto = nombreCompleto;
 		this.nif_nie = nif_nie;
@@ -68,11 +68,11 @@ public class ClienteDTO {
 		this.carnet = carnet;
 	}
 
-	public long getTelefono() {
+	public String getTelefono() {
 		return telefono;
 	}
 
-	public void setTelefono(long telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 
