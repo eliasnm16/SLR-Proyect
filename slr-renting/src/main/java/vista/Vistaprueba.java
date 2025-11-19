@@ -103,8 +103,8 @@ public class Vistaprueba {
 
 	        System.out.print("DNI: ");
 	        String dni = scanner.nextLine();
-
-	        long telefono = leerEntero("Teléfono: ");
+	        System.out.print("Teléfono: ");
+	        String telefono = scanner.nextLine();
 	        
 	        System.out.print("¿Está disponible? (true/false): ");
 	        boolean disponibilidad = scanner.nextBoolean();
@@ -124,7 +124,8 @@ public class Vistaprueba {
 	        System.out.print("Nuevo DNI: ");
 	        String dni = scanner.nextLine();
 
-	        long telefono = leerEntero("Nuevo teléfono: ");
+	        System.out.print("Nuevo teléfono: ");
+	        String telefono = scanner.nextLine();
 	        
 	        System.out.print("¿Está disponible? (true/false): ");
 	        boolean disponibilidad = scanner.nextBoolean();
