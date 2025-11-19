@@ -17,9 +17,11 @@ public class ChoferDAO {
 	   
 		try (Connection conn = ConexionBD.getConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sql)) {
+            System.out.println("✅ Conexión a BD establecida");
+
 			stmt.setString(1, chofer.getNombre_completo());
 			stmt.setString(2, chofer.getDni());
-			stmt.setLong(3, chofer.getTelefono()); 
+			stmt.setString(3, chofer.getTelefono()); 
 			stmt.setBoolean(4, chofer.isDisposicion());
 			stmt.executeUpdate(); 
 			
@@ -40,7 +42,7 @@ public class ChoferDAO {
 			 PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setString(1, chofer.getNombre_completo());
 			stmt.setString(2, chofer.getDni());
-			stmt.setLong(3, chofer.getTelefono());
+			stmt.setString(3, chofer.getTelefono());
 			stmt.setBoolean(4, chofer.isDisposicion());
 	        stmt.setInt(5, id);  // ← ¡FALTABA ESTA LÍNEA!
 
@@ -93,7 +95,7 @@ public class ChoferDAO {
 				ChoferDTO chofer = new ChoferDTO(
 					rs.getString("Nombre_Completo"),
 					rs.getString("Dni"),
-					rs.getLong("Telefono"),
+					rs.getString("Telefono"),
 					rs.getBoolean("Disposicion")
 				);
 				chofer.setId_chofer(rs.getInt("ID_Chofer"));
@@ -123,7 +125,7 @@ public class ChoferDAO {
 				ChoferDTO chofer = new ChoferDTO(
 					rs.getString("Nombre_Completo"),
 					rs.getString("Dni"),
-					rs.getLong("Telefono"),
+					rs.getString("Telefono"),
 					rs.getBoolean("Disposicion")
 				);
 				chofer.setId_chofer(rs.getInt("ID_Chofer"));
