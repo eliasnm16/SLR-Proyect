@@ -19,7 +19,11 @@
             <TableColumn fx:id="clmNif" prefWidth="132.79998779296875" text="NIF/NIE" />
         </columns>
       </TableView>
-      <Text fill="WHITE" layoutX="7.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Panel administracion de usuarios " wrappingWidth="634.6878051757812">
+
+      <Text fill="WHITE" layoutX="7.0" layoutY="94.0"
+            strokeType="OUTSIDE" strokeWidth="0.0"
+            text="Panel administracion de usuarios"
+            wrappingWidth="634.6878051757812">
          <font>
             <Font size="43.0" />
          </font>
@@ -32,5 +36,6 @@
             <Button fx:id="btnEditar" mnemonicParsing="false" text="Editar" />
         </buttons>
       </ButtonBar>
+
    </children>
 </AnchorPane>

@@ -6,40 +6,114 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="576.0" prefWidth="586.0"
+            style="-fx-background-color: BLACK;"
+            xmlns="http://javafx.com/javafx/24.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controlador.PanelAdminControlador">
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="586.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="624.0" fitWidth="576.0" layoutX="7.0" pickOnBounds="true" preserveRatio="true">
+
+      <!-- ============================= -->
+      <!--   LOGO DE FONDO CENTRADO      -->
+      <!-- ============================= -->
+      <ImageView layoutX="0" layoutY="0"
+                 fitWidth="586" fitHeight="576"
+                 preserveRatio="true"
+                 opacity="0.15"
+                 pickOnBounds="false"
+                 style="-fx-alignment: center;">
          <image>
             <Image url="@logo.jpg" />
          </image>
       </ImageView>
-      <ButtonBar layoutX="62.0" layoutY="449.0" prefHeight="74.0" prefWidth="414.0">
-        <buttons>
-          <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="103.0" style="-fx-background-color: #b99a41;" text="Alquiler">
-               <font>
-                  <Font name="Gill Sans MT Condensed" size="18.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #b99a41;" text="Usuarios">
-               <font>
-                  <Font name="Gill Sans MT Condensed" size="18.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" prefHeight="34.0" style="-fx-background-color: #b99a41;" text="Chofer">
-               <font>
-                  <Font name="Gill Sans MT Condensed" size="18.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="110.0" style="-fx-background-color: #b99a41;" text="Coches">
-               <font>
-                  <Font name="Gill Sans MT Condensed" size="18.0" />
-               </font>
-            </Button>
-        </buttons>
+
+      <!-- ============================= -->
+      <!--        TOP BAR DORADO         -->
+      <!-- ============================= -->
+      <HBox layoutX="0.0" layoutY="0.0"
+            prefWidth="586.0"
+            spacing="20.0"
+            style="-fx-padding: 10 20; -fx-background-color: #b99a41;">
+
+         <children>
+
+            <!-- LOGO PEQUEÑO DEL HEADER -->
+            <HBox spacing="10.0" alignment="CENTER_LEFT">
+               <children>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
+                     <image>
+                        <Image url="@logo.jpg" />
+                     </image>
+                  </ImageView>
+
+                  <Text text="Panel de administración" fill="black">
+                     <font>
+                        <Font name="Gill Sans MT Condensed" size="26.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+
+            <Pane HBox.hgrow="ALWAYS" />
+
+            <!-- COMBO ADMIN -->
+            <ComboBox fx:id="comboAdmin"
+                      promptText="Admin"
+                      prefWidth="120.0"
+                      style="-fx-background-color: black; -fx-text-fill: #b99a41; -fx-background-radius: 6;"
+                      onAction="#logout">
+
+               <items>
+                  <FXCollections fx:factory="observableArrayList">
+                     <String fx:value="Perfil" />
+                     <String fx:value="Logout" />
+                  </FXCollections>
+               </items>
+            </ComboBox>
+
+         </children>
+      </HBox>
+
+      <!-- ============================= -->
+      <!--         BOTONES ADMIN         -->
+      <!-- ============================= -->
+
+      <ButtonBar layoutX="62.0" layoutY="449.0"
+                 prefHeight="74.0" prefWidth="414.0">
+         <buttons>
+
+            <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="103.0"
+                    style="-fx-background-color: #b99a41;"
+                    text="Alquiler" />
+
+            <Button mnemonicParsing="false" prefHeight="32.0"
+                    style="-fx-background-color: #b99a41;"
+                    text="Usuarios"
+                    onAction="#irAUsuarios" />
+
+            <Button mnemonicParsing="false" prefHeight="34.0"
+                    style="-fx-background-color: #b99a41;"
+                    text="Chofer"
+                    onAction="#irAChofer" />
+
+            <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="110.0"
+                    style="-fx-background-color: #b99a41;"
+                    text="Coches"
+                    onAction="#irACoches" />
+
+         </buttons>
       </ButtonBar>
-      <ComboBox layoutX="485.0" layoutY="22.0" prefHeight="14.0" prefWidth="86.0" promptText="Admin" style="-fx-background-color: grey;" />
+
    </children>
 </AnchorPane>
+

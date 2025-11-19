@@ -20,7 +20,11 @@
             <TableColumn fx:id="clmDisp" prefWidth="99.199951171875" text="Disponibilidad" />
         </columns>
       </TableView>
-      <Text fill="WHITE" layoutX="7.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Panel administracion de coches" wrappingWidth="634.6878051757812">
+
+      <Text fill="WHITE" layoutX="7.0" layoutY="94.0" 
+            strokeType="OUTSIDE" strokeWidth="0.0" 
+            text="Panel administracion de coches" 
+            wrappingWidth="634.6878051757812">
          <font>
             <Font size="43.0" />
          </font>
