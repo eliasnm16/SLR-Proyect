@@ -1,17 +1,28 @@
 package vista;
 
+import java.io.IOException;
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class App extends Application {
     @Override
     public void start(Stage stage) {
-        Label lbl = new Label("Bienvenido al Renting de Coches SLR");
-        Scene scene = new Scene(lbl, 400, 200);
-        stage.setTitle("SLR Renting");
-        stage.setScene(scene);
-        stage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Loginusuarioregistrado.fxml"));
+
+        Scene scene;
+        
+		try {
+			scene = new Scene(loader.load());
+		       stage.setTitle("SLR Renting");
+		        stage.setScene(scene);
+		        stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 
     }
 }
