@@ -5,10 +5,10 @@ public class ChoferDTO {
     private int id_chofer;
     private String nombre_completo;
     private String dni;
-    private String telefono;  // CAMBIADO de long a String
+    private String telefono; 
     private boolean disposicion = true;
     
-    public ChoferDTO(String nombre_completo, String dni, String telefono, boolean disposicion) {  // CAMBIADO parámetro
+    public ChoferDTO(String nombre_completo, String dni, String telefono, boolean disposicion) {  
         super();
         this.nombre_completo = nombre_completo;
         this.dni = dni;

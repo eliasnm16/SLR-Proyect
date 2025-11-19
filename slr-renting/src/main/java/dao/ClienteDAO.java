@@ -17,7 +17,7 @@ public class ClienteDAO {
 			stmt.setString(3, cliente.getCorreo());
 			stmt.setString(4, cliente.getContrasena());
 			stmt.setBoolean(5, cliente.isCarnet());
-			stmt.setLong(6, cliente.getTelefono()); 
+			stmt.setString(6, cliente.getTelefono()); 
 			stmt.executeUpdate(); 
 			
 			System.out.println("\nCliente registrado correctamente.");
@@ -39,7 +39,7 @@ public class ClienteDAO {
 			stmt.setString(3, cliente.getCorreo());
 			stmt.setString(4, cliente.getContrasena());
 			stmt.setBoolean(5, cliente.isCarnet());
-			stmt.setLong(6, cliente.getTelefono());
+			stmt.setString(6, cliente.getTelefono());
 			stmt.setInt(7, id);
 			int filasActualizadas = stmt.executeUpdate();
 			
@@ -93,7 +93,7 @@ public class ClienteDAO {
 				cliente.setCorreo(rs.getString("Correo"));
 				cliente.setContrasena(rs.getString("Contrasena"));
 				cliente.setCarnet(rs.getBoolean("Carnet"));
-				cliente.setTelefono(rs.getLong("Telefono"));
+				cliente.setTelefono(rs.getString("Telefono"));
 				
 				clientes.add(cliente);
 			}
