@@ -10,88 +10,44 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="fondo" fx:id="paneLogin"
-            fx:controller="controlador.LoginRegistroControlador"
-            maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="607.0" prefWidth="620.0"
-            style="-fx-background-color: black;"
-            xmlns="http://javafx.com/javafx/24.0.1"
-            xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="fondo" fx:id="paneLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="620.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.LoginRegistroControlador">
    <children>
-      <Line endX="170.0" endY="49.9999885559082" layoutX="-2.0" layoutY="-1.0"
-            startX="167.79290771484375" startY="583.2070922851562" stroke="#fcdb00" />
-      <Line endX="170.0" endY="49.9999885559082" layoutX="259.0"
-            startX="170.0" startY="581.6000366210938" stroke="#fad900" />
-      <Line endX="-100.5" endY="341.5" layoutX="270.0" layoutY="-292.0"
-            startX="158.5" startY="341.5" stroke="#fcdb00" />
+      <Line endX="170.0" endY="49.9999885559082" layoutX="-2.0" layoutY="-1.0" startX="167.79290771484375" startY="583.2070922851562" stroke="#fcdb00" />
+      <Line endX="170.0" endY="49.9999885559082" layoutX="259.0" startX="170.0" startY="581.6000366210938" stroke="#fad900" />
+      <Line endX="-100.5" endY="341.5" layoutX="270.0" layoutY="-292.0" startX="158.5" startY="341.5" stroke="#fcdb00" />
 
-      <Text fill="WHITE" layoutX="261.0" layoutY="114.0"
-            strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido" />
-      <Text fill="#c4c4c2" layoutX="210.0" layoutY="138.0"
-            strokeType="OUTSIDE" strokeWidth="0.0" text="Ingrese sus datos para acceder" />
+      <Text fill="WHITE" layoutX="261.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido" />
+      <Text fill="#c4c4c2" layoutX="210.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingrese sus datos para acceder" />
 
-      <Text fill="WHITE" layoutX="185.0" layoutY="166.0"
-            strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Completo" />
-      <Text fill="WHITE" layoutX="185.0" layoutY="227.0"
-            strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="73.38397216796875" />
-      <Text fill="WHITE" layoutX="185.0" layoutY="289.0"
-            strokeType="OUTSIDE" strokeWidth="0.0" text="NIF/NIE" />
-      <Text fill="WHITE" layoutX="185.0" layoutY="348.0"
-            strokeType="OUTSIDE" strokeWidth="0.0" text="Teléfono" wrappingWidth="73.38397216796875" />
+      <Text fill="WHITE" layoutX="185.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Completo" />
+      <Text fill="WHITE" layoutX="185.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="73.38397216796875" />
+      <Text fill="WHITE" layoutX="185.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NIF/NIE" />
+      <Text fill="WHITE" layoutX="185.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teléfono" wrappingWidth="73.38397216796875" />
 
-      <TextField layoutX="185.0" layoutY="176.0"
-                 prefHeight="26.0" prefWidth="222.0"
-                 style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
-      <TextField layoutX="185.0" layoutY="232.0"
-                 prefHeight="26.0" prefWidth="222.0"
-                 style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
-      <TextField layoutX="185.0" layoutY="292.0"
-                 prefHeight="26.0" prefWidth="222.0"
-                 style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
-      <TextField layoutX="185.0" layoutY="352.0"
-                 prefHeight="26.0" prefWidth="222.0"
-                 style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
+      <!-- FIELDS con fx:id -->
+      <TextField fx:id="txtNombre" layoutX="185.0" layoutY="176.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
+      <TextField fx:id="txtCorreo" layoutX="185.0" layoutY="232.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
+      <TextField fx:id="txtNif" layoutX="185.0" layoutY="292.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
+      <TextField fx:id="txtTelefono" layoutX="185.0" layoutY="352.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
 
-      <!-- BOTÓN ACCEDER -->
-      <Button layoutX="206.0" layoutY="520.0"
-              mnemonicParsing="false" prefHeight="32.0" prefWidth="186.0"
-              style="-fx-background-color: grey; -fx-border-color: fcdb00; -fx-text-fill: black;"
-              text="Acceder" wrapText="true"
-              onAction="#onAcceder" />
+      <!-- BOTÓN REGISTRARSE (ya tiene onAction="#onAcceder") -->
+      <Button fx:id="btnRegistro" layoutX="206.0" layoutY="492.0" mnemonicParsing="false" onAction="#onAcceder" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: grey; -fx-border-color: fcdb00; -fx-text-fill: black;" text="Registrarse" wrapText="true" />
 
       <!-- BOTÓN VOLVER AL LOGIN -->
-      <Button layoutX="206.0" layoutY="560.0"
-              mnemonicParsing="false" prefHeight="32.0" prefWidth="186.0"
-              style="-fx-background-color: black; -fx-border-color: fcdb00; -fx-text-fill: white;"
-              text="¿Ya tienes cuenta? Inicia sesión aquí"
-              wrapText="true"
-              onAction="#irALogin" />
+      <Button fx:id="btnVolverLogin" layoutX="206.0" layoutY="540.0" mnemonicParsing="false" onAction="#irALogin" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: black; -fx-border-color: fcdb00; -fx-text-fill: white;" text="¿Ya tienes cuenta? Inicia sesión aquí" wrapText="true" />
 
-      <Text fill="WHITE" layoutX="185.0" layoutY="405.0"
-            strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" wrappingWidth="73.38397216796875" />
+      <Text fill="WHITE" layoutX="185.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" wrappingWidth="73.38397216796875" />
 
-      <!-- CheckBox SIN effects raros -->
-      <CheckBox layoutX="182.0" layoutY="453.0"
-                mnemonicParsing="false" prefHeight="26.0" prefWidth="222.0"
-                style="-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-border-color: fcdb00;"
-                text="Dispone de carnet de conducir"
-                textFill="WHITE" />
+      <CheckBox fx:id="chkCarnet" layoutX="182.0" layoutY="453.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-border-color: fcdb00;" text="Dispone de carnet de conducir" textFill="WHITE" />
 
-      <Line endX="-100.5" endY="341.5"
-            layoutX="267.0" layoutY="240.0"
-            startX="161.5" startY="342.10003662109375" stroke="#fcdb00" />
+      <Line endX="-100.5" endY="341.5" layoutX="267.0" layoutY="240.0" startX="161.5" startY="342.10003662109375" stroke="#fcdb00" />
 
-      <ImageView fitHeight="66.0" fitWidth="98.0"
-                 layoutX="177.0" layoutY="60.0"
-                 pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="66.0" fitWidth="98.0" layoutX="177.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@logo.jpg" />
          </image>
       </ImageView>
 
-      <PasswordField layoutX="185.0" layoutY="409.0"
-                     prefHeight="27.0" prefWidth="222.0"
-                     style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
+      <PasswordField fx:id="txtPassword" layoutX="185.0" layoutY="409.0" prefHeight="27.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
    </children>
 </AnchorPane>

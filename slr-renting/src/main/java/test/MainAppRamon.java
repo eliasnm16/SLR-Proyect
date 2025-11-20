@@ -11,9 +11,9 @@ public class MainAppRamon extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
     	
-        Parent root = FXMLLoader.load(getClass().getResource("/vista/Adminchofer.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/vista/LoginUsuarioRegistrado.fxml"));
         Scene scene = new Scene(root);
-        primaryStage.setTitle("Administración de chofers");
+        primaryStage.setTitle("Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
