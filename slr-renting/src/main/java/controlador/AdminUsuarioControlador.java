@@ -70,9 +70,10 @@ public class AdminUsuarioControlador implements Initializable {
 
     private void handleAñadir() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Loginregistro.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Loginregistro.fxml"));
             Parent root = loader.load();
 
+            // No pasamos cliente (nuevo)
             Stage dialog = new Stage();
             dialog.setTitle("Añadir cliente");
             dialog.initModality(Modality.APPLICATION_MODAL);
@@ -93,17 +94,19 @@ public class AdminUsuarioControlador implements Initializable {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Loginregistro.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Loginregistro.fxml"));
             Parent root = loader.load();
 
-            // intentar pasar el cliente al controlador del formulario (si existe setCliente)
+            // Obtener el controller y pasar el DTO para editar
             Object controller = loader.getController();
             if (controller != null) {
                 try {
+                    // asumimos que el controlador tiene setCliente(ClienteDTO)
                     Method m = controller.getClass().getMethod("setCliente", ClienteDTO.class);
                     m.invoke(controller, seleccionado);
                 } catch (NoSuchMethodException nsme) {
-                    // el controlador no tiene setCliente(ClienteDTO) → no hacemos nada
+                    // Si no existe setCliente, es el motivo por el que no se rellena
+                    System.err.println("El controlador de Loginregistro.fxml no define setCliente(ClienteDTO).");
                 }
             }
 
@@ -112,7 +115,7 @@ public class AdminUsuarioControlador implements Initializable {
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.setScene(new Scene(root));
             dialog.showAndWait();
-            cargarClientes();
+            cargarClientes(); // recargar lista después de cerrar el diálogo
         } catch (Exception ex) {
             ex.printStackTrace();
             mostrarError("Error al abrir el formulario de edición.");
