@@ -52,6 +52,8 @@
             <Image url="@logo.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="btnRegistrar1" layoutX="307.0" layoutY="417.0" mnemonicParsing="false" onAction="#salir" prefHeight="32.0" prefWidth="99.0" style="-fx-background-color: fcdb00; -fx-border-color: fcdb00; -fx-text-fill: black; -fx-background-radius: 16; -fx-border-radius: 16;" text="Salir" wrapText="true" />
+      <Button fx:id="btnSalir" layoutX="307.0" layoutY="417.0" mnemonicParsing="false" onAction="#salir" prefHeight="32.0" prefWidth="99.0"
+        style="-fx-background-color: fcdb00; -fx-border-color: fcdb00; -fx-text-fill: black; -fx-background-radius: 16; -fx-border-radius: 16;"
+        text="Salir" wrapText="true" />
    </children>
 </AnchorPane>

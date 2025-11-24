@@ -22,106 +22,102 @@ public class AñadirCocheControlador {
     @FXML private TextField txtPotencia;
     @FXML private TextField txtMotor;
     @FXML private TextField txtVelocidadMax;
-    @FXML private TextField txtImagenURL; // Agregar esto
+    @FXML private TextField txtImagenURL;
+
     @FXML private CheckBox chkNuevo;
     @FXML private CheckBox chkDisponible;
-    @FXML private Button btnRegistrar;
-    @FXML private Button btnSalir;
-    private CocheDAO cocheDAO;
 
-    @FXML
-    public void initialize() {
-        System.out.println("✅ Initialize COCHE ejecutado");
-        this.cocheDAO = new CocheDAO();
-        System.out.println("✅ CocheDAO instanciado");
+    @FXML private Button btnRegistrar;
+
+    private CocheDTO cocheEditar = null;
+    // <-- aquí la corrección: usar constructor por defecto
+    private final CocheDAO cocheDAO = new CocheDAO();
+
+    // ───────────────────────────────────────────────
+    //   MÉTODO PARA RECIBIR COCHE AL EDITAR
+    // ───────────────────────────────────────────────
+    public void setCoche(CocheDTO coche) {
+        this.cocheEditar = coche;
+
+        txtBastidor.setText(String.valueOf(coche.getBastidor()));
+        txtMarca.setText(coche.getMarca());
+        txtModelo.setText(coche.getModelo());
+        txtMatricula.setText(coche.getMatricula());
+        txtPrecioDiario.setText(String.valueOf(coche.getPrecioDiario()));
+        txtDescripcion.setText(coche.getDescripcion());
+        txtPlazas.setText(String.valueOf(coche.getPlazas()));
+        txtPotencia.setText(String.valueOf(coche.getPotencia()));
+        txtMotor.setText(coche.getMotor());
+        txtVelocidadMax.setText(String.valueOf(coche.getVelocidadMax()));
+        txtImagenURL.setText(coche.getImagenURL());
+
+        chkNuevo.setSelected(coche.isNuevo());
+        chkDisponible.setSelected(coche.isDisponible());
+
+        // El bastidor no se modifica jamás
+        txtBastidor.setDisable(true);
+
+        // Cambiar el texto del botón
+        btnRegistrar.setText("Actualizar");
     }
 
+    // ───────────────────────────────────────────────
+    //   BOTÓN REGISTRAR / ACTUALIZAR
+    // ───────────────────────────────────────────────
     @FXML
-    private void registrarCoche() {
-        System.out.println("🎯 BOTÓN COCHE FUNCIONANDO!");
-        
+    private void registrarCoche(ActionEvent event) {
         try {
-            // Mostrar datos en consola
-            System.out.println("📋 Datos del formulario COCHE:");
-            System.out.println("Bastidor: " + txtBastidor.getText());
-            System.out.println("Marca: " + txtMarca.getText());
-            System.out.println("Modelo: " + txtModelo.getText());
-            System.out.println("Matrícula: " + txtMatricula.getText());
-            System.out.println("Precio Diario: " + txtPrecioDiario.getText());
-            System.out.println("Descripción: " + txtDescripcion.getText());
-            System.out.println("Plazas: " + txtPlazas.getText());
-            System.out.println("Potencia: " + txtPotencia.getText());
-            System.out.println("Motor: " + txtMotor.getText());
-            System.out.println("Velocidad Max: " + txtVelocidadMax.getText());
-            System.out.println("Nuevo: " + chkNuevo.isSelected());
-            System.out.println("Disponible: " + chkDisponible.isSelected());
 
-            // Validaciones básicas
-            if (txtBastidor.getText().trim().isEmpty()) {
-                mostrarAlerta("Error", "El bastidor es obligatorio", Alert.AlertType.WARNING);
+            if (txtMarca.getText().isEmpty() || txtModelo.getText().isEmpty() ||
+                txtMatricula.getText().isEmpty() || txtPrecioDiario.getText().isEmpty() ||
+                txtDescripcion.getText().isEmpty() || txtPlazas.getText().isEmpty() ||
+                txtPotencia.getText().isEmpty() || txtMotor.getText().isEmpty() ||
+                txtVelocidadMax.getText().isEmpty()) {
+
+                mostrarAlerta("Error", "Por favor, rellene todos los campos.", Alert.AlertType.ERROR);
                 return;
             }
 
-            if (txtMarca.getText().trim().isEmpty()) {
-                mostrarAlerta("Error", "La marca es obligatoria", Alert.AlertType.WARNING);
+            CocheDTO coche = new CocheDTO(
+                    Integer.parseInt(txtBastidor.getText().trim()),
+                    txtMarca.getText().trim(),
+                    txtModelo.getText().trim(),
+                    Double.parseDouble(txtPrecioDiario.getText().trim()),
+                    txtDescripcion.getText().trim(),
+                    Integer.parseInt(txtPlazas.getText().trim()),
+                    Integer.parseInt(txtPotencia.getText().trim()),
+                    txtMotor.getText().trim(),
+                    Integer.parseInt(txtVelocidadMax.getText().trim()),
+                    txtMatricula.getText().trim().toUpperCase(),
+                    txtImagenURL.getText().trim(),
+                    chkNuevo.isSelected(),
+                    chkDisponible.isSelected()
+            );
+
+            // ─────────── MODO EDITAR ───────────
+            if (cocheEditar != null) {
+                cocheDAO.modificarCoche(coche);
+                mostrarAlerta("Éxito", "Coche actualizado correctamente.", Alert.AlertType.INFORMATION);
+
+                Stage stage = (Stage) btnRegistrar.getScene().getWindow();
+                stage.close();
                 return;
             }
 
-            if (txtModelo.getText().trim().isEmpty()) {
-                mostrarAlerta("Error", "El modelo es obligatorio", Alert.AlertType.WARNING);
-                return;
-            }
+            // ─────────── MODO REGISTRAR ───────────
+            cocheDAO.registrarCoche(coche);
+            mostrarAlerta("Éxito", "Coche registrado correctamente.", Alert.AlertType.INFORMATION);
 
-            if (txtMatricula.getText().trim().isEmpty()) {
-                mostrarAlerta("Error", "La matrícula es obligatoria", Alert.AlertType.WARNING);
-                return;
-            }
-
-            if (txtPrecioDiario.getText().trim().isEmpty()) {
-                mostrarAlerta("Error", "El precio diario es obligatorio", Alert.AlertType.WARNING);
-                return;
-            }
-
-            // Crear DTO con los datos del formulario
-            CocheDTO nuevoCoche = new CocheDTO(
-            	    Integer.parseInt(txtBastidor.getText().trim()),
-            	    txtMarca.getText().trim(),
-            	    txtModelo.getText().trim(),
-            	    Double.parseDouble(txtPrecioDiario.getText().trim()),
-            	    txtDescripcion.getText().trim(),
-            	    Integer.parseInt(txtPlazas.getText().trim()),
-            	    Integer.parseInt(txtPotencia.getText().trim()),
-            	    txtMotor.getText().trim(),
-            	    Integer.parseInt(txtVelocidadMax.getText().trim()),
-            	    txtMatricula.getText().trim().toUpperCase(),
-            	    txtImagenURL.getText().trim(), // En lugar de "" vacío
-            	    chkNuevo.isSelected(),
-            	    chkDisponible.isSelected()
-            	);
-
-            System.out.println("💾 Creando coche en BD...");
-            
-            // ESTA ES LA LÍNEA IMPORTANTE QUE GUARDA EN BD:
-            cocheDAO.registrarCoche(nuevoCoche);
-            
-            System.out.println("✅ Coche guardado en BD");
-
-            // Mostrar alerta de éxito
-            mostrarAlerta("Éxito", "Coche registrado correctamente en la base de datos", Alert.AlertType.INFORMATION);
-            
-            // Limpiar formulario
             limpiarFormulario();
 
         } catch (NumberFormatException e) {
-            System.err.println("❌ Error: Campos numéricos inválidos");
-            mostrarAlerta("Error", "Verifique que los campos numéricos contengan valores válidos", Alert.AlertType.ERROR);
-        } catch (Exception e) {
-            System.err.println("❌ Error guardando coche: " + e.getMessage());
-            e.printStackTrace();
-            mostrarAlerta("Error", "Error al guardar: " + e.getMessage(), Alert.AlertType.ERROR);
+            mostrarAlerta("Error", "Algunos campos numéricos no son válidos.", Alert.AlertType.ERROR);
         }
     }
 
+    // ───────────────────────────────────────────────
+    //   LIMPIAR FORMULARIO
+    // ───────────────────────────────────────────────
     private void limpiarFormulario() {
         txtBastidor.clear();
         txtMarca.clear();
@@ -133,18 +129,28 @@ public class AñadirCocheControlador {
         txtPotencia.clear();
         txtMotor.clear();
         txtVelocidadMax.clear();
-        chkDisponible.setSelected(true);
+        txtImagenURL.clear();
+
         chkNuevo.setSelected(false);
-        txtBastidor.requestFocus();
+        chkDisponible.setSelected(false);
+
+        txtBastidor.setDisable(false);
+        btnRegistrar.setText("Registrar");
+        cocheEditar = null;
     }
-    
+
+    // ───────────────────────────────────────────────
+    //   BOTÓN SALIR
+    // ───────────────────────────────────────────────
     @FXML
     private void salir(ActionEvent event) {
-        this.cocheDAO = null;
-        // Cerramos la ventana sin guardar
-        Stage stage = (Stage) this.btnSalir.getScene().getWindow();
+        Stage stage = (Stage) btnRegistrar.getScene().getWindow();
         stage.close();
     }
+
+    // ───────────────────────────────────────────────
+    //   UTILIDAD PARA ALERTAS
+    // ───────────────────────────────────────────────
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
