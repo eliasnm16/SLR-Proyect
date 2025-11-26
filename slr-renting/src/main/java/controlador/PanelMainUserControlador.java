@@ -1,5 +1,6 @@
 package controlador;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -7,18 +8,21 @@ import java.util.ResourceBundle;
 import dao.CocheDAO;
 import dto.CocheDTO;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class PanelMainUserControlador implements Initializable {
 
@@ -66,6 +70,8 @@ public class PanelMainUserControlador implements Initializable {
 
     private CocheDAO cocheDAO = new CocheDAO();
 
+    // ⬅️ Nuevo: referencia al coche destacado
+    private CocheDTO cocheDestacado;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -74,12 +80,12 @@ public class PanelMainUserControlador implements Initializable {
         configurarMenu();
     }
 
-
     private void cargarDestacado() {
         List<CocheDTO> nuevos = cocheDAO.listarCochesNuevos();
         if (nuevos.isEmpty()) return;
 
-        CocheDTO c = nuevos.get(0);
+        cocheDestacado = nuevos.get(0); // ⬅️ Guardamos el destacado
+        CocheDTO c = cocheDestacado;
 
         lblModeloDestacado.setText(c.getModelo());
         lblDescripcionDestacado.setText(c.getDescripcion());
@@ -98,18 +104,22 @@ public class PanelMainUserControlador implements Initializable {
         btnVerDetallesDestacado.setOnAction(e -> abrirDetalles(c));
     }
 
-
     private void cargarColeccion() {
         contenedorCoches.getChildren().clear();
 
         List<CocheDTO> disponibles = cocheDAO.listarCochesDisponibles();
 
         for (CocheDTO c : disponibles) {
+
+            // ⛔ Omitir el coche destacado
+            if (cocheDestacado != null && c.getBastidor() == cocheDestacado.getBastidor()) {
+                continue;
+            }
+
             VBox card = crearCard(c);
             contenedorCoches.getChildren().add(card);
         }
     }
-
 
     private VBox crearCard(CocheDTO c) {
         VBox card = new VBox(12);
@@ -155,16 +165,28 @@ public class PanelMainUserControlador implements Initializable {
         return card;
     }
 
-
     private void configurarMenu() {
         itemConfig.setOnAction(e -> abrirConfig());
         itemMisReservas.setOnAction(e -> abrirMisReservas());
         itemLogout.setOnAction(e -> cerrarSesion());
     }
 
+    private void abrirDetalles(CocheDTO coche) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelCocheUser.fxml"));
+            Parent root = loader.load();
 
-    private void abrirDetalles(CocheDTO c) {
-        System.out.println("Detalles de coche: " + c.getModelo());
+            PanelCocheUserControlador controlador = loader.getController();
+            controlador.setCoche(coche);
+
+            Stage stage = new Stage();
+            stage.setTitle("Detalles del Coche");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void abrirConfig() {
@@ -179,3 +201,5 @@ public class PanelMainUserControlador implements Initializable {
         System.out.println("Logout");
     }
 }
+
+
