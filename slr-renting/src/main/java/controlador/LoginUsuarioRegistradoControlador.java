@@ -21,6 +21,8 @@ import javafx.stage.Stage;
 
 public class LoginUsuarioRegistradoControlador {
 
+    public static ClienteDTO usuarioActual;
+
     @FXML private TextField txtEmail;
     @FXML private PasswordField txtPassword;
 
@@ -38,41 +40,57 @@ public class LoginUsuarioRegistradoControlador {
 
     @FXML
     private void onAcceder(ActionEvent event) {
+        String email = txtEmail.getText();
+        String pass = txtPassword.getText();
 
-        String email = txtEmail.getText().trim();
-        String pass = txtPassword.getText().trim();
+        if (email == null) email = "";
+        if (pass == null) pass = "";
+
+        email = email.trim();
+        pass = pass.trim();
 
         if (email.isEmpty() || pass.isEmpty()) {
             mostrarError("Debe introducir email y contraseña");
             return;
         }
 
-        ClienteDTO cliente = obtenerCliente(email);
+        ClienteDTO cliente = buscarUsuario(email, pass);
 
         if (cliente == null) {
             mostrarError("Usuario no encontrado");
             return;
         }
 
-        if (!cliente.getContrasena().equals(pass)) {
-            mostrarError("Contraseña incorrecta");
-            return;
-        }
+        usuarioActual = cliente;
 
         if (cliente.getAdmin()) {
             abrirPanelAdmin(event);
         } else {
-            mostrarError("En mantenimiento");
+            abrirPanelUsuario(event);
         }
     }
 
-    private ClienteDTO obtenerCliente(String email) {
-        String sql = "SELECT * FROM cliente WHERE CORREO = ?";
+    private ClienteDTO buscarUsuario(String email, String pass) {
+        ClienteDTO c = buscarEnTablaCliente(email, pass);
+        if (c != null) {
+            return c;
+        }
+        ClienteDTO a = buscarEnTablaAdmin(email, pass);
+        if (a != null) {
+            a.setAdmin(true);
+            return a;
+        }
+        return null;
+    }
+
+    private ClienteDTO buscarEnTablaCliente(String email, String pass) {
+        String sql = "SELECT * FROM cliente WHERE CORREO = ? AND CONTRASENA = ?";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, email);
+            stmt.setString(2, pass);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -86,10 +104,54 @@ public class LoginUsuarioRegistradoControlador {
                 c.setCarnet(rs.getBoolean("CARNET"));
                 c.setTelefono(rs.getString("TELEFONO"));
 
-                if (rs.getDate("FECHA_REGISTRO") != null)
+                if (rs.getDate("FECHA_REGISTRO") != null) {
                     c.setFechaRegistro(rs.getDate("FECHA_REGISTRO").toLocalDate());
+                }
 
-                c.setAdmin(rs.getBoolean("ADMIN"));
+                try {
+                    c.setAdmin(rs.getBoolean("ADMIN"));
+                } catch (Exception e) {
+                    c.setAdmin(false);
+                }
+
+                return c;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private ClienteDTO buscarEnTablaAdmin(String email, String pass) {
+        String sql = "SELECT * FROM admin WHERE CORREO = ? AND CONTRASENA = ?";
+
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+            stmt.setString(2, pass);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                ClienteDTO c = new ClienteDTO();
+
+                try {
+                    c.setIdCliente(rs.getInt("ID_CLIENTE"));
+                } catch (Exception e) {
+                    c.setIdCliente(0);
+                }
+
+                try {
+                    c.setNombreCompleto(rs.getString("NOMBRE_COMPLETO"));
+                } catch (Exception e) {}
+
+                c.setCorreo(rs.getString("CORREO"));
+                c.setContrasena(rs.getString("CONTRASENA"));
+                c.setAdmin(true);
+
                 return c;
             }
 
@@ -106,6 +168,18 @@ public class LoginUsuarioRegistradoControlador {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Panel Administrador");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void abrirPanelUsuario(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/vista/PanelMainUser.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Panel Usuario");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
