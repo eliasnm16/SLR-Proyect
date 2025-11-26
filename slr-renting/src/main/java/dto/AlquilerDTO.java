@@ -6,7 +6,7 @@ public class AlquilerDTO {
 
     private int idAlquiler;
     private int bastidor;
-    private int idChofer;
+    private int id_Chofer;
     private String nif_nie;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
@@ -48,12 +48,12 @@ public class AlquilerDTO {
 		this.bastidor = bastidor;
 	}
 
-	public int getIdChofer() {
-		return idChofer;
+	public int getId_Chofer() {
+		return id_Chofer;
 	}
 
-	public void setIdChofer(int idChofer) {
-		this.idChofer = idChofer;
+	public void setId_Chofer(int id_Chofer) {
+		this.id_Chofer = id_Chofer;
 	}
 
 	public String getNif_nie() {
@@ -97,7 +97,5 @@ public class AlquilerDTO {
 	}
 	
 	
-    
-    
     
 }
