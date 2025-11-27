@@ -90,7 +90,7 @@ public class PanelMainUserControlador implements Initializable {
         lblModeloDestacado.setText(c.getModelo());
         lblDescripcionDestacado.setText(c.getDescripcion());
         lblPotenciaDestacado.setText(c.getPotencia() + " CV");
-        lblAceleracionDestacado.setText("2.7 s");
+        lblAceleracionDestacado.setText(c.getPlazas()+ " Plazas");
         lblVelocidadDestacado.setText(c.getVelocidadMax() + " km/h");
         lblTransmisionDestacado.setText(c.getMotor());
         lblPrecioDestacado.setText((int) c.getPrecioDiario() + "€/mes");
@@ -181,8 +181,8 @@ public class PanelMainUserControlador implements Initializable {
         itemLogout.setOnAction(e -> cerrarSesion());
     }
 
-    private void abrirDetalles(CocheDTO c) {
-        System.out.println("Detalles de coche: " + c.getModelo());
+
+        
     private void abrirDetalles(CocheDTO coche) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelCocheUser.fxml"));
