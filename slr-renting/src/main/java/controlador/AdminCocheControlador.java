@@ -31,6 +31,9 @@ public class AdminCocheControlador implements Initializable {
     @FXML private TableColumn<CocheDTO, Number> clmPr;
     @FXML private TableColumn<CocheDTO, String> clmDisp;
 
+    
+    @FXML private TableColumn<CocheDTO, String> clmImg;
+
     @FXML private Button btnVolver;
     @FXML private Button btnAñadir;
     @FXML private Button btnBorrar;
@@ -59,13 +62,19 @@ public class AdminCocheControlador implements Initializable {
         clmPr.setCellValueFactory(cell -> new SimpleDoubleProperty(cell.getValue().getPrecioDiario()));
         clmDisp.setCellValueFactory(cell ->
                 new ReadOnlyStringWrapper(cell.getValue().isDisponible() ? "Sí" : "No"));
+
+        // ASOCIAR LA URL DE IMAGEN A LA COLUMNA
+        if (clmImg != null) {
+            clmImg.setCellValueFactory(cell ->
+                    new ReadOnlyStringWrapper(cell.getValue().getImagenURL()));
+        }
     }
 
     private void cargarCoches() {
         List<CocheDTO> lista = cocheDAO.listarCoches();
-        
+
         System.out.println("RESULTADO SQL: número de coches = " + lista.size());
-        
+
         for (CocheDTO c : lista) {
             System.out.println("Coche -> " + c.getBastidor() + " | " + c.getMatricula());
         }
@@ -89,7 +98,6 @@ public class AdminCocheControlador implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Añadircoche.fxml"));
             Parent root = loader.load();
 
-            // Si se está editando, pasamos el coche al controlador del formulario
             if (cocheSeleccionado != null) {
                 try {
                     Object controller = loader.getController();
@@ -107,7 +115,7 @@ public class AdminCocheControlador implements Initializable {
             ventana.setTitle(cocheSeleccionado == null ? "Añadir coche" : "Editar coche");
             ventana.showAndWait();
 
-            cargarCoches(); // refrescar tabla al cerrar formulario
+            cargarCoches();
 
         } catch (Exception e) {
             e.printStackTrace();

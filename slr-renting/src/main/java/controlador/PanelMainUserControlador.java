@@ -95,10 +95,16 @@ public class PanelMainUserControlador implements Initializable {
         lblTransmisionDestacado.setText(c.getMotor());
         lblPrecioDestacado.setText((int) c.getPrecioDiario() + "€/mes");
 
-        if (c.getImagenURL() != null) {
+        if (c.getImagenURL() != null && !c.getImagenURL().isEmpty()) {
             try {
-                imgDestacado.setImage(new Image(getClass().getResourceAsStream("/imagenes/" + c.getImagenURL())));
-            } catch (Exception ignored) {}
+                Image img = new Image(getClass().getResourceAsStream("/vista/" + c.getImagenURL()));
+                imgDestacado.setImage(img);
+                imgDestacado.setFitWidth(420);
+                imgDestacado.setFitHeight(260);
+                imgDestacado.setPreserveRatio(false);
+                imgDestacado.setSmooth(true);
+            } catch (Exception ignored) {
+            }
         }
 
         btnVerDetallesDestacado.setOnAction(e -> abrirDetalles(c));
@@ -127,13 +133,17 @@ public class PanelMainUserControlador implements Initializable {
         card.setStyle("-fx-background-color: #121212; -fx-background-radius: 18; -fx-border-radius: 18; -fx-border-color: #3b3320;");
 
         ImageView img = new ImageView();
+        img.setFitWidth(360);
         img.setFitHeight(180);
-        img.setPreserveRatio(true);
+        img.setPreserveRatio(false);
+        img.setSmooth(true);
 
-        if (c.getImagenURL() != null) {
+        if (c.getImagenURL() != null && !c.getImagenURL().isEmpty()) {
             try {
-                img.setImage(new Image(getClass().getResourceAsStream("/imagenes/" + c.getImagenURL())));
-            } catch (Exception ignored) {}
+                Image imagen = new Image(getClass().getResourceAsStream("/vista/" + c.getImagenURL()));
+                img.setImage(imagen);
+            } catch (Exception ignored) {
+            }
         }
 
         Label modelo = new Label(c.getModelo());
@@ -171,6 +181,8 @@ public class PanelMainUserControlador implements Initializable {
         itemLogout.setOnAction(e -> cerrarSesion());
     }
 
+    private void abrirDetalles(CocheDTO c) {
+        System.out.println("Detalles de coche: " + c.getModelo());
     private void abrirDetalles(CocheDTO coche) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelCocheUser.fxml"));
