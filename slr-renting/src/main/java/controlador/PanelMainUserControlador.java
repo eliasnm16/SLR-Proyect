@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -66,14 +65,12 @@ public class PanelMainUserControlador implements Initializable {
 
     private CocheDAO cocheDAO = new CocheDAO();
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarDestacado();
         cargarColeccion();
         configurarMenu();
     }
-
 
     private void cargarDestacado() {
         List<CocheDTO> nuevos = cocheDAO.listarCochesNuevos();
@@ -89,15 +86,20 @@ public class PanelMainUserControlador implements Initializable {
         lblTransmisionDestacado.setText(c.getMotor());
         lblPrecioDestacado.setText((int) c.getPrecioDiario() + "€/mes");
 
-        if (c.getImagenURL() != null) {
+        if (c.getImagenURL() != null && !c.getImagenURL().isEmpty()) {
             try {
-                imgDestacado.setImage(new Image(getClass().getResourceAsStream("/imagenes/" + c.getImagenURL())));
-            } catch (Exception ignored) {}
+                Image img = new Image(getClass().getResourceAsStream("/vista/" + c.getImagenURL()));
+                imgDestacado.setImage(img);
+                imgDestacado.setFitWidth(420);
+                imgDestacado.setFitHeight(260);
+                imgDestacado.setPreserveRatio(false);
+                imgDestacado.setSmooth(true);
+            } catch (Exception ignored) {
+            }
         }
 
         btnVerDetallesDestacado.setOnAction(e -> abrirDetalles(c));
     }
-
 
     private void cargarColeccion() {
         contenedorCoches.getChildren().clear();
@@ -110,20 +112,23 @@ public class PanelMainUserControlador implements Initializable {
         }
     }
 
-
     private VBox crearCard(CocheDTO c) {
         VBox card = new VBox(12);
         card.setPrefWidth(360);
         card.setStyle("-fx-background-color: #121212; -fx-background-radius: 18; -fx-border-radius: 18; -fx-border-color: #3b3320;");
 
         ImageView img = new ImageView();
+        img.setFitWidth(360);
         img.setFitHeight(180);
-        img.setPreserveRatio(true);
+        img.setPreserveRatio(false);
+        img.setSmooth(true);
 
-        if (c.getImagenURL() != null) {
+        if (c.getImagenURL() != null && !c.getImagenURL().isEmpty()) {
             try {
-                img.setImage(new Image(getClass().getResourceAsStream("/imagenes/" + c.getImagenURL())));
-            } catch (Exception ignored) {}
+                Image imagen = new Image(getClass().getResourceAsStream("/vista/" + c.getImagenURL()));
+                img.setImage(imagen);
+            } catch (Exception ignored) {
+            }
         }
 
         Label modelo = new Label(c.getModelo());
@@ -155,13 +160,11 @@ public class PanelMainUserControlador implements Initializable {
         return card;
     }
 
-
     private void configurarMenu() {
         itemConfig.setOnAction(e -> abrirConfig());
         itemMisReservas.setOnAction(e -> abrirMisReservas());
         itemLogout.setOnAction(e -> cerrarSesion());
     }
-
 
     private void abrirDetalles(CocheDTO c) {
         System.out.println("Detalles de coche: " + c.getModelo());

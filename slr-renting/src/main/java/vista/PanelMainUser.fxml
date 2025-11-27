@@ -175,9 +175,12 @@
                         <StackPane prefWidth="420" prefHeight="260"
                                    style="-fx-background-color: #050608; -fx-background-radius: 18;">
                             <ImageView fx:id="imgDestacado"
-                                       fitWidth="420" fitHeight="260"
-                                       preserveRatio="true"
-                                       style="-fx-background-radius: 18;"/>
+							           fitWidth="420" fitHeight="260"
+							           preserveRatio="false"
+							           smooth="true"
+							           cache="true"
+							           style="-fx-background-radius: 18;"/>
+
                         </StackPane>
                     </HBox>
 
