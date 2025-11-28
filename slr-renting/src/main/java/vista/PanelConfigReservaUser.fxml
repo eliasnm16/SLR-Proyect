@@ -8,33 +8,26 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="451.0" prefWidth="648.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.AdminChoferControlador">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="451.0" prefWidth="648.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.PanelConfigReservaUserControlador">
    <children>
-      <TableView fx:id="tblChofer" layoutY="175.0" prefHeight="275.0" prefWidth="648.0" style="-fx-background-color: black; -fx-border-color: fcdb00; -fx-border-width: 6px;">
+      <TableView fx:id="tblReservas" layoutY="95.0" prefHeight="273.0" prefWidth="648.0" style="-fx-background-color: black; -fx-border-color: #fcdb00; -fx-border-width: 6px;">
         <columns>
-          <TableColumn fx:id="clmID" prefWidth="58.4000244140625" text="ID" />
-          <TableColumn fx:id="clmNombre" prefWidth="200.80001831054688" text="Nombre" />
-            <TableColumn fx:id="clmTlf" prefWidth="140.79998779296875" text="Teléfono" />
-            <TableColumn fx:id="clmDni" prefWidth="135.20001220703125" text="DNI" />
-            <TableColumn fx:id="clmDisp" prefWidth="104.800048828125" text="Disposicion" />
+          <TableColumn fx:id="colBastidor" prefWidth="90.0" text="Bastidor" />
+          <TableColumn fx:id="colNif" prefWidth="100.0" text="NIF/NIE" />
+            <TableColumn fx:id="colFechaInicio" prefWidth="120.0" text="Fecha Inicio" />
+            <TableColumn fx:id="colFechaFin" prefWidth="120.0" text="Fecha Fin" />
+            <TableColumn fx:id="colPrecio" prefWidth="100.0" text="Precio Total" />
+            <TableColumn fx:id="colEstado" prefWidth="100.0" text="Estado" />
         </columns>
       </TableView>
 
-      <Text fill="WHITE" layoutX="7.0" layoutY="94.0"
-            strokeType="OUTSIDE" strokeWidth="0.0"
-            text="Panel administracion de Chofers"
-            wrappingWidth="634.6878051757812">
+      <Text fill="WHITE" layoutX="7.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mis Reservas" wrappingWidth="634.6878051757812">
          <font>
             <Font size="43.0" />
          </font>
       </Text>
-      <Button fx:id="btnVolver" layoutX="573.0" layoutY="22.0" mnemonicParsing="false" text="Volver" />
-      <ButtonBar layoutX="377.0" layoutY="141.0" prefHeight="34.0" prefWidth="261.0">
-        <buttons>
-          <Button fx:id="btnAñadir" minWidth="56.0" mnemonicParsing="false" prefHeight="14.0" text="Añadir" />
-            <Button fx:id="btnBorrar" mnemonicParsing="false" text="Borrar" />
-            <Button fx:id="btnEditar" mnemonicParsing="false" text="Editar" />
-        </buttons>
-      </ButtonBar>
+      <Button fx:id="btnVolver" layoutX="401.0" layoutY="386.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="78.0" text="Volver" />
+      <ButtonBar layoutX="377.0" layoutY="141.0" prefHeight="34.0" prefWidth="261.0" />
+    <Button fx:id="btnCancelar" layoutX="181.0" layoutY="383.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="111.0" text="Cancelar Reserva" />
    </children>
 </AnchorPane>
