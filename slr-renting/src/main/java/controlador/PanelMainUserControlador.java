@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 
 import dao.CocheDAO;
 import dto.CocheDTO;
-import javafx.application.Platform;
+import dto.ClienteDTO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,9 +32,9 @@ import javafx.stage.Stage;
 
 public class PanelMainUserControlador implements Initializable {
 
-	@FXML
-	private BorderPane root;
-	
+    @FXML
+    private BorderPane root;
+
     @FXML
     private HBox contenedorCoches;
 
@@ -79,13 +79,32 @@ public class PanelMainUserControlador implements Initializable {
 
     private CocheDAO cocheDAO = new CocheDAO();
 
-    // ⬅️ Nuevo: referencia al coche destacado
+    // Coche destacado
     private CocheDTO cocheDestacado;
 
-    private String nifUsuarioActual; // ← Este campo ya lo tienes
+    // Usuario actual
+    private ClienteDTO usuario;
+
+    // NIF del usuario (para reservas, etc.)
+    private String nifUsuarioActual;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        // Recuperar usuario logueado desde el login
+        usuario = LoginUsuarioRegistradoControlador.usuarioActual;
+
+        if (usuario != null) {
+            // Texto del menú con el nombre del usuario
+            if (menuUsuario != null) {
+                menuUsuario.setText(usuario.getNombreCompleto());
+            }
+            // Si no nos han pasado el NIF por setNifUsuarioActual, lo rellenamos
+            if (this.nifUsuarioActual == null || this.nifUsuarioActual.isEmpty()) {
+                this.nifUsuarioActual = usuario.getNif_nie();
+            }
+        }
+
         cargarDestacado();
         cargarColeccion();
         configurarMenu();
@@ -95,13 +114,13 @@ public class PanelMainUserControlador implements Initializable {
         List<CocheDTO> nuevos = cocheDAO.listarCochesNuevos();
         if (nuevos.isEmpty()) return;
 
-        cocheDestacado = nuevos.get(0); // ⬅️ Guardamos el destacado
+        cocheDestacado = nuevos.get(0);
         CocheDTO c = cocheDestacado;
 
         lblModeloDestacado.setText(c.getModelo());
         lblDescripcionDestacado.setText(c.getDescripcion());
         lblPotenciaDestacado.setText(c.getPotencia() + " CV");
-        lblAceleracionDestacado.setText(c.getPlazas()+ " Plazas");
+        lblAceleracionDestacado.setText(c.getPlazas() + " Plazas");
         lblVelocidadDestacado.setText(c.getVelocidadMax() + " km/h");
         lblTransmisionDestacado.setText(c.getMotor());
         lblPrecioDestacado.setText((int) c.getPrecioDiario() + "€/mes");
@@ -128,7 +147,7 @@ public class PanelMainUserControlador implements Initializable {
 
         for (CocheDTO c : disponibles) {
 
-            // ⛔ Omitir el coche destacado
+            // Omitir el coche destacado en la colección
             if (cocheDestacado != null && c.getBastidor() == cocheDestacado.getBastidor()) {
                 continue;
             }
@@ -192,8 +211,6 @@ public class PanelMainUserControlador implements Initializable {
         itemLogout.setOnAction(e -> cerrarSesion());
     }
 
-
-        
     private void abrirDetalles(CocheDTO coche) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelCocheUser.fxml"));
@@ -201,8 +218,7 @@ public class PanelMainUserControlador implements Initializable {
 
             PanelCocheUserControlador controlador = loader.getController();
             controlador.setCoche(coche);
-
-            controlador.setNifUsuarioActual(this.nifUsuarioActual); // Pasar el NIF aquí
+            controlador.setNifUsuarioActual(this.nifUsuarioActual);
 
             Stage stage = new Stage();
             stage.setTitle("Detalles del Coche");
@@ -213,32 +229,26 @@ public class PanelMainUserControlador implements Initializable {
             e.printStackTrace();
         }
     }
-    
-    //FERNANDO --------------------
+
+    // -------------------- MIS RESERVAS --------------------
     @FXML
     private void abrirMisReservas() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelConfigReservaUser.fxml"));
             Parent rootReservas = loader.load();
-            
+
             PanelConfigReservaUserControlador controlador = loader.getController();
             String nifUsuario = obtenerNifUsuarioActual();
             controlador.setNifUsuarioActual(nifUsuario);
-            
-            // Crear una nueva ventana (Stage) modal
+
             Stage stage = new Stage();
             stage.setScene(new Scene(rootReservas));
             stage.setTitle("Mis Reservas");
-            
-            // Hacerla modal (bloquea la ventana principal hasta que se cierre)
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(menuUsuario.getScene().getWindow());
-            
-            // Opcional: evitar que se redimensione
             stage.setResizable(false);
-            
             stage.show();
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -246,42 +256,57 @@ public class PanelMainUserControlador implements Initializable {
 
     public void setNifUsuarioActual(String nif) {
         this.nifUsuarioActual = nif;
-        System.out.println("NIF del usuario: " + nif); // Para debug
+        System.out.println("NIF del usuario: " + nif);
     }
-    
+
     private String obtenerNifUsuarioActual() {
         return this.nifUsuarioActual;
     }
-    
-    
-//--------------------
+
+    // -------------------- CONFIG PERFIL USUARIO --------------------
     private void abrirConfig() {
-        System.out.println("Abrir Config");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelConfigUser.fxml"));
+            Parent rootConfig = loader.load();
+
+            PanelConfigUserControlador controller = loader.getController();
+
+            // Pasar el usuario actual al panel de configuración
+            if (usuario != null) {
+                controller.cargarUsuario(usuario);
+            }
+
+            Stage stage = (Stage) menuUsuario.getScene().getWindow();
+            stage.setScene(new Scene(rootConfig));
+            stage.setTitle("Configuración de Usuario");
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    // -------------------- CERRAR SESIÓN --------------------
     @FXML
     private void cerrarSesion() {
         try {
-            // Guardar referencia a todas las ventanas antes de cerrarlas
             List<Window> windows = new ArrayList<>(Window.getWindows());
-            
-            // Cerrar todas las ventanas
+
             for (Window window : windows) {
                 if (window instanceof Stage) {
                     ((Stage) window).close();
                 }
             }
-            
-            // Abrir login en una nueva ventana
+
             Parent root = FXMLLoader.load(getClass().getResource("/vista/loginusuarioregistrado.fxml"));
             Stage loginStage = new Stage();
             loginStage.setScene(new Scene(root));
             loginStage.setTitle("Inicio de Sesión");
             loginStage.show();
-            
-            // Limpiar datos
+
             this.nifUsuarioActual = null;
-            
+            LoginUsuarioRegistradoControlador.usuarioActual = null;
+
         } catch (IOException e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -292,5 +317,3 @@ public class PanelMainUserControlador implements Initializable {
         }
     }
 }
-
-
