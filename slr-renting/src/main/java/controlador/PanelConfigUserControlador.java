@@ -1,6 +1,8 @@
 package controlador;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ResourceBundle;
 
 import conexion.ConexionBD;
@@ -16,9 +18,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
 public class PanelConfigUserControlador implements Initializable {
 
     @FXML private TextField txtNombre;
@@ -30,6 +29,7 @@ public class PanelConfigUserControlador implements Initializable {
     @FXML private Button btnGuardar;
     @FXML private Button btnVolver;
 
+    // ← ESTE ES EL USUARIO QUE LE PASA PanelMainUserControlador
     private ClienteDTO usuario;
 
     @Override
@@ -38,8 +38,12 @@ public class PanelConfigUserControlador implements Initializable {
         btnVolver.setOnAction(e -> volver());
     }
 
+    // ← ESTE MÉTODO ES EL QUE TE DICE EL ERROR QUE NO EXISTE
     public void cargarUsuario(ClienteDTO u) {
-        usuario = u;
+        this.usuario = u;
+
+        if (u == null) return;
+
         txtNombre.setText(u.getNombreCompleto());
         txtCorreo.setText(u.getCorreo());
         txtNif.setText(u.getNif_nie());
@@ -49,17 +53,22 @@ public class PanelConfigUserControlador implements Initializable {
     }
 
     private void guardarCambios() {
+        if (usuario == null) return;
+
         usuario.setNombreCompleto(txtNombre.getText());
         usuario.setCorreo(txtCorreo.getText());
         usuario.setNif_nie(txtNif.getText());
         usuario.setTelefono(txtTelefono.getText());
         usuario.setContrasena(txtPassword.getText());
         usuario.setCarnet(chkCarnet.isSelected());
+
         actualizarCliente(usuario);
     }
 
     private void actualizarCliente(ClienteDTO c) {
-        String sql = "UPDATE cliente SET NOMBRE_COMPLETO=?, CORREO=?, NIF_NIE=?, TELEFONO=?, CONTRASENA=?, CARNET=? WHERE ID_CLIENTE=?";
+        String sql = "UPDATE cliente " +
+                     "SET NOMBRE_COMPLETO=?, CORREO=?, NIF_NIE=?, TELEFONO=?, CONTRASENA=?, CARNET=? " +
+                     "WHERE ID_CLIENTE=?";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -85,6 +94,7 @@ public class PanelConfigUserControlador implements Initializable {
             Parent root = loader.load();
             Stage stage = (Stage) btnVolver.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setTitle("Panel Usuario");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
