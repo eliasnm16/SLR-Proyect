@@ -174,13 +174,22 @@ public class LoginUsuarioRegistradoControlador {
         }
     }
 
+    //CAMBIADO POR FERNANDO
     private void abrirPanelUsuario(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/vista/PanelMainUser.fxml"));
+            // EN VEZ de FXMLLoader.load, usa esto:
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelMainUser.fxml"));
+            Parent root = loader.load();
+            
+            // Obtener el controlador y pasarle el NIF
+            PanelMainUserControlador controlador = loader.getController();
+            controlador.setNifUsuarioActual(usuarioActual.getNif_nie()); // ← ESTA ES LA CLAVE
+            
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Panel Usuario");
             stage.show();
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -39,7 +39,7 @@
             <MenuButton fx:id="menuUsuario" style="-fx-background-radius: 20; -fx-background-color: transparent; -fx-border-radius: 20; -fx-border-color: #ffd666; -fx-border-width: 1.5; -fx-text-fill: #ffd666; -fx-font-size: 13px; -fx-padding: 8 18 8 18;" text="Usuario">
                 <items>
                     <MenuItem fx:id="itemConfig" text="Config" />
-                    <MenuItem fx:id="itemMisReservas" text="Mis Reservas" />
+                    <MenuItem fx:id="itemMisReservas" onAction="#abrirMisReservas" text="Mis Reservas" />
                     <MenuItem fx:id="itemLogout" text="Logout" />
                 </items>
             </MenuButton>

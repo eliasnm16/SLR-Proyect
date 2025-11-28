@@ -183,5 +183,40 @@ public class AlquilerDAO {
         return null;
     }
 
+    //METODO PARA LISTAR ALQUILERES POR NIF/NIE DE USUARIO
+    //AÑADIDO POR FERNANDO
+    
+ // Agregar este método en tu clase AlquilerDAO
+    public List<AlquilerDTO> listarAlquileresPorUsuario(String nifNie) {
+    	
+        String sql = "SELECT * FROM alquiler WHERE NIF_NIE = ? ORDER BY FECHAINICIO DESC";
+        List<AlquilerDTO> lista = new ArrayList<>();
+
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, nifNie);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                AlquilerDTO a = new AlquilerDTO(
+                    rs.getInt("IDALQUILER"),
+                    rs.getInt("BASTIDOR"),
+                    rs.getString("NIF_NIE"),
+                    rs.getDate("FECHAINICIO").toLocalDate(),
+                    rs.getDate("FECHAFIN").toLocalDate(),
+                    rs.getDouble("PRECIOTOTAL"),
+                    AlquilerDTO.EstadoAlquiler.valueOf(rs.getString("ESTADO"))
+                );
+                a.setId_Chofer(rs.getInt("ID_CHOFER"));
+                if (rs.wasNull()) a.setId_Chofer(0);
+                lista.add(a);
+            }
+
+        } catch (SQLException ex) {
+            System.err.println("Error listando alquileres por usuario: " + ex.getMessage());
+        }
+        return lista;
+    }
 }
 
