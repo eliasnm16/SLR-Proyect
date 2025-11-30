@@ -19,6 +19,7 @@
    <children>
 
            <Line endX="170.0" endY="49.0" layoutX="-2.0" layoutY="-1.0"
+      <Line endX="170.0" endY="49.0" layoutX="-2.0" layoutY="-1.0"
             startX="167.7" startY="583.0" stroke="#fcdb00"/>
       <Line endX="170.0" endY="49.0" layoutX="259.0"
             startX="170.0" startY="581.0" stroke="#fad900"/>
@@ -26,6 +27,7 @@
             layoutY="-292.0" startX="158.5" startY="341.5" stroke="#fcdb00"/>
 
            <ImageView fitHeight="66.0" fitWidth="98.0"
+      <ImageView fitHeight="66.0" fitWidth="98.0"
                  layoutX="177.0" layoutY="60.0"
                  preserveRatio="true">
          <image>
@@ -38,6 +40,9 @@
       <Text fill="#c4c4c2" layoutX="190.0" layoutY="165.0" text="Modifica tus datos personales"/>
 
      
+      <Text fill="WHITE" layoutX="225.0" layoutY="140.0" text="Tu Perfil"/>
+      <Text fill="#c4c4c2" layoutX="190.0" layoutY="165.0" text="Modifica tus datos personales"/>
+
       <Text fill="WHITE" layoutX="185.0" layoutY="195.0" text="Nombre Completo"/>
       <TextField fx:id="txtNombre"
                  layoutX="185.0" layoutY="205.0"

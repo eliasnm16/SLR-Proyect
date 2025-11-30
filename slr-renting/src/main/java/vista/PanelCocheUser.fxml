@@ -60,6 +60,10 @@
                     <HBox spacing="24">
 
     
+                    <Label style="-fx-text-fill: #ffd666; -fx-font-size: 22px; -fx-font-weight: bold;" text="Detalles del Coche" />
+
+                    <HBox spacing="24">
+
                         <StackPane prefHeight="360" prefWidth="520" style="-fx-background-color: #050608; -fx-background-radius: 18;">
                             <ImageView fx:id="imgCoche" fitHeight="360" fitWidth="520" preserveRatio="true" style="-fx-background-radius: 18;" />
                         </StackPane>

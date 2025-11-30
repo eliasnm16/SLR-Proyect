@@ -24,10 +24,15 @@ public class PanelAdminControlador {
     private void irACoches(ActionEvent event) {
         cargarVista("/vista/Admincoche.fxml", "Administración de Coches", event);
     }
+    
+    @FXML 
+    private void irAAlquileres(ActionEvent event) {
+		cargarVista("/vista/Adminalquiler.fxml", "Administración de Alquileres", event);
+	}
 
     @FXML
     private void logout(ActionEvent event) {
-        cargarVista("/vista/Loginregistro.fxml", "Login", event);
+        cargarVista("/vista/Loginusuarioregistrado.fxml", "Login", event);
     }
 
 

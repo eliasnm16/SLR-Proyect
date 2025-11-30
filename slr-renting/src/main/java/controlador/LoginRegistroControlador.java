@@ -70,8 +70,13 @@ public class LoginRegistroControlador {
             clienteDAO.modificarCliente(editingCliente, editingCliente.getIdCliente());
 
             mostrarAlerta(Alert.AlertType.INFORMATION, "Actualizado", "Cliente actualizado correctamente.");
+            
+            // Cerrar la ventana de edición
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.close();
+            
         } else {
-            // Nuevo cliente
+            // Nuevo cliente - REGISTRO
             ClienteDTO nuevo = new ClienteDTO();
             nuevo.setNombreCompleto(nombre);
             nuevo.setCorreo(correo);
@@ -82,11 +87,19 @@ public class LoginRegistroControlador {
 
             clienteDAO.registrarCliente(nuevo);
             mostrarAlerta(Alert.AlertType.INFORMATION, "Registrado", "Cliente registrado correctamente.");
-        }
 
-        // Cerrar la ventana/modal
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.close();
+            // ✅ EN VEZ DE CERRAR, REDIRIGIR AL LOGIN
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/vista/loginusuarioregistrado.fxml"));
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Inicio de Sesión");
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo redirigir al login.");
+            }
+        }
     }
 
     @FXML

@@ -34,6 +34,8 @@
       <Button fx:id="btnRegistro" layoutX="206.0" layoutY="492.0" mnemonicParsing="false" onAction="#onAcceder" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: grey; -fx-border-color: fcdb00; -fx-text-fill: black;" text="Registrarse" wrapText="true" />
 
 
+      <Button fx:id="btnRegistro" layoutX="206.0" layoutY="492.0" mnemonicParsing="false" onAction="#onAcceder" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: grey; -fx-border-color: fcdb00; -fx-text-fill: black;" text="Registrarse" wrapText="true" />
+
       <Button fx:id="btnVolverLogin" layoutX="206.0" layoutY="540.0" mnemonicParsing="false" onAction="#irALogin" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: black; -fx-border-color: fcdb00; -fx-text-fill: white;" text="¿Ya tienes cuenta? Inicia sesión aquí" wrapText="true" />
 
       <Text fill="WHITE" layoutX="185.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" wrappingWidth="73.38397216796875" />

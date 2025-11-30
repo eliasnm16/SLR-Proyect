@@ -76,6 +76,7 @@
                                     <RowConstraints minHeight="60" />
                                     <RowConstraints minHeight="60" />
                                 </rowConstraints>
+
                                 <StackPane style="-fx-background-color: #050608; -fx-background-radius: 16; -fx-border-radius: 16; -fx-border-color: #3b3320;">
                                     <padding>
                                         <Insets bottom="12" left="16" right="16" top="12" />
@@ -143,6 +144,8 @@
                     <Label style="-fx-text-fill: #ffd666; -fx-font-size: 20px; -fx-font-weight: bold;" text="Colección" />
 
                     
+                    <Label style="-fx-text-fill: #ffd666; -fx-font-size: 20px; -fx-font-weight: bold;" text="Colección" />
+
                     <HBox fx:id="contenedorCoches" spacing="24" />
                 </VBox>
             </content>
