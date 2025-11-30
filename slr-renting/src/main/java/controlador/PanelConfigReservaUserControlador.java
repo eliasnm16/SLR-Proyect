@@ -50,8 +50,7 @@ public class PanelConfigReservaUserControlador implements Initializable {
         colPrecio.setCellValueFactory(new PropertyValueFactory<>("precioTotal"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
 
-        // Cargar los datos de la tabla (se hará cuando se setee el nifUsuarioActual)
-        // tblReservas.setItems(reservasList);
+        
 
         // Configurar el botón de cancelar
         btnCancelar.setOnAction(event -> cancelarReserva());
@@ -100,11 +99,7 @@ public class PanelConfigReservaUserControlador implements Initializable {
     }
 
     private void volver() {
-        // Código para volver a la pantalla anterior
-        // Por ejemplo: 
-        // Stage stage = (Stage) btnVolver.getScene().getWindow();
-        // stage.close();
-        // O cargar otra escena
+        
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {

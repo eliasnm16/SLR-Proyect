@@ -79,27 +79,27 @@ public class PanelMainUserControlador implements Initializable {
 
     private CocheDAO cocheDAO = new CocheDAO();
 
-    // Coche destacado
+    
     private CocheDTO cocheDestacado;
 
-    // Usuario actual
+    
     private ClienteDTO usuario;
 
-    // NIF del usuario (para reservas, etc.)
+    
     private String nifUsuarioActual;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        // Recuperar usuario logueado desde el login
+       
         usuario = LoginUsuarioRegistradoControlador.usuarioActual;
 
         if (usuario != null) {
-            // Texto del menú con el nombre del usuario
+           
             if (menuUsuario != null) {
                 menuUsuario.setText(usuario.getNombreCompleto());
             }
-            // Si no nos han pasado el NIF por setNifUsuarioActual, lo rellenamos
+           
             if (this.nifUsuarioActual == null || this.nifUsuarioActual.isEmpty()) {
                 this.nifUsuarioActual = usuario.getNif_nie();
             }
@@ -147,7 +147,7 @@ public class PanelMainUserControlador implements Initializable {
 
         for (CocheDTO c : disponibles) {
 
-            // Omitir el coche destacado en la colección
+           
             if (cocheDestacado != null && c.getBastidor() == cocheDestacado.getBastidor()) {
                 continue;
             }
@@ -230,7 +230,7 @@ public class PanelMainUserControlador implements Initializable {
         }
     }
 
-    // -------------------- MIS RESERVAS --------------------
+
     @FXML
     private void abrirMisReservas() {
         try {
@@ -263,7 +263,8 @@ public class PanelMainUserControlador implements Initializable {
         return this.nifUsuarioActual;
     }
 
-    // -------------------- CONFIG PERFIL USUARIO --------------------
+ //En este metodo abrimos la opcion de configurar los datos del usuario
+    
     private void abrirConfig() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelConfigUser.fxml"));
@@ -271,7 +272,7 @@ public class PanelMainUserControlador implements Initializable {
 
             PanelConfigUserControlador controller = loader.getController();
 
-            // Pasar el usuario actual al panel de configuración
+            // Mediante este metodo podemos ver el nombre del usuario en el panel de los usuarios 
             if (usuario != null) {
                 controller.cargarUsuario(usuario);
             }
@@ -286,7 +287,7 @@ public class PanelMainUserControlador implements Initializable {
         }
     }
 
-    // -------------------- CERRAR SESIÓN --------------------
+  //en este metodo usamos el logout del panel de usuario
     @FXML
     private void cerrarSesion() {
         try {

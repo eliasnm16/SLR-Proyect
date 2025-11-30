@@ -16,12 +16,12 @@ public class AñadirChoferControlador {
     @FXML private TextField txtDni;
     @FXML private TextField txtTelefono;
     @FXML private CheckBox chkDisposicion;
-    @FXML private Button btnRegistrar; // coincide con fx:id="btnRegistrar"
-    @FXML private Button btnSalir;     // IMPORTANT: asegúrate de que el FXML tenga fx:id="btnSalir"
+    @FXML private Button btnRegistrar;
+    @FXML private Button btnSalir;     
 
     private ChoferDAO choferDAO;
 
-    // Modo edición
+    
     private boolean editing = false;
     private ChoferDTO editingChofer = null;
 
@@ -31,14 +31,9 @@ public class AñadirChoferControlador {
         this.choferDAO = new ChoferDAO();
         System.out.println("✅ ChoferDAO instanciado");
 
-        // Opcional: valor por defecto de checkbox
-        chkDisposicion.setSelected(true);
+            chkDisposicion.setSelected(true);
     }
 
-    /**
-     * Método que AdminChoferControlador invocará por reflexión:
-     * loader.getController().getClass().getMethod("setChofer", ChoferDTO.class).invoke(controller, chofer);
-     */
     public void setChofer(ChoferDTO chofer) {
         if (chofer == null) return;
         System.out.println("🔁 setChofer recibido: ID=" + chofer.getId_chofer());
@@ -50,8 +45,6 @@ public class AñadirChoferControlador {
         txtDni.setText(chofer.getDni());
         txtTelefono.setText(chofer.getTelefono());
         chkDisposicion.setSelected(chofer.isDisposicion());
-
-        // Mejorar UX: indicar que se guardarán cambios
         btnRegistrar.setText("Guardar cambios");
     }
 
@@ -132,7 +125,7 @@ public class AñadirChoferControlador {
         alert.showAndWait();
     }
 
-    /** útil para limpiar si se reusa el controlador sin cerrar (no estrictamente necesario) */
+    
     private void limpiarFormulario() {
         txtNombreCompleto.clear();
         txtDni.clear();

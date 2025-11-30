@@ -14,10 +14,7 @@ import dto.AlquilerDTO;
 
 public class AlquilerDAO {
 
-    /**
-     * Inserta un alquiler en la base de datos.
-     * Devuelve el id generado (IDALQUILER) o -1 en caso de error.
-     */
+
     public int crearAlquiler(AlquilerDTO a) {
         String sql = "INSERT INTO alquiler (BASTIDOR, ID_CHOFER, NIF_NIE, FECHAINICIO, FECHAFIN, PRECIOTOTAL, ESTADO) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -148,25 +145,18 @@ public class AlquilerDAO {
         return lista;
     }
 
-    /**
-     * Busca un chofer disponible para el rango [inicio, fin].
-     * Devuelve el ID_CHOFER del primer chofer disponible o null si no hay.
-     *
-     * Lógica: seleccionamos un chofer que no tenga ningún alquiler que
-     * se solape con las fechas solicitadas.
-     */
-    public Integer buscarChoferDisponible(LocalDate inicio, LocalDate fin) {
+       public Integer buscarChoferDisponible(LocalDate inicio, LocalDate fin) {
         String sql = "SELECT c.ID_CHOFER FROM chofer c WHERE c.ID_CHOFER NOT IN ("
                    + "  SELECT a.ID_CHOFER FROM alquiler a "
                    + "  WHERE a.ID_CHOFER IS NOT NULL "
-                   + "    AND a.FECHAINICIO <= ? "   // existing.start <= newEnd
-                   + "    AND a.FECHAFIN >= ? "      // existing.end >= newStart
+                   + "    AND a.FECHAINICIO <= ? "   
+                   + "    AND a.FECHAFIN >= ? "      
                    + ") LIMIT 1";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Param order: newEnd, newStart (because comparison was <= ? (newEnd) and >= ? (newStart))
+
             stmt.setDate(1, Date.valueOf(fin));
             stmt.setDate(2, Date.valueOf(inicio));
 

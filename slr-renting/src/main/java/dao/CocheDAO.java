@@ -36,10 +36,10 @@ public class CocheDAO {
 
             stmt.executeUpdate();
 
-            System.out.println("✔ Coche registrado correctamente.");
+            System.out.println("Coche registrado correctamente.");
 
         } catch (SQLException e) {
-            System.err.println("❌ Error registrando coche: " + e.getMessage());
+            System.err.println(" Error registrando coche: " + e.getMessage());
         }
     }
 
@@ -80,9 +80,7 @@ public class CocheDAO {
     }
 
 
-    // ------------------------------------------------------------
-    // 3. LISTAR TODOS LOS COCHES
-    // ------------------------------------------------------------
+
     public List<CocheDTO> listarCoches() {
 
         String sql = "SELECT * FROM COCHE";
@@ -147,13 +145,13 @@ public class CocheDAO {
             int filas = stmt.executeUpdate();
 
             if (filas > 0) {
-                System.out.println("✔ Coche actualizado correctamente.");
+                System.out.println("Coche actualizado correctamente.");
             } else {
-                System.out.println("⚠ No existe un coche con bastidor: " + coche.getBastidor());
+                System.out.println(" No existe un coche con bastidor: " + coche.getBastidor());
             }
 
         } catch (SQLException e) {
-            System.err.println("❌ Error actualizando coche: " + e.getMessage());
+            System.err.println(" Error actualizando coche: " + e.getMessage());
         }
     }
 
@@ -170,13 +168,13 @@ public class CocheDAO {
             int filas = stmt.executeUpdate();
 
             if (filas > 0) {
-                System.out.println("✔ Coche eliminado correctamente.");
+                System.out.println(" Coche eliminado correctamente.");
             } else {
-                System.out.println("⚠ No existe un coche con bastidor: " + bastidor);
+                System.out.println(" No existe un coche con bastidor: " + bastidor);
             }
 
         } catch (SQLException e) {
-            System.err.println("❌ Error eliminando coche: " + e.getMessage());
+            System.err.println(" Error eliminando coche: " + e.getMessage());
         }
     }
 
@@ -211,7 +209,7 @@ public class CocheDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("❌ Error listando coches disponibles: " + e.getMessage());
+            System.err.println(" Error listando coches disponibles: " + e.getMessage());
         }
 
         return lista;
@@ -249,7 +247,7 @@ public class CocheDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("❌ Error listando coches nuevos: " + e.getMessage());
+            System.err.println(" Error listando coches nuevos: " + e.getMessage());
         }
 
         return lista;

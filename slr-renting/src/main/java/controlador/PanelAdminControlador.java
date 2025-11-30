@@ -30,7 +30,7 @@ public class PanelAdminControlador {
         cargarVista("/vista/Loginregistro.fxml", "Login", event);
     }
 
-    /** MÉTODO GENERAL PARA CAMBIO DE VISTAS **/
+
     private void cargarVista(String rutaFxml, String titulo, ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaFxml));
@@ -44,7 +44,7 @@ public class PanelAdminControlador {
             stage.show();
 
         } catch (Exception e) {
-            System.out.println("❌ ERROR cargando vista: " + rutaFxml);
+            System.out.println("ERROR cargando vista: " + rutaFxml);
             e.printStackTrace();
         }
     }

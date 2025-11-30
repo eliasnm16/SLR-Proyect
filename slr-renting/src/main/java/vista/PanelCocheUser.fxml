@@ -19,14 +19,14 @@
 
 <BorderPane fx:id="root" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.PanelCocheUserControlador">
 
-    <!-- NAVBAR SUPERIOR (estética similar a PanelMainUser) -->
+    
     <top>
         <HBox alignment="CENTER_LEFT" spacing="24" style="-fx-background-color: black;">
             <padding>
                 <Insets bottom="16" left="32" right="32" top="16" />
             </padding>
 
-            <!-- Logo -->
+    
             <ImageView fitHeight="40" fitWidth="40" preserveRatio="true">
                 <image>
                     <Image url="@logo.jpg" />
@@ -35,7 +35,7 @@
 
             <StackPane HBox.hgrow="ALWAYS" />
 
-            <!-- Menú de usuario (opcional, igual que en la principal) -->
+    
             <MenuButton fx:id="menuUsuario" style="-fx-background-radius: 20; -fx-background-color: transparent; -fx-border-radius: 20; -fx-border-color: #ffd666; -fx-border-width: 1.5; -fx-text-fill: #ffd666; -fx-font-size: 13px; -fx-padding: 8 18 8 18;" text="Usuario">
                 <items>
                     <MenuItem fx:id="itemConfig" text="Config" />
@@ -46,7 +46,6 @@
         </HBox>
     </top>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <center>
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent;" vbarPolicy="AS_NEEDED">
             <content>
@@ -55,25 +54,24 @@
                         <Insets bottom="32" left="32" right="32" top="24" />
                     </padding>
 
-                    <!-- ENCABEZADO -->
-                    <Label style="-fx-text-fill: #ffd666; -fx-font-size: 22px; -fx-font-weight: bold;" text="Detalles del Coche" />
+                        <Label style="-fx-text-fill: #ffd666; -fx-font-size: 22px; -fx-font-weight: bold;" text="Detalles del Coche" />
 
-                    <!-- BLOQUE PRINCIPAL: IMAGEN + DETALLES -->
+    
                     <HBox spacing="24">
 
-                        <!-- IMAGEN -->
+    
                         <StackPane prefHeight="360" prefWidth="520" style="-fx-background-color: #050608; -fx-background-radius: 18;">
                             <ImageView fx:id="imgCoche" fitHeight="360" fitWidth="520" preserveRatio="true" style="-fx-background-radius: 18;" />
                         </StackPane>
 
-                        <!-- DETALLES -->
+    
                         <VBox prefWidth="640" spacing="14" style="-fx-background-color: transparent;">
 
                             <Label fx:id="lblMarcaYModelo" style="-fx-text-fill: #f5f5f5; -fx-font-size: 26px; -fx-font-weight: bold;" text="Marca · Modelo" />
 
                             <Label fx:id="lblDescripcion" style="-fx-text-fill: #b5b5b5; -fx-font-size: 13px;" text="Descripción del coche" wrapText="true" />
 
-                            <!-- GRID DE ESTADÍSTICAS -->
+    
                             <GridPane hgap="18" vgap="18">
                                 <columnConstraints>
                                     <ColumnConstraints percentWidth="50" />
@@ -85,7 +83,7 @@
                                     <RowConstraints minHeight="60" />
                                 </rowConstraints>
 
-                                <!-- Potencia -->
+    
                                 <StackPane style="-fx-background-color: #050608; -fx-background-radius: 16; -fx-border-radius: 16; -fx-border-color: #3b3320;">
                                     <padding>
                                         <Insets bottom="12" left="16" right="16" top="12" />
@@ -96,7 +94,7 @@
                                     </VBox>
                                 </StackPane>
 
-                                <!-- Motor / Transmisión -->
+    
                                 <StackPane style="-fx-background-color: #050608; -fx-background-radius: 16; -fx-border-radius: 16; -fx-border-color: #3b3320;" GridPane.columnIndex="1">
                                     <padding>
                                         <Insets bottom="12" left="16" right="16" top="12" />
@@ -107,7 +105,7 @@
                                     </VBox>
                                 </StackPane>
 
-                                <!-- Velocidad Máx -->
+                                
                                 <StackPane style="-fx-background-color: #050608; -fx-background-radius: 16; -fx-border-radius: 16; -fx-border-color: #3b3320;" GridPane.rowIndex="1">
                                     <padding>
                                         <Insets bottom="12" left="16" right="16" top="12" />
@@ -118,7 +116,7 @@
                                     </VBox>
                                 </StackPane>
 
-                                <!-- Plazas / Matrícula -->
+                                
                                 <StackPane style="-fx-background-color: #050608; -fx-background-radius: 16; -fx-border-radius: 16; -fx-border-color: #3b3320;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                     <padding>
                                         <Insets bottom="12" left="16" right="16" top="12" />
@@ -133,7 +131,7 @@
 
                             </GridPane>
 
-                            <!-- PRECIO Y ETIQUETAS -->
+                            
                             <HBox alignment="CENTER_LEFT" spacing="18">
                                 <VBox spacing="4">
                                     <Label style="-fx-text-fill: #b5b5b5; -fx-font-size: 11px;" text="Precio" />
@@ -150,7 +148,7 @@
 
                     </HBox>
 
-                    <!-- BOTÓN PARA SELECCIÓN DE DÍAS -->
+                    
                     <HBox alignment="CENTER" style="-fx-padding: 8 0 0 0;">
                         <Button fx:id="btnSeleccionarDias" style="-fx-background-radius: 20; -fx-background-color: #ffd666; -fx-text-fill: #111111; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10 26 10 26;" text="Seleccionar días para el alquiler" />
                     </HBox>

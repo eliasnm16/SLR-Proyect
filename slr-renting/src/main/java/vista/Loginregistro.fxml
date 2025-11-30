@@ -24,16 +24,16 @@
       <Text fill="WHITE" layoutX="185.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NIF/NIE" />
       <Text fill="WHITE" layoutX="185.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teléfono" wrappingWidth="73.38397216796875" />
 
-      <!-- FIELDS con fx:id -->
+
       <TextField fx:id="txtNombre" layoutX="185.0" layoutY="176.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
       <TextField fx:id="txtCorreo" layoutX="185.0" layoutY="232.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
       <TextField fx:id="txtNif" layoutX="185.0" layoutY="292.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
       <TextField fx:id="txtTelefono" layoutX="185.0" layoutY="352.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
 
-      <!-- BOTÓN REGISTRARSE (ya tiene onAction="#onAcceder") -->
+
       <Button fx:id="btnRegistro" layoutX="206.0" layoutY="492.0" mnemonicParsing="false" onAction="#onAcceder" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: grey; -fx-border-color: fcdb00; -fx-text-fill: black;" text="Registrarse" wrapText="true" />
 
-      <!-- BOTÓN VOLVER AL LOGIN -->
+
       <Button fx:id="btnVolverLogin" layoutX="206.0" layoutY="540.0" mnemonicParsing="false" onAction="#irALogin" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: black; -fx-border-color: fcdb00; -fx-text-fill: white;" text="¿Ya tienes cuenta? Inicia sesión aquí" wrapText="true" />
 
       <Text fill="WHITE" layoutX="185.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" wrappingWidth="73.38397216796875" />

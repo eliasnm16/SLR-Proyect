@@ -23,9 +23,7 @@
 
    <children>
 
-      <!-- ============================= -->
-      <!--   LOGO DE FONDO CENTRADO      -->
-      <!-- ============================= -->
+      
       <ImageView layoutX="0" layoutY="0"
                  fitWidth="586" fitHeight="576"
                  preserveRatio="true"
@@ -45,7 +43,7 @@
 
          <children>
 
-            <!-- LOGO PEQUEÑO DEL HEADER -->
+      
             <HBox spacing="10.0" alignment="CENTER_LEFT">
                <children>
                   <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
@@ -64,7 +62,7 @@
 
             <Pane HBox.hgrow="ALWAYS" />
 
-            <!-- COMBO ADMIN -->
+      
             <ComboBox fx:id="comboAdmin"
                       promptText="Admin"
                       prefWidth="120.0"
@@ -82,9 +80,7 @@
          </children>
       </HBox>
 
-      <!-- ============================= -->
-      <!--         BOTONES ADMIN         -->
-      <!-- ============================= -->
+      
 
       <ButtonBar layoutX="62.0" layoutY="449.0"
                  prefHeight="74.0" prefWidth="414.0">
