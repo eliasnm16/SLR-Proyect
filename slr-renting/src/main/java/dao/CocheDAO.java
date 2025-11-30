@@ -12,14 +12,17 @@ import dto.CocheDTO;
 
 public class CocheDAO {
 
+    // inserta un coche nuevo en la base de datos
     public void registrarCoche(CocheDTO coche) {
 
+        // sentencia SQL para registrar el coche
         String sql = "INSERT INTO COCHE (Bastidor, Marca, Modelo, PrecioDiario, Descripcion, Plazas, Potencia, Motor, VelocidadMax, Matricula, ImagenURL, Nuevo, Disponible) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
+            // se pasan todos los datos del coche
             stmt.setInt(1, coche.getBastidor());
             stmt.setString(2, coche.getMarca());
             stmt.setString(3, coche.getModelo());
@@ -36,13 +39,13 @@ public class CocheDAO {
 
             stmt.executeUpdate();
 
-            System.out.println("✔ Coche registrado correctamente.");
-
         } catch (SQLException e) {
-            System.err.println("❌ Error registrando coche: " + e.getMessage());
+            System.err.println("Error registrando coche: " + e.getMessage());
         }
     }
 
+
+    // busca un coche en la base de datos según su bastidor
     public CocheDTO buscarCoche(int bastidor) {
 
         String sql = "SELECT * FROM COCHE WHERE Bastidor = ?";
@@ -51,9 +54,11 @@ public class CocheDAO {
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
+            // se pasa el bastidor a buscar
             stmt.setInt(1, bastidor);
             ResultSet rs = stmt.executeQuery();
 
+            // si existe, se convierte en DTO
             if (rs.next()) {
                 coche = new CocheDTO(
                         rs.getInt("Bastidor"),
@@ -73,16 +78,14 @@ public class CocheDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("❌ Error buscando coche: " + e.getMessage());
+            System.err.println("Error buscando coche: " + e.getMessage());
         }
 
         return coche;
     }
 
 
-    // ------------------------------------------------------------
-    // 3. LISTAR TODOS LOS COCHES
-    // ------------------------------------------------------------
+    // devuelve una lista con todos los coches
     public List<CocheDTO> listarCoches() {
 
         String sql = "SELECT * FROM COCHE";
@@ -92,6 +95,7 @@ public class CocheDAO {
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
+            // se recorren los coches y se crean DTOs
             while (rs.next()) {
 
                 CocheDTO coche = new CocheDTO(
@@ -114,16 +118,17 @@ public class CocheDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("❌ Error listando coches: " + e.getMessage());
+            System.err.println("Error listando coches: " + e.getMessage());
         }
 
         return lista;
     }
 
 
-
+    // actualiza los datos de un coche
     public void modificarCoche(CocheDTO coche) {
 
+        // SQL para actualizar todos los campos
         String sql = "UPDATE COCHE SET Marca=?, Modelo=?, PrecioDiario=?, Descripcion=?, Plazas=?, Potencia=?, Motor=?, VelocidadMax=?, Matricula=?, ImagenURL=?, Nuevo=?, Disponible=? "
                    + "WHERE Bastidor=?";
 
@@ -144,20 +149,15 @@ public class CocheDAO {
             stmt.setBoolean(12, coche.isDisponible());
             stmt.setInt(13, coche.getBastidor());
 
-            int filas = stmt.executeUpdate();
-
-            if (filas > 0) {
-                System.out.println("✔ Coche actualizado correctamente.");
-            } else {
-                System.out.println("⚠ No existe un coche con bastidor: " + coche.getBastidor());
-            }
+            stmt.executeUpdate();
 
         } catch (SQLException e) {
-            System.err.println("❌ Error actualizando coche: " + e.getMessage());
+            System.err.println("Error actualizando coche: " + e.getMessage());
         }
     }
 
 
+    // elimina un coche según su bastidor
     public void eliminarCoche(int bastidor) {
 
         String sql = "DELETE FROM COCHE WHERE Bastidor = ?";
@@ -165,21 +165,18 @@ public class CocheDAO {
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
+            // se indica qué coche borrar
             stmt.setInt(1, bastidor);
 
-            int filas = stmt.executeUpdate();
-
-            if (filas > 0) {
-                System.out.println("✔ Coche eliminado correctamente.");
-            } else {
-                System.out.println("⚠ No existe un coche con bastidor: " + bastidor);
-            }
+            stmt.executeUpdate();
 
         } catch (SQLException e) {
-            System.err.println("❌ Error eliminando coche: " + e.getMessage());
+            System.err.println("Error eliminando coche: " + e.getMessage());
         }
     }
 
+
+    // lista los coches que están disponibles para alquilar
     public List<CocheDTO> listarCochesDisponibles() {
 
         String sql = "SELECT * FROM COCHE WHERE Disponible = TRUE";
@@ -211,13 +208,14 @@ public class CocheDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("❌ Error listando coches disponibles: " + e.getMessage());
+            System.err.println("Error listando coches disponibles: " + e.getMessage());
         }
 
         return lista;
     }
 
 
+    // lista los coches que son nuevos
     public List<CocheDTO> listarCochesNuevos() {
 
         String sql = "SELECT * FROM COCHE WHERE Nuevo = TRUE";
@@ -249,7 +247,7 @@ public class CocheDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("❌ Error listando coches nuevos: " + e.getMessage());
+            System.err.println("Error listando coches nuevos: " + e.getMessage());
         }
 
         return lista;

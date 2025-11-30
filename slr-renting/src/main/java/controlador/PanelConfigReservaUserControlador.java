@@ -19,31 +19,31 @@ import dto.AlquilerDTO;
 public class PanelConfigReservaUserControlador implements Initializable {
 
     @FXML
-    private TableView<AlquilerDTO> tblReservas;
+    private TableView<AlquilerDTO> tblReservas; 
     @FXML
-    private TableColumn<AlquilerDTO, Integer> colBastidor;
+    private TableColumn<AlquilerDTO, Integer> colBastidor; 
     @FXML
     private TableColumn<AlquilerDTO, String> colNif;
     @FXML
     private TableColumn<AlquilerDTO, String> colFechaInicio;
     @FXML
-    private TableColumn<AlquilerDTO, String> colFechaFin;
+    private TableColumn<AlquilerDTO, String> colFechaFin; 
     @FXML
-    private TableColumn<AlquilerDTO, Double> colPrecio;
+    private TableColumn<AlquilerDTO, Double> colPrecio; 
     @FXML
-    private TableColumn<AlquilerDTO, String> colEstado;
+    private TableColumn<AlquilerDTO, String> colEstado; 
     @FXML
-    private Button btnCancelar;
+    private Button btnCancelar; 
     @FXML
-    private Button btnVolver;
-
-    private ObservableList<AlquilerDTO> reservasList = FXCollections.observableArrayList();
-    private AlquilerDAO alquilerDAO = new AlquilerDAO();
-    private String nifUsuarioActual; // Se debe establecer desde fuera
+    private Button btnVolver;  
+    
+    private ObservableList<AlquilerDTO> reservasList = FXCollections.observableArrayList(); // Lista observable para la tabla
+    private AlquilerDAO alquilerDAO = new AlquilerDAO(); // DAO para acceder a los métodos de la base de datos
+    private String nifUsuarioActual; 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Configurar las columnas
+        // Configurar las columnas de la tabla, vinculando cada columna con la propiedad del DTO correspondiente
         colBastidor.setCellValueFactory(new PropertyValueFactory<>("bastidor"));
         colNif.setCellValueFactory(new PropertyValueFactory<>("nif_nie"));
         colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
@@ -51,30 +51,31 @@ public class PanelConfigReservaUserControlador implements Initializable {
         colPrecio.setCellValueFactory(new PropertyValueFactory<>("precioTotal"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
 
-        // Cargar los datos de la tabla (se hará cuando se setee el nifUsuarioActual)
-        // tblReservas.setItems(reservasList);
-
-        // Configurar el botón de cancelar
-        btnCancelar.setOnAction(event -> cancelarReserva());
-        btnVolver.setOnAction(event -> volver());
+        // Configurar acciones de los botones
+        btnCancelar.setOnAction(event -> cancelarReserva()); // Llama al método para cancelar reserva
+        btnVolver.setOnAction(event -> volver());           // Llama al método para cerrar ventana
     }
 
+    // Establece el NIF del usuario actual y carga sus reservas
     public void setNifUsuarioActual(String nif) {
         this.nifUsuarioActual = nif;
-        cargarReservas();
+        cargarReservas(); // Carga las reservas del usuario en la tabla
     }
 
+    // Carga las reservas del usuario actual en la tabla
     private void cargarReservas() {
-        if (nifUsuarioActual != null) {
-            reservasList.clear();
-            reservasList.addAll(alquilerDAO.listarAlquileresPorUsuario(nifUsuarioActual));
-            tblReservas.setItems(reservasList);
+        if (nifUsuarioActual != null) { // Solo si se ha establecido el NIF
+            reservasList.clear(); // Limpiar la lista antes de cargar los datos nuevos
+            reservasList.addAll(alquilerDAO.listarAlquileresPorUsuario(nifUsuarioActual)); // Obtener reservas del DAO
+            tblReservas.setItems(reservasList); // Asignar la lista a la tabla
         }
     }
 
+    // Cancela la reserva seleccionada en la tabla
     private void cancelarReserva() {
+        // Obtener la reserva seleccionada en la tabla
         AlquilerDTO reservaSeleccionada = tblReservas.getSelectionModel().getSelectedItem();
-        if (reservaSeleccionada == null) {
+        if (reservaSeleccionada == null) { // Si no hay reserva seleccionada
             mostrarAlerta("Error", "Por favor, selecciona una reserva para cancelar.");
             return;
         }
@@ -85,31 +86,36 @@ public class PanelConfigReservaUserControlador implements Initializable {
             return;
         }
 
-        // Confirmar cancelación
+        // Mostrar diálogo de confirmación antes de cancelar
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmar cancelación");
         alert.setHeaderText("¿Seguro que quieres cancelar esta reserva?");
         alert.setContentText("Esta acción no se puede deshacer.");
 
+        // Si el usuario confirma
         if (alert.showAndWait().get() == ButtonType.OK) {
-            // Actualizar el estado de la reserva a CANCELADA
+            // Cambiar el estado de la reserva a CANCELADA
             reservaSeleccionada.setEstado(AlquilerDTO.EstadoAlquiler.CANCELADA);
-            alquilerDAO.modificarAlquiler(reservaSeleccionada);
-            cargarReservas(); // Recargar la tabla para reflejar el cambio
-            mostrarAlerta("Éxito", "Reserva cancelada correctamente.");
+            alquilerDAO.modificarAlquiler(reservaSeleccionada); // Actualizar en base de datos
+            cargarReservas(); // Recargar tabla para reflejar el cambio
+            mostrarAlerta("Éxito", "Reserva cancelada correctamente."); // Informar al usuario
         }
     }
 
+    // Cierra la ventana actual
     private void volver() {
-        Stage stage = (Stage) btnVolver.getScene().getWindow();
-        stage.close();
+        Stage stage = (Stage) btnVolver.getScene().getWindow(); // Obtener la ventana actual
+        stage.close(); 
     }
 
+    
+     //Método genérico para mostrar alertas
+     
     private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION); // Tipo de alerta: información
         alert.setTitle(titulo);
-        alert.setHeaderText(null);
+        alert.setHeaderText(null); 
         alert.setContentText(mensaje);
-        alert.showAndWait();
+        alert.showAndWait(); 
     }
 }

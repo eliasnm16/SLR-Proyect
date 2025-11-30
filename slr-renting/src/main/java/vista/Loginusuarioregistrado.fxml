@@ -23,12 +23,10 @@
 
         <TextField fx:id="txtEmail" layoutX="185.0" layoutY="183.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: #fcdb00;" />
 
-        <!-- BOTÓN ACCEDER -->
         <Button layoutX="203.0" layoutY="304.0" mnemonicParsing="false" onAction="#onAcceder" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: grey; -fx-border-color: #fcdb00; -fx-text-fill: black;" text="Acceder" wrapText="true" />
 
         <Line endX="-104.91421508789062" endY="341.5141906738281" layoutX="266.0" layoutY="82.0" startX="161.5" startY="342.10003662109375" stroke="#fcdb00" />
 
-        <!-- BOTÓN DE REGISTRO -->
         <Button fx:id="btnRegistro" layoutX="206.0" layoutY="360.0" mnemonicParsing="false" onAction="#irARegistro" prefHeight="51.0" prefWidth="186.0" style="-fx-text-fill: white; -fx-background-color: black;" text="Si es su primera vez registrese aquí." textAlignment="CENTER" wrapText="true" />
 
         <ImageView fitHeight="78.0" fitWidth="73.0" layoutX="170.0" layoutY="51.0" preserveRatio="true">

@@ -22,17 +22,14 @@
       <Text fill="WHITE" layoutX="185.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DNI" wrappingWidth="73.38397216796875" />
       <Text fill="WHITE" layoutX="185.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telefono" />
       
-      <!-- TEXTFIELDS CON fx:id -->
       <TextField fx:id="txtNombreCompleto" layoutX="185.0" layoutY="176.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
       <TextField fx:id="txtDni" layoutX="185.0" layoutY="232.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
       <TextField fx:id="txtTelefono" layoutX="185.0" layoutY="292.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
       
-      <!-- BOTÓN CON fx:id y onAction -->
       <Button fx:id="btnRegistrar" layoutX="185.0" layoutY="417.0" mnemonicParsing="false" onAction="#registrarChofer" prefHeight="32.0" prefWidth="99.0" style="-fx-background-color: fcdb00; -fx-border-color: fcdb00; -fx-text-fill: black; -fx-background-radius: 16; -fx-border-radius: 16;" text="Registrar" wrapText="true" />
       
       <Text fill="WHITE" layoutX="185.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="73.38397216796875" />
       
-      <!-- CHECKBOX CON fx:id -->
       <CheckBox fx:id="chkDisposicion" layoutX="185.0" layoutY="357.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-border-color: fcdb00;" text="Disposicion" textFill="#2b2b2b">
          <effect>
             <Lighting>
