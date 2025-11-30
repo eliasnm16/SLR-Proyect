@@ -223,7 +223,6 @@ public class PanelCocheUserControlador implements Initializable {
         }
     }
 
-    //FERNANDO -------------------------------------
     @FXML
     private void abrirMisReservas() {
         try {
@@ -256,7 +255,6 @@ public class PanelCocheUserControlador implements Initializable {
         return this.nifUsuarioActual;
     }
 
-    //---------------------------------------------
     public void setSeleccionDiasHandler(SeleccionDiasHandler handler) {
         this.seleccionHandler = handler;
     }

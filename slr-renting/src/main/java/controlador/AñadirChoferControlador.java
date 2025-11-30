@@ -16,56 +16,62 @@ public class AñadirChoferControlador {
     @FXML private TextField txtDni;
     @FXML private TextField txtTelefono;
     @FXML private CheckBox chkDisposicion;
-    @FXML private Button btnRegistrar; // coincide con fx:id="btnRegistrar"
-    @FXML private Button btnSalir;     // IMPORTANT: asegúrate de que el FXML tenga fx:id="btnSalir"
+    @FXML private Button btnRegistrar;
+    @FXML private Button btnSalir;   
 
+    // DAO encargado de las operaciones en la tabla chofer
     private ChoferDAO choferDAO;
 
-    // Modo edición
+    // Variables para modo edición
     private boolean editing = false;
     private ChoferDTO editingChofer = null;
 
     @FXML
     public void initialize() {
-        System.out.println("✅ Initialize ejecutado");
-        this.choferDAO = new ChoferDAO();
-        System.out.println("✅ ChoferDAO instanciado");
+        System.out.println("Initialize ejecutado");
 
-        // Opcional: valor por defecto de checkbox
+        // Instancia el DAO (conexión y métodos hacia la base de datos)
+        this.choferDAO = new ChoferDAO();
+        System.out.println("ChoferDAO instanciado");
+
+        // Valor por defecto del checkbox (disponible)
         chkDisposicion.setSelected(true);
     }
 
-    /**
-     * Método que AdminChoferControlador invocará por reflexión:
-     * loader.getController().getClass().getMethod("setChofer", ChoferDTO.class).invoke(controller, chofer);
-     */
+    
+     //Método llamado desde el controlador padre cuando se quiere EDITAR un chofer.
+     //Rellena el formulario y activa el modo edición.
     public void setChofer(ChoferDTO chofer) {
         if (chofer == null) return;
-        System.out.println("🔁 setChofer recibido: ID=" + chofer.getId_chofer());
+
+        System.out.println("setChofer recibido: ID=" + chofer.getId_chofer());
+
+        // Activa modo edición
         this.editing = true;
         this.editingChofer = chofer;
 
-        // Rellenar campos con datos existentes
+        // Carga los datos en los campos
         txtNombreCompleto.setText(chofer.getNombre_completo());
         txtDni.setText(chofer.getDni());
         txtTelefono.setText(chofer.getTelefono());
         chkDisposicion.setSelected(chofer.isDisposicion());
 
-        // Mejorar UX: indicar que se guardarán cambios
+        // Cambia el texto del botón para dar feedback al usuario
         btnRegistrar.setText("Guardar cambios");
     }
 
     @FXML
     private void registrarChofer(ActionEvent event) {
-        System.out.println("🎯 BOTÓN FUNCIONANDO!");
+        System.out.println("BOTÓN FUNCIONANDO!");
 
         try {
-            // Validaciones básicas
+            // Obtener datos escritos por el usuario
             String nombre = txtNombreCompleto.getText().trim();
             String dni = txtDni.getText().trim().toUpperCase();
             String telefono = txtTelefono.getText().trim();
             boolean disposicion = chkDisposicion.isSelected();
 
+            // Validaciones simples del formulario
             if (nombre.isEmpty()) {
                 mostrarAlerta("Error", "El nombre es obligatorio", Alert.AlertType.WARNING);
                 return;
@@ -79,39 +85,39 @@ public class AñadirChoferControlador {
                 return;
             }
 
+            // Si estamos en modo edición modifica el chofer existente
             if (editing && editingChofer != null) {
-                // Actualizamos el DTO y llamamos al DAO para modificar
+
+                // Actualizamos el DTO con los nuevos valores
                 editingChofer.setNombre_completo(nombre);
                 editingChofer.setDni(dni);
                 editingChofer.setTelefono(telefono);
                 editingChofer.setDisposicion(disposicion);
 
-                System.out.println("♻️ Actualizando chofer ID=" + editingChofer.getId_chofer());
+                System.out.println("Actualizando chofer ID=" + editingChofer.getId_chofer());
+
+                // Llamada al DAO para guardar cambios en BD
                 choferDAO.modificarChofer(editingChofer, editingChofer.getId_chofer());
 
                 mostrarAlerta("Éxito", "Chofer actualizado correctamente", Alert.AlertType.INFORMATION);
-            } else {
-                // Nuevo chofer
-                ChoferDTO nuevoChofer = new ChoferDTO(
-                        nombre,
-                        dni,
-                        telefono,
-                        disposicion
-                );
 
-                System.out.println("💾 Creando chofer en BD...");
+            } else {
+                // Registro de un nuevo chofer
+                ChoferDTO nuevoChofer = new ChoferDTO(nombre,dni,telefono,disposicion);
+
+                System.out.println("Creando chofer en BD...");
                 choferDAO.registrarChofer(nuevoChofer);
-                System.out.println("✅ Chofer guardado en BD");
+                System.out.println("Chofer guardado en BD");
 
                 mostrarAlerta("Éxito", "Chofer registrado correctamente en la base de datos", Alert.AlertType.INFORMATION);
             }
 
-            // Cerrar la ventana/modal
+            // Cerrar la ventana después de guardar
             Stage stage = (Stage) btnRegistrar.getScene().getWindow();
             stage.close();
 
         } catch (Exception e) {
-            System.err.println("❌ Error guardando chofer: " + e.getMessage());
+            System.err.println("Error guardando chofer: " + e.getMessage());
             e.printStackTrace();
             mostrarAlerta("Error", "Error al guardar: " + e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -119,27 +125,17 @@ public class AñadirChoferControlador {
 
     @FXML
     private void salir(ActionEvent event) {
-        // Cerrar la ventana sin guardar
+        // Cierra la ventana sin realizar cambios
         Stage stage = (Stage) btnSalir.getScene().getWindow();
         stage.close();
     }
 
+    // Método auxiliar para mostrar alertas de forma rápida
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
-    }
-
-    /** útil para limpiar si se reusa el controlador sin cerrar (no estrictamente necesario) */
-    private void limpiarFormulario() {
-        txtNombreCompleto.clear();
-        txtDni.clear();
-        txtTelefono.clear();
-        chkDisposicion.setSelected(true);
-        editing = false;
-        editingChofer = null;
-        btnRegistrar.setText("Registrar");
     }
 }

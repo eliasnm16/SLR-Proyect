@@ -14,68 +14,90 @@ import dto.AlquilerDTO;
 
 public class AlquilerDAO {
 
-    /**
-     * Inserta un alquiler en la base de datos.
-     * Devuelve el id generado (IDALQUILER) o -1 en caso de error.
-     */
+    // inserta un alquiler nuevo en la base de datos y devuelve el ID generado
     public int crearAlquiler(AlquilerDTO a) {
+
+        // sentencia SQL para insertar los datos
         String sql = "INSERT INTO alquiler (BASTIDOR, ID_CHOFER, NIF_NIE, FECHAINICIO, FECHAFIN, PRECIOTOTAL, ESTADO) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
+        // abre la conexión y se prepara el INSERT
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
+            // pasa el bastidor que es obligatorio
             stmt.setInt(1, a.getBastidor());
 
+            // en caso de q haya chofer, se añade. Si no, se pone NULL
             if (a.getId_Chofer() > 0) {
                 stmt.setInt(2, a.getId_Chofer());
             } else {
                 stmt.setNull(2, java.sql.Types.INTEGER);
             }
 
+            // se añaden los demás datos
             stmt.setString(3, a.getNif_nie());
             stmt.setDate(4, Date.valueOf(a.getFechaInicio()));
             stmt.setDate(5, Date.valueOf(a.getFechaFin()));
             stmt.setDouble(6, a.getPrecioTotal());
             stmt.setString(7, a.getEstado().name());
 
+            // ejecuta el INSERT
             int filas = stmt.executeUpdate();
 
+            // si no insertó nada, devolvemos -1 porque no se ha insertado nada
             if (filas == 0) return -1;
 
+            // se obtiene el ID generado por la base de datos
             try (ResultSet rs = stmt.getGeneratedKeys()) {
                 if (rs.next()) {
                     return rs.getInt(1);
                 }
             }
-
         } catch (SQLException ex) {
             System.err.println("Error creando alquiler: " + ex.getMessage());
         }
-
         return -1;
     }
 
+
+
+    // metodo eliminar un alquiler por su ID
     public void eliminarAlquiler(int idAlquiler) {
         String sql = "DELETE FROM alquiler WHERE IDALQUILER = ?";
+
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Se indica qué alquiler borrar
             stmt.setInt(1, idAlquiler);
+
             stmt.executeUpdate();
+
         } catch (SQLException ex) {
             System.err.println("Error eliminando alquiler: " + ex.getMessage());
         }
     }
 
+
+
+    // metodo que actualiza un alquiler existente
     public void modificarAlquiler(AlquilerDTO a) {
+
+        // SQL para actualizar todos los campos
         String sql = "UPDATE alquiler SET BASTIDOR=?, ID_CHOFER=?, NIF_NIE=?, FECHAINICIO=?, FECHAFIN=?, PRECIOTOTAL=?, ESTADO=? WHERE IDALQUILER=?";
+
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, a.getBastidor());
 
-            if (a.getId_Chofer() > 0) stmt.setInt(2, a.getId_Chofer());
-            else stmt.setNull(2, java.sql.Types.INTEGER);
+            // mismo control de chofer que antes
+            if (a.getId_Chofer() > 0) { 
+            	stmt.setInt(2, a.getId_Chofer());
+            } else {
+            	stmt.setNull(2, java.sql.Types.INTEGER);
+            }
 
             stmt.setString(3, a.getNif_nie());
             stmt.setDate(4, Date.valueOf(a.getFechaInicio()));
@@ -90,39 +112,14 @@ public class AlquilerDAO {
             System.err.println("Error modificando alquiler: " + ex.getMessage());
         }
     }
-
-    public AlquilerDTO buscarPorId(int idAlquiler) {
-        String sql = "SELECT * FROM alquiler WHERE IDALQUILER = ?";
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, idAlquiler);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    AlquilerDTO a = new AlquilerDTO(
-                        rs.getInt("IDALQUILER"),
-                        rs.getInt("BASTIDOR"),
-                        rs.getString("NIF_NIE"),
-                        rs.getDate("FECHAINICIO").toLocalDate(),
-                        rs.getDate("FECHAFIN").toLocalDate(),
-                        rs.getDouble("PRECIOTOTAL"),
-                        AlquilerDTO.EstadoAlquiler.valueOf(rs.getString("ESTADO"))
-                    );
-                    a.setId_Chofer(rs.getInt("ID_CHOFER"));
-                    if (rs.wasNull()) a.setId_Chofer(0);
-                    return a;
-                }
-            }
-
-        } catch (SQLException ex) {
-            System.err.println("Error buscando alquiler: " + ex.getMessage());
-        }
-        return null;
-    }
-
+    
+    // Devuelve una lista de todos los alquileres
     public List<AlquilerDTO> listarAlquileres() {
+
         List<AlquilerDTO> lista = new ArrayList<>();
+
         String sql = "SELECT * FROM alquiler ORDER BY FECHAINICIO DESC";
+
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -137,44 +134,48 @@ public class AlquilerDAO {
                     rs.getDouble("PRECIOTOTAL"),
                     AlquilerDTO.EstadoAlquiler.valueOf(rs.getString("ESTADO"))
                 );
+
                 a.setId_Chofer(rs.getInt("ID_CHOFER"));
-                if (rs.wasNull()) a.setId_Chofer(0);
+                
+                //si no hay chofer, se pone a 0
+                if (rs.wasNull()) {
+                	a.setId_Chofer(0);
+                }
+
                 lista.add(a);
             }
 
         } catch (SQLException ex) {
             System.err.println("Error listando alquileres: " + ex.getMessage());
         }
+
         return lista;
     }
 
-    /**
-     * Busca un chofer disponible para el rango [inicio, fin].
-     * Devuelve el ID_CHOFER del primer chofer disponible o null si no hay.
-     *
-     * Lógica: seleccionamos un chofer que no tenga ningún alquiler que
-     * se solape con las fechas solicitadas.
-     */
+
+
+    // Busca un chofer libre que no esté ocupado entre dos fechas
     public Integer buscarChoferDisponible(LocalDate inicio, LocalDate fin) {
+
+        // SQL que busca choferes que NO estén en ningún alquiler que coincida con ese periodo
         String sql = "SELECT c.ID_CHOFER FROM chofer c WHERE c.ID_CHOFER NOT IN ("
                    + "  SELECT a.ID_CHOFER FROM alquiler a "
                    + "  WHERE a.ID_CHOFER IS NOT NULL "
-                   + "    AND a.FECHAINICIO <= ? "   // existing.start <= newEnd
-                   + "    AND a.FECHAFIN >= ? "      // existing.end >= newStart
+                   + "    AND a.FECHAINICIO <= ? "
+                   + "    AND a.FECHAFIN >= ? "
                    + ") LIMIT 1";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Param order: newEnd, newStart (because comparison was <= ? (newEnd) and >= ? (newStart))
+            // se pasan las fechas al SQL
             stmt.setDate(1, Date.valueOf(fin));
             stmt.setDate(2, Date.valueOf(inicio));
 
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt("ID_CHOFER");
-                }
-            }
+            ResultSet rs = stmt.executeQuery();
+
+            // si hay algún chofer libre, se devuelve su ID
+            if (rs.next()) return rs.getInt("ID_CHOFER");
 
         } catch (SQLException ex) {
             System.err.println("Error buscando chofer disponible: " + ex.getMessage());
@@ -183,22 +184,24 @@ public class AlquilerDAO {
         return null;
     }
 
-    //METODO PARA LISTAR ALQUILERES POR NIF/NIE DE USUARIO
-    //AÑADIDO POR FERNANDO
-    
- // Agregar este método en tu clase AlquilerDAO
+
+
+    // lista todos los alquileres realizados por un usuario según su NIF/NIE
     public List<AlquilerDTO> listarAlquileresPorUsuario(String nifNie) {
-    	
+
         String sql = "SELECT * FROM alquiler WHERE NIF_NIE = ? ORDER BY FECHAINICIO DESC";
+
         List<AlquilerDTO> lista = new ArrayList<>();
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
+
             stmt.setString(1, nifNie);
+
             ResultSet rs = stmt.executeQuery();
-            
+           
             while (rs.next()) {
+
                 AlquilerDTO a = new AlquilerDTO(
                     rs.getInt("IDALQUILER"),
                     rs.getInt("BASTIDOR"),
@@ -208,15 +211,17 @@ public class AlquilerDAO {
                     rs.getDouble("PRECIOTOTAL"),
                     AlquilerDTO.EstadoAlquiler.valueOf(rs.getString("ESTADO"))
                 );
+
                 a.setId_Chofer(rs.getInt("ID_CHOFER"));
                 if (rs.wasNull()) a.setId_Chofer(0);
+
                 lista.add(a);
             }
 
         } catch (SQLException ex) {
             System.err.println("Error listando alquileres por usuario: " + ex.getMessage());
         }
+
         return lista;
     }
-}
-
+    }
