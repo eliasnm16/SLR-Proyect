@@ -12,6 +12,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import dao.AlquilerDAO;
 import dto.AlquilerDTO;
 
@@ -100,11 +101,8 @@ public class PanelConfigReservaUserControlador implements Initializable {
     }
 
     private void volver() {
-        // Código para volver a la pantalla anterior
-        // Por ejemplo: 
-        // Stage stage = (Stage) btnVolver.getScene().getWindow();
-        // stage.close();
-        // O cargar otra escena
+        Stage stage = (Stage) btnVolver.getScene().getWindow();
+        stage.close();
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {

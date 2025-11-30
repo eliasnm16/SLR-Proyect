@@ -126,5 +126,34 @@ public class ClienteDAO {
 		}
 	}
 	
-	
+	// En ClienteDAO.java - agregar este método
+	public ClienteDTO buscarPorNif(String nif) {
+	    String sql = "SELECT * FROM CLIENTE WHERE Nif_nie = ?";
+	    try (Connection conn = ConexionBD.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        
+	        stmt.setString(1, nif);
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            ClienteDTO cliente = new ClienteDTO();
+	            cliente.setIdCliente(rs.getInt("ID_Cliente"));
+	            cliente.setNombreCompleto(rs.getString("Nombre_Completo"));
+	            cliente.setNif_nie(rs.getString("Nif_nie"));
+	            cliente.setCorreo(rs.getString("Correo"));
+	            cliente.setContrasena(rs.getString("Contrasena"));
+	            cliente.setCarnet(rs.getBoolean("Carnet"));
+	            cliente.setTelefono(rs.getString("Telefono"));
+	            
+	            if (rs.getDate("Fecha_Registro") != null) {
+	                cliente.setFechaRegistro(rs.getDate("Fecha_Registro").toLocalDate());
+	            }
+	            return cliente;
+	        }
+	        
+	    } catch (SQLException e) {
+	        System.err.println("Error buscando cliente por NIF: " + e.getMessage());
+	    }
+	    return null;
+	}
 }
