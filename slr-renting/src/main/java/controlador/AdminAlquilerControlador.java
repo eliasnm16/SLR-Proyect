@@ -73,7 +73,6 @@ public class AdminAlquilerControlador implements Initializable {
     }
 
     private void cargarAlquileres() {
-        // Limpia la lista actual
         alquileresList.clear();
 
         // Obtiene todos los alquileres mediante el DAO
