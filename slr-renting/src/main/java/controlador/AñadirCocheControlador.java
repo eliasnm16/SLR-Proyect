@@ -30,12 +30,9 @@ public class AñadirCocheControlador {
     @FXML private Button btnRegistrar;
 
     private CocheDTO cocheEditar = null;
-    // <-- aquí la corrección: usar constructor por defecto
-    private final CocheDAO cocheDAO = new CocheDAO();
+      private final CocheDAO cocheDAO = new CocheDAO();
 
-    // ───────────────────────────────────────────────
-    //   MÉTODO PARA RECIBIR COCHE AL EDITAR
-    // ───────────────────────────────────────────────
+  
     public void setCoche(CocheDTO coche) {
         this.cocheEditar = coche;
 
@@ -54,16 +51,14 @@ public class AñadirCocheControlador {
         chkNuevo.setSelected(coche.isNuevo());
         chkDisponible.setSelected(coche.isDisponible());
 
-        // El bastidor no se modifica jamás
+  
         txtBastidor.setDisable(true);
 
-        // Cambiar el texto del botón
+   
         btnRegistrar.setText("Actualizar");
     }
 
-    // ───────────────────────────────────────────────
-    //   BOTÓN REGISTRAR / ACTUALIZAR
-    // ───────────────────────────────────────────────
+   
     @FXML
     private void registrarCoche(ActionEvent event) {
         try {
@@ -94,8 +89,7 @@ public class AñadirCocheControlador {
                     chkDisponible.isSelected()
             );
 
-            // ─────────── MODO EDITAR ───────────
-            if (cocheEditar != null) {
+               if (cocheEditar != null) {
                 cocheDAO.modificarCoche(coche);
                 mostrarAlerta("Éxito", "Coche actualizado correctamente.", Alert.AlertType.INFORMATION);
 
@@ -104,7 +98,7 @@ public class AñadirCocheControlador {
                 return;
             }
 
-            // ─────────── MODO REGISTRAR ───────────
+   
             cocheDAO.registrarCoche(coche);
             mostrarAlerta("Éxito", "Coche registrado correctamente.", Alert.AlertType.INFORMATION);
 
@@ -115,9 +109,7 @@ public class AñadirCocheControlador {
         }
     }
 
-    // ───────────────────────────────────────────────
-    //   LIMPIAR FORMULARIO
-    // ───────────────────────────────────────────────
+   
     private void limpiarFormulario() {
         txtBastidor.clear();
         txtMarca.clear();
@@ -139,18 +131,13 @@ public class AñadirCocheControlador {
         cocheEditar = null;
     }
 
-    // ───────────────────────────────────────────────
-    //   BOTÓN SALIR
-    // ───────────────────────────────────────────────
-    @FXML
+       @FXML
     private void salir(ActionEvent event) {
         Stage stage = (Stage) btnRegistrar.getScene().getWindow();
         stage.close();
     }
 
-    // ───────────────────────────────────────────────
-    //   UTILIDAD PARA ALERTAS
-    // ───────────────────────────────────────────────
+   
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

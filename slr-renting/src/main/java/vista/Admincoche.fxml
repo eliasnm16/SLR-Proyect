@@ -28,6 +28,7 @@
           <TableColumn fx:id="clmPr" prefWidth="126.40008544921875" text="Precio" />
           <TableColumn fx:id="clmDisp" prefWidth="99.199951171875" text="Disponibilidad" />
 
+         
           <TableColumn fx:id="clmImg" prefWidth="150.0" text="Imagen URL" />
 
         </columns>

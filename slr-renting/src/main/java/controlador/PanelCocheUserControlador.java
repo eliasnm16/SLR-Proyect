@@ -144,14 +144,13 @@ public class PanelCocheUserControlador implements Initializable {
         }
 
         try {
-            // PRIMERO buscamos en /vista (donde tienes e90.jpg)
+
             Image img = null;
 
             URL urlVista = getClass().getResource("/vista/" + imagenURL);
             if (urlVista != null) {
                 img = new Image(urlVista.toExternalForm());
             } else {
-                // OPCIONAL: fallback a /imagenes por si en el futuro cambias
                 URL urlImagenes = getClass().getResource("/imagenes/" + imagenURL);
                 if (urlImagenes != null) {
                     img = new Image(urlImagenes.toExternalForm());
@@ -160,10 +159,9 @@ public class PanelCocheUserControlador implements Initializable {
 
             if (img != null) {
                 imgCoche.setImage(img);
-                // Ajustar al recuadro
                 imgCoche.setFitWidth(520);
                 imgCoche.setFitHeight(360);
-                imgCoche.setPreserveRatio(false); // rellena el rectángulo
+                imgCoche.setPreserveRatio(false); 
                 imgCoche.setSmooth(true);
             } else {
                 System.err.println("No se encontró la imagen en /vista ni en /imagenes: " + imagenURL);
