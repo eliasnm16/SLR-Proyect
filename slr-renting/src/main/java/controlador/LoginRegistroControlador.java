@@ -60,7 +60,8 @@ public class LoginRegistroControlador {
         // Validación mínima
         String nombre = txtNombre.getText().trim();
         String correo = txtCorreo.getText().trim();
-        String contrasena = txtPassword.getText(); // no trim passwords
+        String contrasena = txtPassword.getText();
+
         if (nombre.isEmpty() || correo.isEmpty() || contrasena.isEmpty()) {
             mostrarAlerta(Alert.AlertType.WARNING, "Datos incompletos", "Nombre, correo y contraseña son obligatorios.");
             return;
@@ -79,25 +80,43 @@ public class LoginRegistroControlador {
             clienteDAO.modificarCliente(editingCliente, editingCliente.getIdCliente());
 
             mostrarAlerta(Alert.AlertType.INFORMATION, "Actualizado", "Cliente actualizado correctamente.");
-            
+
             // Cerrar la ventana de edición
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.close();
-            
+
         } else {
-            // Nuevo cliente - REGISTRO
+            // Nuevo cliente
+
+            String nif = txtNif.getText().trim();
+
+            // Comprobación de duplicados
+            if (clienteDAO.existeNif(nif)) {
+                mostrarAlerta(Alert.AlertType.WARNING,
+                        "NIF duplicado",
+                        "Ya existe un cliente registrado con ese NIF/NIE.");
+                return;
+            }
+
+            if (clienteDAO.existeCorreo(correo)) {
+                mostrarAlerta(Alert.AlertType.WARNING,
+                        "Correo duplicado",
+                        "Ya existe un cliente registrado con ese correo.");
+                return;
+            }
+
             ClienteDTO nuevo = new ClienteDTO();
             nuevo.setNombreCompleto(nombre);
             nuevo.setCorreo(correo);
             nuevo.setContrasena(contrasena);
-            nuevo.setNif_nie(txtNif.getText().trim());
+            nuevo.setNif_nie(nif);
             nuevo.setTelefono(txtTelefono.getText().trim());
             nuevo.setCarnet(chkCarnet.isSelected());
 
             clienteDAO.registrarCliente(nuevo);
             mostrarAlerta(Alert.AlertType.INFORMATION, "Registrado", "Cliente registrado correctamente.");
 
-            // ✅ EN VEZ DE CERRAR, REDIRIGIR AL LOGIN
+            // Redirigir al login
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/vista/loginusuarioregistrado.fxml"));
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -110,6 +129,7 @@ public class LoginRegistroControlador {
             }
         }
     }
+
 
     @FXML
     private void irALogin(ActionEvent event) {

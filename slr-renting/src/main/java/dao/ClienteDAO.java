@@ -126,6 +126,38 @@ public class ClienteDAO {
 		}
 	}
 	
+	// Comprueba si ya existe un cliente con ese NIF/NIE
+	public boolean existeNif(String nif) {
+	    String sql = "SELECT 1 FROM CLIENTE WHERE Nif_nie = ?";
+	    try (Connection conn = ConexionBD.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setString(1, nif);
+	        ResultSet rs = stmt.executeQuery();
+	        return rs.next();
+
+	    } catch (SQLException e) {
+	        System.err.println("Error comprobando NIF: " + e.getMessage());
+	        return false;
+	    }
+	}
+
+	// Comprueba si ya existe un cliente con ese correo
+	public boolean existeCorreo(String correo) {
+	    String sql = "SELECT 1 FROM CLIENTE WHERE Correo = ?";
+	    try (Connection conn = ConexionBD.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setString(1, correo);
+	        ResultSet rs = stmt.executeQuery();
+	        return rs.next();
+
+	    } catch (SQLException e) {
+	        System.err.println("Error comprobando correo: " + e.getMessage());
+	        return false;
+	    }
+	}
+	
 	// En ClienteDAO.java - agregar este método
 	public ClienteDTO buscarPorNif(String nif) {
 	    String sql = "SELECT * FROM CLIENTE WHERE Nif_nie = ?";

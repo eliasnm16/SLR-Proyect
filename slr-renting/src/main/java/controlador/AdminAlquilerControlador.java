@@ -112,11 +112,22 @@ public class AdminAlquilerControlador implements Initializable {
         String resultado = dialog.showAndWait().orElse(null);
         if (resultado != null) {
             AlquilerDTO.EstadoAlquiler nuevoEstado = AlquilerDTO.EstadoAlquiler.valueOf(resultado);
-            
+
+            // No se puede marcar como completado antes de la fecha de fin
+            if (nuevoEstado == AlquilerDTO.EstadoAlquiler.COMPLETADA) {
+                if (alquilerSeleccionado.getFechaFin().isAfter(java.time.LocalDate.now())) {
+                    mostrarAlerta(
+                        "Acción no permitida",
+                        "No se puede marcar el alquiler como COMPLETADO antes de su fecha de finalización."
+                    );
+                    return;
+                }
+            }
+
             alquilerSeleccionado.setEstado(nuevoEstado);
             alquilerDAO.modificarAlquiler(alquilerSeleccionado);
             cargarAlquileres();
-            
+
             mostrarAlerta("Éxito", "Estado cambiado a: " + resultado);
         }
     }
