@@ -26,14 +26,10 @@ public class LoginRegistroControlador {
 
     private final ClienteDAO clienteDAO = new ClienteDAO();
 
-    // edición
-    private boolean editing = false;
+       private boolean editing = false;
     private ClienteDTO editingCliente = null;
 
-    /**
-     * Este método será invocado por AdminUsuarioControlador cuando
-     * quiera editar un cliente (usa reflection o loader.getController()).
-     */
+   
     public void setCliente(ClienteDTO cliente) {
         if (cliente == null) return;
         this.editing = true;
@@ -47,14 +43,11 @@ public class LoginRegistroControlador {
         txtPassword.setText(cliente.getContrasena());
         chkCarnet.setSelected(cliente.isCarnet());
 
-        // Cambiar texto del botón para UX
+   
         btnRegistro.setText("Guardar cambios");
     }
 
-    /**
-     * El onAction del botón (en FXML es onAction="#onAcceder").
-     * Si editing==true hace update, si no inserta.
-     */
+   
     @FXML
     private void onAcceder(ActionEvent event) {
         // Validación mínima
@@ -75,8 +68,6 @@ public class LoginRegistroControlador {
             editingCliente.setNif_nie(txtNif.getText().trim());
             editingCliente.setTelefono(txtTelefono.getText().trim());
             editingCliente.setCarnet(chkCarnet.isSelected());
-
-            // Llamada al DAO
             clienteDAO.modificarCliente(editingCliente, editingCliente.getIdCliente());
 
             mostrarAlerta(Alert.AlertType.INFORMATION, "Actualizado", "Cliente actualizado correctamente.");

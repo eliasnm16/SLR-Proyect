@@ -14,7 +14,7 @@ public class ClienteDTO {
 	private LocalDate fechaRegistro;
 	private boolean admin = false;
 	
-    public ClienteDTO() {}  // ← Añadir constructor vacío
+    public ClienteDTO() {}  
 
 	public ClienteDTO(String nombreCompleto, String nif_nie, String correo, String contrasena, boolean carnet,
 			String telefono, boolean admin) {

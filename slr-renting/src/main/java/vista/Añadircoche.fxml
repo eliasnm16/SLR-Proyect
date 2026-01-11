@@ -20,14 +20,14 @@
       <Text fill="WHITE" layoutX="185.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modelo" />
       <Text fill="WHITE" layoutX="185.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Matricula" wrappingWidth="73.38397216796875" />
       
-      <!-- TEXTFIELDS IZQUIERDA -->
+            <TextField fx:id="txtBastidor" layoutX="185.0" layoutY="176.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
       <TextField fx:id="txtBastidor" layoutX="185.0" layoutY="176.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
       <TextField fx:id="txtMarca" layoutX="185.0" layoutY="232.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
       <TextField fx:id="txtModelo" layoutX="185.0" layoutY="292.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
       <TextField fx:id="txtMatricula" layoutX="185.0" layoutY="352.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
       <TextField fx:id="txtPrecioDiario" layoutX="182.0" layoutY="409.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
       
-      <!-- BOTÓN REGISTRAR -->
+      
       <Button fx:id="btnRegistrar" layoutX="222.0" layoutY="541.0" mnemonicParsing="false" onAction="#registrarCoche" prefHeight="32.0" prefWidth="186.0" style="-fx-border-radius: 16; -fx-background-radius: 16; -fx-background-color: fcdb00; -fx-border-color: fcdb00; -fx-text-fill: black;" text="Registrar" wrapText="true">
          <opaqueInsets>
             <Insets />
@@ -37,7 +37,7 @@
       <Text fill="WHITE" layoutX="185.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio diario" wrappingWidth="73.38397216796875" />
       <Line endX="-100.5" endY="341.5" layoutX="267.0" layoutY="240.0" startX="443.4000244140625" startY="341.5" stroke="#fcdb00" />
       
-      <!-- TEXTFIELDS DERECHA -->
+      
       <Text fill="WHITE" layoutX="616.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripcion" />
       <TextField fx:id="txtDescripcion" layoutX="472.0" layoutY="176.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
       <TextField fx:id="txtPlazas" layoutX="472.0" layoutY="232.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
@@ -49,11 +49,14 @@
       <TextField fx:id="txtVelocidadMax" layoutX="472.0" layoutY="409.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
       <Text fill="WHITE" layoutX="631.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="V Max" />
       
-      <!-- Agregar esto en AñadirCoche.fxml -->
+      
 	<Text fill="WHITE" layoutX="405.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="URL Imagen" />
 	<TextField fx:id="txtImagenURL" layoutX="264.0" layoutY="494.0" prefHeight="26.0" prefWidth="350.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
 	
-      <!-- CHECKBOXES -->
+      
+	<Text fill="WHITE" layoutX="405.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="URL Imagen" />
+	<TextField fx:id="txtImagenURL" layoutX="264.0" layoutY="494.0" prefHeight="26.0" prefWidth="350.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
+	
       <CheckBox fx:id="chkNuevo" layoutX="267.0" layoutY="100.0" mnemonicParsing="false" text="Nuevo" textFill="WHITE" />
       <CheckBox fx:id="chkDisponible" layoutX="554.0" layoutY="100.0" mnemonicParsing="false" text="Disponible" textFill="WHITE" />
       <Button fx:id="btnRegistrar1" layoutX="469.0" layoutY="541.0" mnemonicParsing="false" onAction="#salir" prefHeight="32.0" prefWidth="186.0" style="-fx-border-radius: 16; -fx-background-radius: 16; -fx-background-color: fcdb00; -fx-border-color: fcdb00; -fx-text-fill: black;" text="Salir" wrapText="true">

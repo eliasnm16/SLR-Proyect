@@ -1,9 +1,11 @@
 package dao;
+
 import dto.ClienteDTO;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
 import conexion.ConexionBD;
+
 public class ClienteDAO {
 
 	public void registrarCliente(ClienteDTO cliente) {

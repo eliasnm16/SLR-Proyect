@@ -13,7 +13,7 @@
 
 <BorderPane prefHeight="520" prefWidth="720" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.PanelFacturaUserControlador">
 
-    <!-- CABECERA -->
+      <top>
     <top>
         <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-color: black;">
             <padding>
@@ -28,14 +28,14 @@
         </HBox>
     </top>
 
-    <!-- CONTENIDO -->
+  
     <center>
         <VBox spacing="18" style="-fx-background-color: black;">
             <padding>
                 <Insets bottom="18" left="18" right="18" top="18" />
             </padding>
 
-            <!-- DATOS DEL VEHÍCULO -->
+  <VBox spacing="8" style="-fx-background-color: #121212; -fx-background-radius: 12; -fx-padding: 14; -fx-border-color: #3b3320; -fx-border-radius: 12;">
             <VBox spacing="8" style="-fx-background-color: #121212; -fx-background-radius: 12; -fx-padding: 14; -fx-border-color: #3b3320; -fx-border-radius: 12;">
                 <Label style="-fx-text-fill: #ffd666; -fx-font-size: 14px; -fx-font-weight: bold;" text="Datos del vehículo" />
 
@@ -62,7 +62,7 @@
                 </GridPane>
             </VBox>
 
-            <!-- DESGLOSE DE PRECIO -->
+              <VBox spacing="8" style="-fx-background-color: #121212; -fx-background-radius: 12; -fx-padding: 14; -fx-border-color: #3b3320; -fx-border-radius: 12;">
             <VBox spacing="8" style="-fx-background-color: #121212; -fx-background-radius: 12; -fx-padding: 14; -fx-border-color: #3b3320; -fx-border-radius: 12;">
                 <Label style="-fx-text-fill: #ffd666; -fx-font-size: 14px; -fx-font-weight: bold;" text="Desglose del precio" />
 
@@ -102,7 +102,7 @@
         </VBox>
     </center>
 
-    <!-- BOTONES -->
+      <bottom>
     <bottom>
     <VBox alignment="CENTER" spacing="6" style="-fx-padding: 12 16 12 16;">
         
@@ -112,7 +112,7 @@
             <Button fx:id="btnCerrar" style="-fx-background-radius: 18; -fx-background-color: transparent; -fx-border-color: #3b3320; -fx-text-fill: #f5f5f5; -fx-padding: 8 14 8 14;" text="Cerrar" />
         </HBox>
 
-        <!-- Label del mensaje -->
+    
         <Label fx:id="lblMensaje" style="-fx-text-fill: #a7ffa7; -fx-font-size: 14px; -fx-font-weight: bold;" text="" visible="false" />
     </VBox>
 </bottom>

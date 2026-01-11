@@ -17,10 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-/**
- * Controlador de PanelFacturaUser.fxml
- * Recibe los datos del alquiler, calcula desglose y crea el registro en BBDD.
- */
+
 public class PanelFacturaUserControlador implements Initializable {
 
     @FXML private Label lblFechaFactura;
@@ -36,9 +33,9 @@ public class PanelFacturaUserControlador implements Initializable {
     @FXML private Label lblChofer;
     @FXML private Label lblTotal;
 
-    @FXML private Button btnConfirmar; // lo reutilizamos como Confirmar reserva
+    @FXML private Button btnConfirmar; 
     @FXML private Button btnCerrar;
-    @FXML private Label lblMensaje; // etiqueta añadida en FXML para mensaje
+    @FXML private Label lblMensaje; 
 
     private CocheDTO coche;
     private LocalDate fechaInicio;
@@ -48,7 +45,7 @@ public class PanelFacturaUserControlador implements Initializable {
 
     private static final double DESCUENTO_7 = 0.10;
     private static final double DESCUENTO_30 = 0.20;
-    private static final double COSTE_CHOFER_POR_DIA = 40.0; // puedes ajustar
+    private static final double COSTE_CHOFER_POR_DIA = 40.0; 
 
     private AlquilerDAO alquilerDAO = new AlquilerDAO();
     private CocheDAO cocheDAO = new CocheDAO();
@@ -59,21 +56,13 @@ public class PanelFacturaUserControlador implements Initializable {
         btnConfirmar.setOnAction(e -> confirmarReserva());
         btnCerrar.setOnAction(e -> cerrarVentana());
 
-        // Inicialmente mensaje invisible
+        
         if (lblMensaje != null) {
             lblMensaje.setVisible(false);
         }
     }
 
-    /**
-     * Se llama desde quien abra esta vista (PanelReservaUserController en flujo típico).
-     *
-     * @param coche coche seleccionado
-     * @param inicio fecha inicio
-     * @param fin fecha fin
-     * @param choferSolicitado si el cliente pidió chófer
-     * @param nifUsuario nif del cliente logeado (NIF_NIE)
-     */
+ 
     public void setDatos(CocheDTO coche, LocalDate inicio, LocalDate fin, boolean choferSolicitado, String nifUsuario) {
         this.coche = coche;
         this.fechaInicio = inicio;
@@ -136,7 +125,7 @@ public class PanelFacturaUserControlador implements Initializable {
         Integer idChoferAsignado = null;
         if (choferSolicitado) {
             idChoferAsignado = alquilerDAO.buscarChoferDisponible(fechaInicio, fechaFin);
-            // si idChoferAsignado == null => no hay chofer disponible; seguiremos con NULL
+ 
         }
 
         // Construir DTO de alquiler
@@ -152,7 +141,7 @@ public class PanelFacturaUserControlador implements Initializable {
 
         if (idChoferAsignado != null) a.setId_Chofer(idChoferAsignado);
 
-        // Guardar
+ 
         int idGenerado = alquilerDAO.crearAlquiler(a);
 
         if (idGenerado > 0) {
@@ -188,7 +177,7 @@ public class PanelFacturaUserControlador implements Initializable {
                 lblMensaje.setText("Nos pondremos en contacto con usted por correo con la resolución de su renting. Muchas gracias.");
                 lblMensaje.setVisible(true);
             } else {
-                // fallback: alerta
+ 
                 Alert ok = new Alert(AlertType.INFORMATION);
                 ok.setTitle("Reserva creada");
                 ok.setHeaderText(null);
@@ -196,7 +185,7 @@ public class PanelFacturaUserControlador implements Initializable {
                 ok.showAndWait();
             }
 
-            // Desactivar botón para evitar duplicados
+ 
             btnConfirmar.setDisable(true);
 
         } else {
@@ -209,7 +198,7 @@ public class PanelFacturaUserControlador implements Initializable {
     }
 
     private void cerrarVentana() {
-        // cerrar la ventana actual
+ 
         if (btnCerrar != null && btnCerrar.getScene() != null) {
             btnCerrar.getScene().getWindow().hide();
         }
