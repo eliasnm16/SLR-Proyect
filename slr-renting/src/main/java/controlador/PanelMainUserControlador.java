@@ -78,28 +78,18 @@ public class PanelMainUserControlador implements Initializable {
     private MenuItem itemLogout;
 
     private CocheDAO cocheDAO = new CocheDAO();
-
-    // Coche destacado
     private CocheDTO cocheDestacado;
-
-    // Usuario actual
     private ClienteDTO usuario;
-
-    // NIF del usuario (para reservas, etc.)
     private String nifUsuarioActual;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        // Recuperar usuario logueado desde el login
         usuario = LoginUsuarioRegistradoControlador.usuarioActual;
 
         if (usuario != null) {
-            // Texto del menú con el nombre del usuario
             if (menuUsuario != null) {
                 menuUsuario.setText(usuario.getNombreCompleto());
             }
-            // Si no nos han pasado el NIF por setNifUsuarioActual, lo rellenamos
             if (this.nifUsuarioActual == null || this.nifUsuarioActual.isEmpty()) {
                 this.nifUsuarioActual = usuario.getNif_nie();
             }
@@ -133,8 +123,6 @@ public class PanelMainUserControlador implements Initializable {
             boolean estaDisponible = c.isDisponible() && !tieneReservasActivas;
             
             // Si está reservado, cambiar estilo
-         // Si está reservado, cambiar estilo (como en crearCard)
-         // Si está reservado, cambiar estilo
             if (!estaDisponible) {
                 // Texto rojo "RESERVADO" al lado del modelo
                 lblModeloDestacado.setText(c.getModelo() + "  🔴 RESERVADO");
@@ -163,8 +151,6 @@ public class PanelMainUserControlador implements Initializable {
             }
 
             // Cargar imagen
-         // Cargar imagen
-         // Cargar imagen
             if (c.getImagenURL() != null && !c.getImagenURL().isEmpty()) {
                 try {
                     Image img = new Image(getClass().getResourceAsStream("/vista/" + c.getImagenURL()));
@@ -174,7 +160,7 @@ public class PanelMainUserControlador implements Initializable {
                     imgDestacado.setPreserveRatio(false);
                     imgDestacado.setSmooth(true);
                     
-                    // Oscurecer imagen si está reservado (como en crearCard)
+                    // Oscurecer imagen si está reservado
                     imgDestacado.setOpacity(estaDisponible ? 1.0 : 0.6);
                     
                 } catch (Exception ignored) {}
@@ -225,13 +211,11 @@ public class PanelMainUserControlador implements Initializable {
         }
     }
 
-
     private VBox crearCard(CocheDTO c) {
         VBox card = new VBox(12);
         card.setPrefWidth(360);
         card.setStyle("-fx-background-color: #121212; -fx-background-radius: 18; -fx-border-radius: 18; -fx-border-color: #3b3320;");
 
-        // MODIFICACIÓN: Contenedor para imagen con posible cartel
         StackPane imagenContainer = new StackPane();
         imagenContainer.setPrefSize(360, 180);
         
@@ -251,7 +235,6 @@ public class PanelMainUserControlador implements Initializable {
         
         imagenContainer.getChildren().add(img);
         
-        // MODIFICACIÓN: Verificar estado del coche
         boolean tieneReservasActivas = cocheDAO.tieneReservasActivas(c.getBastidor());
         boolean estaDisponible = c.isDisponible() && !tieneReservasActivas;
         
@@ -261,9 +244,7 @@ public class PanelMainUserControlador implements Initializable {
             lblReservado.setStyle("-fx-background-color: rgba(255, 85, 85, 0.9); -fx-text-fill: white; -fx-font-size: 14px; " +
                                   "-fx-font-weight: bold; -fx-padding: 8 16 8 16; -fx-background-radius: 20;");
             
-            // Oscurecer la imagen
             img.setOpacity(0.6);
-            
             imagenContainer.getChildren().add(lblReservado);
         }
         // Si no está disponible (pero no por reservas activas), mostrar "NO DISPONIBLE"
@@ -272,9 +253,7 @@ public class PanelMainUserControlador implements Initializable {
             lblNoDisponible.setStyle("-fx-background-color: rgba(102, 102, 102, 0.9); -fx-text-fill: white; -fx-font-size: 14px; " +
                                      "-fx-font-weight: bold; -fx-padding: 8 16 8 16; -fx-background-radius: 20;");
             
-            // Oscurecer la imagen
             img.setOpacity(0.6);
-            
             imagenContainer.getChildren().add(lblNoDisponible);
         }
 
@@ -296,17 +275,13 @@ public class PanelMainUserControlador implements Initializable {
         btn.setStyle("-fx-background-radius: 16; -fx-background-color: #ffd666; -fx-text-fill: #111111; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 6 16 6 16;");
         btn.setOnAction(e -> abrirDetalles(c));
         
-        // MODIFICACIÓN: Deshabilitar botón si tiene reservas activas o no está disponible
         if (tieneReservasActivas || !c.isDisponible()) {
             btn.setDisable(true);
             String textoBoton = tieneReservasActivas ? "RESERVADO" : "NO DISPONIBLE";
             btn.setText(textoBoton);
             btn.setStyle("-fx-background-color: #666666; -fx-text-fill: #999999; -fx-font-size: 12px;");
             
-            // También cambiar color del precio
             lblPrecio.setStyle("-fx-text-fill: #ff5555; -fx-font-size: 14px; -fx-font-weight: bold; -fx-strikethrough: true;");
-            
-            // Cambiar color del modelo para indicar estado
             modelo.setStyle("-fx-text-fill: #ff9999; -fx-font-size: 14px; -fx-font-weight: bold;");
         }
 
@@ -317,7 +292,6 @@ public class PanelMainUserControlador implements Initializable {
         contenido.setPadding(new Insets(0, 18, 18, 18));
 
         card.getChildren().addAll(imagenContainer, contenido);
-
         return card;
     }
 
@@ -328,7 +302,6 @@ public class PanelMainUserControlador implements Initializable {
     }
 
     private void abrirDetalles(CocheDTO coche) {
-        // VERIFICAR SI ESTÁ RESERVADO
         boolean tieneReservasActivas = cocheDAO.tieneReservasActivas(coche.getBastidor());
         boolean estaDisponible = coche.isDisponible() && !tieneReservasActivas;
         
@@ -343,7 +316,6 @@ public class PanelMainUserControlador implements Initializable {
             return;
         }
         
-        // ... resto del código que ya tienes
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelCocheUser.fxml"));
             Parent root = loader.load();
@@ -362,7 +334,6 @@ public class PanelMainUserControlador implements Initializable {
         }
     }
 
-    // -------------------- MIS RESERVAS --------------------
     @FXML
     private void abrirMisReservas() {
         try {
@@ -395,15 +366,12 @@ public class PanelMainUserControlador implements Initializable {
         return this.nifUsuarioActual;
     }
 
-    // -------------------- CONFIG PERFIL USUARIO --------------------
     private void abrirConfig() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelConfigUser.fxml"));
             Parent rootConfig = loader.load();
 
             PanelConfigUserControlador controller = loader.getController();
-
-            // Pasar el usuario actual al panel de configuración
             if (usuario != null) {
                 controller.cargarUsuario(usuario);
             }
@@ -418,7 +386,6 @@ public class PanelMainUserControlador implements Initializable {
         }
     }
 
-    // -------------------- CERRAR SESIÓN --------------------
     @FXML
     private void cerrarSesion() {
         try {

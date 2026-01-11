@@ -30,7 +30,6 @@ public class AñadirCocheControlador {
     @FXML private Button btnRegistrar;
 
     private CocheDTO cocheEditar = null;  
-    
     private final CocheDAO cocheDAO = new CocheDAO();
 
     // Método para cargar un coche existente para editar
@@ -52,17 +51,13 @@ public class AñadirCocheControlador {
         chkNuevo.setSelected(coche.isNuevo());
         chkDisponible.setSelected(coche.isDisponible());
 
-        // El bastidor no se modifica jamás
         txtBastidor.setDisable(true);
-
-        // Cambiar el texto del botón
         btnRegistrar.setText("Actualizar");
     }
 
     @FXML
     private void registrarCoche(ActionEvent event) {
         try {
-
             if (txtMarca.getText().isEmpty() || txtModelo.getText().isEmpty() ||
                 txtMatricula.getText().isEmpty() || txtPrecioDiario.getText().isEmpty() ||
                 txtDescripcion.getText().isEmpty() || txtPlazas.getText().isEmpty() ||
@@ -72,7 +67,6 @@ public class AñadirCocheControlador {
                 mostrarAlerta("Error", "Por favor, rellene todos los campos.", Alert.AlertType.ERROR);
                 return;
             }
-            // Validar que los campos numéricos son correctos con el trim para que elimine los espacion en blanco
            
             CocheDTO coche = new CocheDTO(
                     Integer.parseInt(txtBastidor.getText().trim()),
@@ -101,7 +95,6 @@ public class AñadirCocheControlador {
 
             cocheDAO.registrarCoche(coche);
             mostrarAlerta("Éxito", "Coche registrado correctamente.", Alert.AlertType.INFORMATION);
-
             limpiarFormulario();
 
         } catch (NumberFormatException e) {
@@ -109,8 +102,7 @@ public class AñadirCocheControlador {
         }
     }
 
-    //limpia el formulario después de registrar un coche
-    //por si quiere añadir otro coche mas
+    // Limpia el formulario después de registrar un coche
     private void limpiarFormulario() {
         txtBastidor.clear();
         txtMarca.clear();
@@ -138,7 +130,6 @@ public class AñadirCocheControlador {
         stage.close();
     }
 
-  
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

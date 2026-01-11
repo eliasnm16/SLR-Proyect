@@ -14,7 +14,7 @@ import dto.AlquilerDTO;
 
 public class AlquilerDAO {
 
-    // inserta un alquiler nuevo en la base de datos y devuelve el ID generado
+
     public int crearAlquiler(AlquilerDTO a) {
 
         // sentencia SQL para insertar los datos
@@ -152,6 +152,12 @@ public class AlquilerDAO {
         return lista;
     }
 
+       public Integer buscarChoferDisponible(LocalDate inicio, LocalDate fin) {
+        String sql = "SELECT c.ID_CHOFER FROM chofer c WHERE c.ID_CHOFER NOT IN ("
+                   + "  SELECT a.ID_CHOFER FROM alquiler a "
+                   + "  WHERE a.ID_CHOFER IS NOT NULL "
+                   + "    AND a.FECHAINICIO <= ? "   
+                   + "    AND a.FECHAFIN >= ? "      
 
 
     // Busca un chofer libre que no esté ocupado entre dos fechas
@@ -168,7 +174,7 @@ public class AlquilerDAO {
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // se pasan las fechas al SQL
+
             stmt.setDate(1, Date.valueOf(fin));
             stmt.setDate(2, Date.valueOf(inicio));
 

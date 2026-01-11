@@ -39,6 +39,10 @@ public class CocheDAO {
 
             stmt.executeUpdate();
 
+            System.out.println("Coche registrado correctamente.");
+
+        } catch (SQLException e) {
+            System.err.println(" Error registrando coche: " + e.getMessage());
         } catch (SQLException e) {
             System.err.println("Error registrando coche: " + e.getMessage());
         }
@@ -83,6 +87,7 @@ public class CocheDAO {
 
         return coche;
     }
+
 
 
     // devuelve una lista con todos los coches
@@ -149,6 +154,16 @@ public class CocheDAO {
             stmt.setBoolean(12, coche.isDisponible());
             stmt.setInt(13, coche.getBastidor());
 
+            int filas = stmt.executeUpdate();
+
+            if (filas > 0) {
+                System.out.println("Coche actualizado correctamente.");
+            } else {
+                System.out.println(" No existe un coche con bastidor: " + coche.getBastidor());
+            }
+
+        } catch (SQLException e) {
+            System.err.println(" Error actualizando coche: " + e.getMessage());
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -168,6 +183,16 @@ public class CocheDAO {
             // se indica qué coche borrar
             stmt.setInt(1, bastidor);
 
+            int filas = stmt.executeUpdate();
+
+            if (filas > 0) {
+                System.out.println(" Coche eliminado correctamente.");
+            } else {
+                System.out.println(" No existe un coche con bastidor: " + bastidor);
+            }
+
+        } catch (SQLException e) {
+            System.err.println(" Error eliminando coche: " + e.getMessage());
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -215,6 +240,7 @@ public class CocheDAO {
             }
 
         } catch (SQLException e) {
+            System.err.println(" Error listando coches disponibles: " + e.getMessage());
             System.err.println("Error listando coches disponibles: " + e.getMessage());
         }
 
@@ -254,6 +280,7 @@ public class CocheDAO {
             }
 
         } catch (SQLException e) {
+            System.err.println(" Error listando coches nuevos: " + e.getMessage());
             System.err.println("Error listando coches nuevos: " + e.getMessage());
         }
 

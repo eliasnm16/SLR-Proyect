@@ -41,6 +41,7 @@
       <!-- AÑADIDO: Mensaje de error para teléfono -->
       <Label fx:id="lblErrorTelefono" layoutX="185.0" layoutY="412.0" prefHeight="18.0" prefWidth="222.0" style="-fx-font-size: 11px; -fx-padding: 2 0 0 0;" text="✗ El teléfono no puede estar vacío" textFill="RED" visible="false" />
 
+      <!-- LÍNEA SEPARADORA -->
       <Line endX="-100.5" endY="341.5" layoutX="268.0" layoutY="282.0" startX="161.5" startY="342.10003662109375" stroke="#fcdb00" />
 
       <!-- CONTRASEÑA -->
@@ -51,11 +52,13 @@
       <!-- CARNET -->
       <CheckBox fx:id="chkCarnet" layoutX="182.0" layoutY="505.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-border-color: fcdb00;" text="Dispone de carnet de conducir" textFill="WHITE" />
 
-      <!-- BOTONES -->
+      <!-- BOTÓN REGISTRARSE (POSICIÓN CORRECTA) -->
       <Button fx:id="btnRegistro" layoutX="206.0" layoutY="545.0" mnemonicParsing="false" onAction="#onAcceder" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: grey; -fx-border-color: fcdb00; -fx-text-fill: black;" text="Registrarse" wrapText="true" />
 
+      <!-- BOTÓN VOLVER AL LOGIN -->
       <Button fx:id="btnVolverLogin" layoutX="206.0" layoutY="585.0" mnemonicParsing="false" onAction="#irALogin" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: black; -fx-border-color: fcdb00; -fx-text-fill: white;" text="¿Ya tienes cuenta? Inicia sesión aquí" wrapText="true" />
 
+      <!-- LOGO -->
       <ImageView fitHeight="66.0" fitWidth="98.0" layoutX="177.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@logo.jpg" />

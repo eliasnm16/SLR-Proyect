@@ -17,12 +17,12 @@ public class AñadirChoferControlador {
     @FXML private TextField txtTelefono;
     @FXML private CheckBox chkDisposicion;
     @FXML private Button btnRegistrar;
-    @FXML private Button btnSalir;   
+    @FXML private Button btnSalir;     
 
     // DAO encargado de las operaciones en la tabla chofer
     private ChoferDAO choferDAO;
 
-    // Variables para modo edición
+    
     private boolean editing = false;
     private ChoferDTO editingChofer = null;
 
@@ -34,13 +34,9 @@ public class AñadirChoferControlador {
         this.choferDAO = new ChoferDAO();
         System.out.println("ChoferDAO instanciado");
 
-        // Valor por defecto del checkbox (disponible)
-        chkDisposicion.setSelected(true);
+            chkDisposicion.setSelected(true);
     }
 
-    
-     //Método llamado desde el controlador padre cuando se quiere EDITAR un chofer.
-     //Rellena el formulario y activa el modo edición.
     public void setChofer(ChoferDTO chofer) {
         if (chofer == null) return;
 
@@ -55,8 +51,6 @@ public class AñadirChoferControlador {
         txtDni.setText(chofer.getDni());
         txtTelefono.setText(chofer.getTelefono());
         chkDisposicion.setSelected(chofer.isDisposicion());
-
-        // Cambia el texto del botón para dar feedback al usuario
         btnRegistrar.setText("Guardar cambios");
     }
 
@@ -137,5 +131,16 @@ public class AñadirChoferControlador {
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
+    }
+
+    
+    private void limpiarFormulario() {
+        txtNombreCompleto.clear();
+        txtDni.clear();
+        txtTelefono.clear();
+        chkDisposicion.setSelected(true);
+        editing = false;
+        editingChofer = null;
+        btnRegistrar.setText("Registrar");
     }
 }

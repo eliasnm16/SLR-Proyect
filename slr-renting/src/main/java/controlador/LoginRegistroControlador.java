@@ -32,21 +32,14 @@ public class LoginRegistroControlador {
     @FXML private Label lblErrorPassword;
 
     private final ClienteDAO clienteDAO = new ClienteDAO();
-
-    // edición
     private boolean editing = false;
     private ClienteDTO editingCliente = null;
 
-    /**
-     * Este método será invocado por AdminUsuarioControlador cuando
-     * quiera editar un cliente (usa reflection o loader.getController()).
-     */
     public void setCliente(ClienteDTO cliente) {
         if (cliente == null) return;
         this.editing = true;
         this.editingCliente = cliente;
 
-        // Rellenar campos con los datos del cliente
         txtNombre.setText(cliente.getNombreCompleto());
         txtCorreo.setText(cliente.getCorreo());
         txtNif.setText(cliente.getNif_nie());
@@ -54,7 +47,6 @@ public class LoginRegistroControlador {
         txtPassword.setText(cliente.getContrasena());
         chkCarnet.setSelected(cliente.isCarnet());
 
-        // Cambiar texto del botón para UX
         btnRegistro.setText("Guardar cambios");
     }
 
@@ -90,7 +82,6 @@ public class LoginRegistroControlador {
         boolean valido = true;
         limpiarErrores();
 
-        // Obtener y limpiar datos
         String nombre = txtNombre.getText().trim();
         String correo = txtCorreo.getText().trim();
         String nif = txtNif.getText().trim();
@@ -130,7 +121,7 @@ public class LoginRegistroControlador {
             valido = false;
         }
 
-        // VALIDACIÓN 5: Teléfono obligatorio - ¡CAMBIADO AQUÍ!
+        // VALIDACIÓN 5: Teléfono obligatorio
         if (telefono.isEmpty()) {
             mostrarError(lblErrorTelefono, "El teléfono no puede estar vacío");
             valido = false;
@@ -142,10 +133,6 @@ public class LoginRegistroControlador {
         return valido;
     }
 
-    /**
-     * El onAction del botón (en FXML es onAction="#onAcceder").
-     * Si editing==true hace update, si no inserta.
-     */
     @FXML
     private void onAcceder(ActionEvent event) {
         // Validar todos los campos primero
@@ -190,18 +177,16 @@ public class LoginRegistroControlador {
             editingCliente.setNif_nie(nif);
             editingCliente.setTelefono(telefono);
             editingCliente.setCarnet(chkCarnet.isSelected());
-
-            // Llamada al DAO
             clienteDAO.modificarCliente(editingCliente, editingCliente.getIdCliente());
 
             mostrarAlerta(Alert.AlertType.INFORMATION, "Actualizado", "Cliente actualizado correctamente.");
-            
+
             // Cerrar la ventana de edición
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.close();
-            
+
         } else {
-            // Nuevo cliente - REGISTRO
+            // Nuevo cliente
             ClienteDTO nuevo = new ClienteDTO();
             nuevo.setNombreCompleto(nombre);
             nuevo.setCorreo(correo);
@@ -210,7 +195,6 @@ public class LoginRegistroControlador {
             nuevo.setTelefono(telefono);
             nuevo.setCarnet(chkCarnet.isSelected());
 
-            // Intentar registrar el cliente
             try {
                 clienteDAO.registrarCliente(nuevo);
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Registrado", "Cliente registrado correctamente.");
@@ -228,7 +212,6 @@ public class LoginRegistroControlador {
                 }
                 
             } catch (Exception e) {
-                // Capturar cualquier error durante el registro
                 mostrarAlerta(Alert.AlertType.ERROR, "Error en el registro", 
                     "No se pudo completar el registro. Por favor, verifica los datos e intenta nuevamente.");
             }

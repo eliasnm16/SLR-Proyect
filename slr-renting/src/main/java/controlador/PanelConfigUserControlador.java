@@ -29,8 +29,7 @@ public class PanelConfigUserControlador implements Initializable {
     @FXML private Button btnGuardar;
     @FXML private Button btnVolver;
 
-    // ← ESTE ES EL USUARIO QUE LE PASA PanelMainUserControlador
-    private ClienteDTO usuario;
+      private ClienteDTO usuario;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -38,8 +37,7 @@ public class PanelConfigUserControlador implements Initializable {
         btnVolver.setOnAction(e -> volver());
     }
 
-    // ← ESTE MÉTODO ES EL QUE TE DICE EL ERROR QUE NO EXISTE
-    public void cargarUsuario(ClienteDTO u) {
+      public void cargarUsuario(ClienteDTO u) {
         this.usuario = u;
 
         if (u == null) return;

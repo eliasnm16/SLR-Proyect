@@ -51,9 +51,11 @@ public class PanelConfigReservaUserControlador implements Initializable {
         colPrecio.setCellValueFactory(new PropertyValueFactory<>("precioTotal"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
 
-        // Configurar acciones de los botones
-        btnCancelar.setOnAction(event -> cancelarReserva()); // Llama al método para cancelar reserva
-        btnVolver.setOnAction(event -> volver());           // Llama al método para cerrar ventana
+        
+
+        // Configurar el botón de cancelar
+        btnCancelar.setOnAction(event -> cancelarReserva());
+        btnVolver.setOnAction(event -> volver());
     }
 
     // Establece el NIF del usuario actual y carga sus reservas
@@ -104,6 +106,7 @@ public class PanelConfigReservaUserControlador implements Initializable {
 
     // Cierra la ventana actual
     private void volver() {
+        
         Stage stage = (Stage) btnVolver.getScene().getWindow(); // Obtener la ventana actual
         stage.close(); 
     }

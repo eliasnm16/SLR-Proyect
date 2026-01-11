@@ -167,6 +167,17 @@ public class AdminAlquilerControlador implements Initializable {
             // Convierte el texto al enum del DTO
             AlquilerDTO.EstadoAlquiler nuevoEstado = AlquilerDTO.EstadoAlquiler.valueOf(resultado);
 
+            // No se puede marcar como completado antes de la fecha de fin
+            if (nuevoEstado == AlquilerDTO.EstadoAlquiler.COMPLETADA) {
+                if (alquilerSeleccionado.getFechaFin().isAfter(java.time.LocalDate.now())) {
+                    mostrarAlerta(
+                        "Acción no permitida",
+                        "No se puede marcar el alquiler como COMPLETADO antes de su fecha de finalización."
+                    );
+                    return;
+                }
+            }
+
             alquilerSeleccionado.setEstado(nuevoEstado);
 
             // Guarda los cambios en la base de datos
