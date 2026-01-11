@@ -1,5 +1,6 @@
 package controlador;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -7,6 +8,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import dto.CocheDTO;
+import dto.ClienteDTO;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +19,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
@@ -40,9 +44,22 @@ public class PanelReservaUserControlador implements Initializable {
     @FXML
     private Button btnCancelar;
 
+    @FXML
+    private MenuButton menuUsuario;  // NUEVO: MenuButton
+
+    @FXML
+    private MenuItem itemConfig;     // NUEVO: Item Config
+
+    @FXML
+    private MenuItem itemMisReservas; // NUEVO: Item Mis Reservas
+
+    @FXML
+    private MenuItem itemLogout;     // NUEVO: Item Logout
+
     private CocheDTO cocheSeleccionado;
     private boolean quiereChofer;
-    private String nifUsuario; // NUEVO
+    private String nifUsuario;
+    private ClienteDTO usuarioActual;  // NUEVO: Para almacenar usuario
 
     private static final double DESCUENTO_7 = 0.10;
     private static final double DESCUENTO_30 = 0.20;
@@ -50,6 +67,20 @@ public class PanelReservaUserControlador implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // CARGAR USUARIO ACTUAL (igual que en las otras pantallas)
+        usuarioActual = LoginUsuarioRegistradoControlador.usuarioActual;
+
+        if (usuarioActual != null) {
+            if (menuUsuario != null) {
+                menuUsuario.setText(usuarioActual.getNombreCompleto());  // Mostrar nombre del usuario
+            }
+            if (this.nifUsuario == null || this.nifUsuario.isEmpty()) {
+                this.nifUsuario = usuarioActual.getNif_nie();
+            }
+        }
+
+        // CONFIGURAR MENÚ
+        configurarMenu();
 
         if (desdePicker == null || hastaPicker == null || lblDiasSeleccionados == null || 
             lblPrecioEstimado == null || btnConfirmar == null || btnCancelar == null) {
@@ -64,7 +95,108 @@ public class PanelReservaUserControlador implements Initializable {
         hastaPicker.setOnAction(e -> actualizarCalculosSeguros());
 
         btnConfirmar.setOnAction(e -> confirmarReserva());
-        btnCancelar.setOnAction(e -> btnCancelar.getScene().getWindow().hide());
+        btnCancelar.setOnAction(e -> volverAtras());  // MODIFICADO: Ahora usa volverAtras()
+    }
+
+    // NUEVO: Configurar el menú
+    private void configurarMenu() {
+        itemConfig.setOnAction(e -> abrirConfig());
+        itemMisReservas.setOnAction(e -> abrirMisReservas());
+        itemLogout.setOnAction(e -> cerrarSesion());
+    }
+
+    // NUEVO: Abrir Configuración (igual que en PanelMainUser)
+    private void abrirConfig() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelConfigUser.fxml"));
+            Parent rootConfig = loader.load();
+
+            PanelConfigUserControlador controller = loader.getController();
+            if (usuarioActual != null) {
+                controller.cargarUsuario(usuarioActual);
+            }
+
+            // Obtener el Stage actual y cambiar la Scene
+            Stage stage = (Stage) menuUsuario.getScene().getWindow();
+            stage.setScene(new Scene(rootConfig));
+            stage.setTitle("Configuración de Usuario");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("No se pudo abrir la configuración.");
+            alert.showAndWait();
+        }
+    }
+
+    // NUEVO: Abrir Mis Reservas (igual que en PanelMainUser)
+    @FXML
+    private void abrirMisReservas() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelConfigReservaUser.fxml"));
+            Parent rootReservas = loader.load();
+
+            PanelConfigReservaUserControlador controlador = loader.getController();
+            controlador.setNifUsuarioActual(this.nifUsuario);
+
+            // Obtener el Stage actual y cambiar la Scene
+            Stage stage = (Stage) menuUsuario.getScene().getWindow();
+            stage.setScene(new Scene(rootReservas));
+            stage.setTitle("Mis Reservas");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // NUEVO: Cerrar sesión
+    @FXML
+    private void cerrarSesion() {
+        try {
+            // Cerrar todas las ventanas
+            javafx.stage.Window.getWindows().forEach(window -> {
+                if (window instanceof Stage) {
+                    ((Stage) window).close();
+                }
+            });
+
+            // Abrir login
+            Parent root = FXMLLoader.load(getClass().getResource("/vista/loginusuarioregistrado.fxml"));
+            Stage loginStage = new Stage();
+            loginStage.setScene(new Scene(root));
+            loginStage.setTitle("Inicio de Sesión");
+            loginStage.show();
+
+            // Limpiar datos
+            this.nifUsuario = null;
+            this.usuarioActual = null;
+            LoginUsuarioRegistradoControlador.usuarioActual = null;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("No se pudo cerrar sesión");
+            alert.showAndWait();
+        }
+    }
+
+    // MODIFICADO: Método para volver atrás (cierra ventana actual)
+    private void volverAtras() {
+        Stage stage = (Stage) btnCancelar.getScene().getWindow();
+        stage.close();
+    }
+
+    // MÉTODO PARA PASAR EL USUARIO DESDE FUERA (si es necesario)
+    public void setUsuarioActual(ClienteDTO usuario) {
+        this.usuarioActual = usuario;
+        if (usuarioActual != null && menuUsuario != null) {
+            menuUsuario.setText(usuarioActual.getNombreCompleto());
+            this.nifUsuario = usuarioActual.getNif_nie();
+        }
     }
 
     public void setDatos(CocheDTO coche, boolean contratarChofer) {
@@ -73,7 +205,6 @@ public class PanelReservaUserControlador implements Initializable {
         actualizarCalculosSeguros();
     }
 
-    // Permite pasar el NIF desde fuera
     public void setNifUsuario(String nif) {
         this.nifUsuario = nif;
     }
@@ -198,7 +329,8 @@ public class PanelReservaUserControlador implements Initializable {
             stage.show();
 
             // Cerrar esta ventana
-            btnConfirmar.getScene().getWindow().hide();
+            Stage currentStage = (Stage) btnConfirmar.getScene().getWindow();
+            currentStage.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -206,7 +338,3 @@ public class PanelReservaUserControlador implements Initializable {
         }
     }
 }
-
-
-
-

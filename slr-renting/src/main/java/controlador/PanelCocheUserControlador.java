@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import dto.CocheDTO;
+import dto.ClienteDTO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -60,6 +61,9 @@ public class PanelCocheUserControlador implements Initializable {
     private Button btnSeleccionarDias;
 
     @FXML
+    private Button btnVolver;
+
+    @FXML
     private MenuButton menuUsuario;
 
     @FXML
@@ -74,11 +78,25 @@ public class PanelCocheUserControlador implements Initializable {
     private CocheDTO cocheActual;
     private SeleccionDiasHandler seleccionHandler;
     private String nifUsuarioActual;
+    private ClienteDTO usuario;  // Cambiado para seguir el mismo patrón que PanelMainUserControlador
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // SIGUE EL MISMO PATRÓN QUE PanelMainUserControlador
+        usuario = LoginUsuarioRegistradoControlador.usuarioActual;
+
+        if (usuario != null) {
+            if (menuUsuario != null) {
+                menuUsuario.setText(usuario.getNombreCompleto());
+            }
+            if (this.nifUsuarioActual == null || this.nifUsuarioActual.isEmpty()) {
+                this.nifUsuarioActual = usuario.getNif_nie();
+            }
+        }
+
         configurarMenu();
         btnSeleccionarDias.setOnAction(e -> onSeleccionarDiasClicked());
+        btnVolver.setOnAction(e -> volverAtras());
     }
 
     private void configurarMenu() {
@@ -87,8 +105,53 @@ public class PanelCocheUserControlador implements Initializable {
         itemLogout.setOnAction(e -> cerrarSesion());
     }
 
+    // MÉTODO ACTUALIZADO: Igual que en PanelMainUserControlador
     private void abrirConfig() {
-        System.out.println("Abrir Config desde PanelCocheUser");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelConfigUser.fxml"));
+            Parent rootConfig = loader.load();
+
+            PanelConfigUserControlador controller = loader.getController();
+            if (usuario != null) {
+                controller.cargarUsuario(usuario);
+            }
+
+            // Obtener el Stage actual y cambiar la Scene
+            Stage stage = (Stage) menuUsuario.getScene().getWindow();
+            stage.setScene(new Scene(rootConfig));
+            stage.setTitle("Configuración de Usuario");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("No se pudo abrir la configuración.");
+            alert.showAndWait();
+        }
+    }
+
+    // MÉTODO PARA EL BOTÓN VOLVER - Usando el mismo patrón que PanelMainUser
+    private void volverAtras() {
+        try {
+            // CARGAR PanelMainUser
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelMainUser.fxml"));
+            Parent root = loader.load();
+            
+            PanelMainUserControlador controlador = loader.getController();
+            controlador.setNifUsuarioActual(this.nifUsuarioActual);
+            
+            // Obtener el Stage actual y cambiar la Scene
+            Stage stage = (Stage) btnVolver.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Catálogo de Coches");
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Si falla, simplemente cerrar la ventana actual
+            Stage stage = (Stage) btnVolver.getScene().getWindow();
+            stage.close();
+        }
     }
 
     @FXML
@@ -108,6 +171,8 @@ public class PanelCocheUserControlador implements Initializable {
             loginStage.show();
 
             this.nifUsuarioActual = null;
+            this.usuario = null;
+            LoginUsuarioRegistradoControlador.usuarioActual = null;  // Limpiar también el usuario global
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -140,10 +205,13 @@ public class PanelCocheUserControlador implements Initializable {
             lblPrecio.setText((int) coche.getPrecioDiario() + "€/mes");
             lblPrecio.setStyle("-fx-text-fill: #ff5555; -fx-strikethrough: true;");
             
-            // Bloquear botón
+            // Bloquear botón seleccionar días
             btnSeleccionarDias.setDisable(true);
             btnSeleccionarDias.setText("RESERVADO");
             btnSeleccionarDias.setStyle("-fx-background-color: #666666; -fx-text-fill: #999999;");
+            
+            // Botón volver SIEMPRE habilitado (no depende de la disponibilidad)
+            btnVolver.setDisable(false);
             
             // Bloquear checkbox chofer
             chkChofer.setDisable(true);
@@ -170,10 +238,13 @@ public class PanelCocheUserControlador implements Initializable {
             lblPrecio.setText((int) coche.getPrecioDiario() + "€/mes");
             lblPrecio.setStyle("-fx-text-fill: #ffd666; -fx-font-size: 18px; -fx-font-weight: bold;");
             
-            // Habilitar botón
+            // Habilitar botón seleccionar días
             btnSeleccionarDias.setDisable(false);
             btnSeleccionarDias.setText("Seleccionar días para el alquiler");
             btnSeleccionarDias.setStyle("-fx-background-radius: 20; -fx-background-color: #ffd666; -fx-text-fill: #111111; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10 26 10 26;");
+            
+            // Botón volver SIEMPRE habilitado
+            btnVolver.setDisable(false);
             
             // Habilitar checkbox chofer
             chkChofer.setDisable(false);
