@@ -114,17 +114,18 @@ public class AlquilerDAO {
     }
     
     // Devuelve una lista de todos los alquileres
-    public List<AlquilerDTO> listarAlquileres() {
-
+    public List<AlquilerDTO> listarAlquileresConCliente() {
         List<AlquilerDTO> lista = new ArrayList<>();
-
-        String sql = "SELECT * FROM alquiler ORDER BY FECHAINICIO DESC";
-
+        String sql = "SELECT a.*, c.CARNET FROM alquiler a " +
+                     "LEFT JOIN cliente c ON a.NIF_NIE = c.NIF_NIE " +
+                     "ORDER BY a.FECHAINICIO DESC";
+        
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
+                // Usa el constructor VIEJO (7 parámetros)
                 AlquilerDTO a = new AlquilerDTO(
                     rs.getInt("IDALQUILER"),
                     rs.getInt("BASTIDOR"),
@@ -134,21 +135,20 @@ public class AlquilerDAO {
                     rs.getDouble("PRECIOTOTAL"),
                     AlquilerDTO.EstadoAlquiler.valueOf(rs.getString("ESTADO"))
                 );
-
-                a.setId_Chofer(rs.getInt("ID_CHOFER"));
                 
-                //si no hay chofer, se pone a 0
-                if (rs.wasNull()) {
-                	a.setId_Chofer(0);
-                }
-
+                // ID del chofer (puede ser NULL)
+                a.setId_Chofer(rs.getInt("ID_CHOFER"));
+                if (rs.wasNull()) a.setId_Chofer(0);
+                
+                // Establece el valor del carnet usando el SETTER
+                a.setClienteTieneCarnet(rs.getBoolean("CARNET"));
+                
                 lista.add(a);
             }
 
         } catch (SQLException ex) {
-            System.err.println("Error listando alquileres: " + ex.getMessage());
+            System.err.println("Error listando alquileres con cliente: " + ex.getMessage());
         }
-
         return lista;
     }
 

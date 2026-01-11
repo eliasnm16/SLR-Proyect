@@ -11,16 +11,19 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="451.0" prefWidth="648.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.AdminAlquilerControlador">
    <children>
       <TableView fx:id="tablaAlquileres" layoutY="95.0" prefHeight="273.0" prefWidth="648.0" style="-fx-background-color: black; -fx-border-color: #fcdb00; -fx-border-width: 6px;">
-        <columns>
-          <TableColumn fx:id="colId" prefWidth="60.0" text="ID" />
-          <TableColumn fx:id="colBastidor" prefWidth="80.0" text="Bastidor" />
-          <TableColumn fx:id="colNif" prefWidth="100.0" text="NIF/NIE" />
-            <TableColumn fx:id="colFechaInicio" prefWidth="120.0" text="Fecha Inicio" />
-            <TableColumn fx:id="colFechaFin" prefWidth="120.0" text="Fecha Fin" />
-            <TableColumn fx:id="colPrecio" prefWidth="100.0" text="Precio Total" />
-            <TableColumn fx:id="colEstado" prefWidth="100.0" text="Estado" />
-        </columns>
-      </TableView>
+    <columns>
+        <TableColumn fx:id="colId" prefWidth="50.0" text="ID" />
+        <TableColumn fx:id="colBastidor" prefWidth="70.0" text="Bastidor" />
+        <TableColumn fx:id="colNif" prefWidth="90.0" text="NIF/NIE" />
+        <TableColumn fx:id="colFechaInicio" prefWidth="100.0" text="Fecha Inicio" />
+        <TableColumn fx:id="colFechaFin" prefWidth="100.0" text="Fecha Fin" />
+        <TableColumn fx:id="colPrecio" prefWidth="90.0" text="Precio Total" />
+        <TableColumn fx:id="colEstado" prefWidth="90.0" text="Estado" />
+        <!-- NUEVAS COLUMNAS AÑADIDAS -->
+        <TableColumn fx:id="colChofer" prefWidth="70.0" text="Con Chofer" />
+        <TableColumn fx:id="colCarnet" prefWidth="70.0" text="Carnet" />
+    </columns>
+</TableView>
 
       <Text fill="WHITE" layoutX="7.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Panel administración de alquileres" wrappingWidth="634.6878051757812">
          <font>

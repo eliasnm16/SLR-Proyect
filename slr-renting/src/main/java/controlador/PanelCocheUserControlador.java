@@ -123,16 +123,64 @@ public class PanelCocheUserControlador implements Initializable {
         if (coche == null) return;
         this.cocheActual = coche;
 
-        lblMarcaYModelo.setText(
-                (coche.getMarca() != null ? coche.getMarca() + " · " : "") + coche.getModelo()
-        );
-        lblDescripcion.setText(coche.getDescripcion() != null ? coche.getDescripcion() : "");
-        lblPotencia.setText(coche.getPotencia() + " CV");
-        lblMotor.setText(coche.getMotor() != null ? coche.getMotor() : "Desconocido");
-        lblVelocidad.setText(coche.getVelocidadMax() + " km/h");
-        lblPlazas.setText(String.valueOf(coche.getPlazas()));
-        lblMatricula.setText(coche.getMatricula() != null ? coche.getMatricula() : "---");
-        lblPrecio.setText((int) coche.getPrecioDiario() + "€/mes");
+        // MODIFICACIÓN: Verificar si el coche está disponible
+        if (!coche.isDisponible()) {
+            // Si no está disponible, mostrar mensaje y bloquear
+            lblMarcaYModelo.setText(coche.getMarca() + " · " + coche.getModelo() + " (RESERVADO)");
+            lblMarcaYModelo.setStyle("-fx-text-fill: #ff5555;");
+            
+            lblDescripcion.setText("Este vehículo está actualmente reservado y no disponible para alquiler.");
+            lblDescripcion.setStyle("-fx-text-fill: #ff5555;");
+            
+            lblPotencia.setText(coche.getPotencia() + " CV");
+            lblMotor.setText(coche.getMotor() != null ? coche.getMotor() : "Desconocido");
+            lblVelocidad.setText(coche.getVelocidadMax() + " km/h");
+            lblPlazas.setText(String.valueOf(coche.getPlazas()));
+            lblMatricula.setText(coche.getMatricula() != null ? coche.getMatricula() : "---");
+            lblPrecio.setText((int) coche.getPrecioDiario() + "€/mes");
+            lblPrecio.setStyle("-fx-text-fill: #ff5555; -fx-strikethrough: true;");
+            
+            // Bloquear botón
+            btnSeleccionarDias.setDisable(true);
+            btnSeleccionarDias.setText("RESERVADO");
+            btnSeleccionarDias.setStyle("-fx-background-color: #666666; -fx-text-fill: #999999;");
+            
+            // Bloquear checkbox chofer
+            chkChofer.setDisable(true);
+            
+            // Oscurecer imagen
+            if (imgCoche.getImage() != null) {
+                imgCoche.setOpacity(0.6);
+            }
+        } else {
+            // Si está disponible, mostrar normal
+            lblMarcaYModelo.setText(
+                    (coche.getMarca() != null ? coche.getMarca() + " · " : "") + coche.getModelo()
+            );
+            lblMarcaYModelo.setStyle("-fx-text-fill: #f5f5f5; -fx-font-size: 26px; -fx-font-weight: bold;");
+            
+            lblDescripcion.setText(coche.getDescripcion() != null ? coche.getDescripcion() : "");
+            lblDescripcion.setStyle("-fx-text-fill: #b5b5b5; -fx-font-size: 13px;");
+            
+            lblPotencia.setText(coche.getPotencia() + " CV");
+            lblMotor.setText(coche.getMotor() != null ? coche.getMotor() : "Desconocido");
+            lblVelocidad.setText(coche.getVelocidadMax() + " km/h");
+            lblPlazas.setText(String.valueOf(coche.getPlazas()));
+            lblMatricula.setText(coche.getMatricula() != null ? coche.getMatricula() : "---");
+            lblPrecio.setText((int) coche.getPrecioDiario() + "€/mes");
+            lblPrecio.setStyle("-fx-text-fill: #ffd666; -fx-font-size: 18px; -fx-font-weight: bold;");
+            
+            // Habilitar botón
+            btnSeleccionarDias.setDisable(false);
+            btnSeleccionarDias.setText("Seleccionar días para el alquiler");
+            btnSeleccionarDias.setStyle("-fx-background-radius: 20; -fx-background-color: #ffd666; -fx-text-fill: #111111; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10 26 10 26;");
+            
+            // Habilitar checkbox chofer
+            chkChofer.setDisable(false);
+            
+            // Restaurar opacidad imagen
+            imgCoche.setOpacity(1.0);
+        }
 
         cargarImagen(coche.getImagenURL());
     }
@@ -175,11 +223,22 @@ public class PanelCocheUserControlador implements Initializable {
     }
 
     private void onSeleccionarDiasClicked() {
+        // MODIFICACIÓN: Verificar si el coche está disponible
         if (cocheActual == null) {
             Alert a = new Alert(Alert.AlertType.WARNING);
             a.setTitle("Seleccionar días");
             a.setHeaderText(null);
             a.setContentText("No hay ningún coche cargado para proceder con la selección de días.");
+            a.showAndWait();
+            return;
+        }
+
+        // MODIFICACIÓN: Verificar si el coche NO está disponible
+        if (!cocheActual.isDisponible()) {
+            Alert a = new Alert(Alert.AlertType.WARNING);
+            a.setTitle("Coche reservado");
+            a.setHeaderText(null);
+            a.setContentText("Este coche está actualmente reservado y no disponible para alquiler.");
             a.showAndWait();
             return;
         }
