@@ -163,7 +163,7 @@ public class PanelReservaUserControlador implements Initializable {
         LocalDate inicio = desdePicker.getValue();
         LocalDate fin = hastaPicker.getValue();
 
-        // Si no viene de sesión → lo pedimos
+        // Si no viene de sesión lo pedimos
         if (nifUsuario == null || nifUsuario.trim().isEmpty()) {
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Introducir NIF/NIE");

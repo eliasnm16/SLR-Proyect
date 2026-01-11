@@ -1,6 +1,7 @@
 package controlador;
 
 import java.net.URL;
+import util.FacturaPDFGenerator;
 import java.time.temporal.ChronoUnit;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -144,7 +145,23 @@ public class PanelFacturaUserControlador implements Initializable {
         int idGenerado = alquilerDAO.crearAlquiler(a);
 
         if (idGenerado > 0) {
- 
+        	//Pasar datos para crear PDF
+        	try {
+        	    FacturaPDFGenerator.generarFactura(
+        	        idGenerado,
+        	        a,
+        	        coche,
+        	        choferSolicitado,
+        	        coche.getPrecioDiario(),
+        	        dias,
+        	        subtotal,
+        	        descuentoEuros,
+        	        total
+        	    );
+        	} catch (Exception ex) {
+        	    System.err.println("Error generando PDF: " + ex.getMessage());
+        	}
+            // Marcar coche como no disponible
             try {
                 CocheDTO cEnBd = cocheDAO.buscarCoche(coche.getBastidor());
                 if (cEnBd != null) {
