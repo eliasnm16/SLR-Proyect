@@ -16,28 +16,17 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="586.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.PanelAdminControlador">
 
    <children>
-
-      
-      <ImageView layoutX="0" layoutY="0"
-                 fitWidth="586" fitHeight="576"
-                 preserveRatio="true"
-                 opacity="0.15"
-                 pickOnBounds="false"
-                 style="-fx-alignment: center;">
-     
+      <!-- Fondo con logo -->
       <ImageView fitHeight="576" fitWidth="586" layoutX="0" layoutY="0" opacity="0.15" pickOnBounds="false" preserveRatio="true" style="-fx-alignment: center;">
          <image>
             <Image url="@logo.jpg" />
          </image>
       </ImageView>
 
-   
+      <!-- Barra superior -->
       <HBox layoutX="0.0" layoutY="0.0" prefWidth="586.0" spacing="20.0" style="-fx-padding: 10 20; -fx-background-color: #b99a41;">
-
          <children>
-
-      
-            <HBox spacing="10.0" alignment="CENTER_LEFT">
+            <!-- Logo y título -->
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
                   <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
@@ -56,40 +45,25 @@
 
             <Pane HBox.hgrow="ALWAYS" />
 
-      
-            <ComboBox fx:id="comboAdmin"
-                      promptText="Admin"
-                      prefWidth="120.0"
-                      style="-fx-background-color: black; -fx-text-fill: #b99a41; -fx-background-radius: 6;"
-                      onAction="#logout">
+            <!-- ComboBox de administración -->
             <ComboBox fx:id="comboAdmin" onAction="#logout" prefWidth="120.0" promptText="Admin" style="-fx-background-color: black; -fx-text-fill: #b99a41; -fx-background-radius: 6;">
-
                <items>
                   <FXCollections fx:factory="observableArrayList">
-                     <String fx:value="Perfil" />
                      <String fx:value="Logout" />
                   </FXCollections>
                </items>
             </ComboBox>
-
          </children>
       </HBox>
 
-      
-
+      <!-- Botones de navegación -->
       <ButtonBar layoutX="62.0" layoutY="449.0" prefHeight="74.0" prefWidth="414.0">
          <buttons>
-
             <Button mnemonicParsing="false" onAction="#irAAlquileres" prefHeight="33.0" prefWidth="103.0" style="-fx-background-color: #b99a41;" text="Alquiler" />
-
             <Button mnemonicParsing="false" onAction="#irAUsuarios" prefHeight="32.0" style="-fx-background-color: #b99a41;" text="Usuarios" />
-
             <Button mnemonicParsing="false" onAction="#irAChofer" prefHeight="34.0" style="-fx-background-color: #b99a41;" text="Chofer" />
-
             <Button mnemonicParsing="false" onAction="#irACoches" prefHeight="33.0" prefWidth="110.0" style="-fx-background-color: #b99a41;" text="Coches" />
-
          </buttons>
       </ButtonBar>
-
    </children>
 </AnchorPane>

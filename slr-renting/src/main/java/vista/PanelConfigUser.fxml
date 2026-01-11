@@ -10,94 +10,47 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="fondo" fx:id="paneConfig" prefHeight="620.0" prefWidth="620.0"
-            style="-fx-background-color: black;"
-            xmlns="http://javafx.com/javafx/24.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controlador.PanelConfigUserControlador">
+<AnchorPane id="fondo" fx:id="paneConfig" prefHeight="620.0" prefWidth="620.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.PanelConfigUserControlador">
 
    <children>
+      <!-- Líneas decorativas - CORREGIDAS: solo una instancia de cada -->
+      <Line endX="170.0" endY="49.0" layoutX="-2.0" layoutY="-1.0" startX="166.09292602539062" startY="605.7929077148438" stroke="#fcdb00" />
+      <Line endX="170.0" endY="49.0" layoutX="259.0" startX="170.00003051757812" startY="605.0" stroke="#fad900" />
+      <Line endX="-100.5" endY="341.5" layoutX="270.0" layoutY="-292.0" startX="158.5" startY="341.5" stroke="#fcdb00" />
 
-           <Line endX="170.0" endY="49.0" layoutX="-2.0" layoutY="-1.0"
-      <Line endX="170.0" endY="49.0" layoutX="-2.0" layoutY="-1.0"
-            startX="167.7" startY="583.0" stroke="#fcdb00"/>
-      <Line endX="170.0" endY="49.0" layoutX="259.0"
-            startX="170.0" startY="581.0" stroke="#fad900"/>
-      <Line endX="-100.5" endY="341.5" layoutX="270.0"
-            layoutY="-292.0" startX="158.5" startY="341.5" stroke="#fcdb00"/>
-
-           <ImageView fitHeight="66.0" fitWidth="98.0"
-      <ImageView fitHeight="66.0" fitWidth="98.0"
-                 layoutX="177.0" layoutY="60.0"
-                 preserveRatio="true">
+      <!-- Logo - CORREGIDO: solo una instancia -->
+      <ImageView fitHeight="66.0" fitWidth="98.0" layoutX="177.0" layoutY="60.0" preserveRatio="true">
          <image>
-            <Image url="@logo.jpg"/>
+            <Image url="@logo.jpg" />
          </image>
       </ImageView>
 
-     
-      <Text fill="WHITE" layoutX="225.0" layoutY="140.0" text="Tu Perfil"/>
-      <Text fill="#c4c4c2" layoutX="190.0" layoutY="165.0" text="Modifica tus datos personales"/>
+      <!-- Títulos - CORREGIDOS: solo una instancia de cada -->
+      <Text fill="WHITE" layoutX="225.0" layoutY="140.0" text="Tu Perfil" />
+      <Text fill="#c4c4c2" layoutX="190.0" layoutY="165.0" text="Modifica tus datos personales" />
 
-     
-      <Text fill="WHITE" layoutX="225.0" layoutY="140.0" text="Tu Perfil"/>
-      <Text fill="#c4c4c2" layoutX="190.0" layoutY="165.0" text="Modifica tus datos personales"/>
+      <!-- Campos del formulario -->
+      <Text fill="WHITE" layoutX="185.0" layoutY="195.0" text="Nombre Completo" />
+      <TextField fx:id="txtNombre" layoutX="185.0" layoutY="205.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
 
-      <Text fill="WHITE" layoutX="185.0" layoutY="195.0" text="Nombre Completo"/>
-      <TextField fx:id="txtNombre"
-                 layoutX="185.0" layoutY="205.0"
-                 prefWidth="222.0"
-                 style="-fx-background-color: grey; -fx-border-color: fcdb00;"/>
+      <Text fill="WHITE" layoutX="185.0" layoutY="250.0" text="Email" />
+      <TextField fx:id="txtCorreo" layoutX="185.0" layoutY="260.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
 
-     
-      <Text fill="WHITE" layoutX="185.0" layoutY="250.0" text="Email"/>
-      <TextField fx:id="txtCorreo"
-                 layoutX="185.0" layoutY="260.0"
-                 prefWidth="222.0"
-                 style="-fx-background-color: grey; -fx-border-color: fcdb00;"/>
+      <Text fill="WHITE" layoutX="185.0" layoutY="305.0" text="NIF/NIE" />
+      <TextField fx:id="txtNif" layoutX="185.0" layoutY="315.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
 
-     
-      <Text fill="WHITE" layoutX="185.0" layoutY="305.0" text="NIF/NIE"/>
-      <TextField fx:id="txtNif"
-                 layoutX="185.0" layoutY="315.0"
-                 prefWidth="222.0"
-                 style="-fx-background-color: grey; -fx-border-color: fcdb00;"/>
+      <Text fill="WHITE" layoutX="185.0" layoutY="360.0" text="Teléfono" />
+      <TextField fx:id="txtTelefono" layoutX="185.0" layoutY="370.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
 
-      
-      <Text fill="WHITE" layoutX="185.0" layoutY="360.0" text="Teléfono"/>
-      <TextField fx:id="txtTelefono"
-                 layoutX="185.0" layoutY="370.0"
-                 prefWidth="222.0"
-                 style="-fx-background-color: grey; -fx-border-color: fcdb00;"/>
+      <Text fill="WHITE" layoutX="185.0" layoutY="415.0" text="Contraseña" />
+      <PasswordField fx:id="txtPassword" layoutX="185.0" layoutY="425.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
 
-      
-      <Text fill="WHITE" layoutX="185.0" layoutY="415.0" text="Contraseña"/>
-      <PasswordField fx:id="txtPassword"
-                     layoutX="185.0" layoutY="425.0"
-                     prefWidth="222.0"
-                     style="-fx-background-color: grey; -fx-border-color: fcdb00;"/>
+      <CheckBox fx:id="chkCarnet" layoutX="185.0" layoutY="465.0" style="-fx-background-color: #2b2b2b; -fx-border-color: fcdb00;" text="Dispone de carnet de conducir" textFill="WHITE" />
 
-      
-      <CheckBox fx:id="chkCarnet"
-                text="Dispone de carnet de conducir"
-                textFill="WHITE"
-                layoutX="185.0" layoutY="465.0"
-                style="-fx-background-color: #2b2b2b; -fx-border-color: fcdb00;"/>
+      <Button fx:id="btnGuardar" layoutX="205.0" layoutY="515.0" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: grey; -fx-border-color: fcdb00; -fx-text-fill: black;" text="Guardar Cambios" />
 
-      
-      <Button fx:id="btnGuardar"
-              layoutX="205.0" layoutY="515.0"
-              prefWidth="186.0" prefHeight="32.0"
-              style="-fx-background-color: grey; -fx-border-color: fcdb00; -fx-text-fill: black;"
-              text="Guardar Cambios"/>
-
-      
-      <Button fx:id="btnVolver"
-              layoutX="205.0" layoutY="560.0"
-              prefWidth="186.0" prefHeight="32.0"
-              style="-fx-background-color: black; -fx-border-color: fcdb00; -fx-text-fill: white;"
-              text="Volver"/>
+      <Button fx:id="btnVolver" layoutX="205.0" layoutY="560.0" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: black; -fx-border-color: fcdb00; -fx-text-fill: white;" text="Volver" />
+      <Line endX="-105.19998168945312" endY="343.10699462890625" layoutX="270.0" layoutY="264.0" startX="158.5" startY="341.5" stroke="#fcdb00" />
 
    </children>
-
 </AnchorPane>

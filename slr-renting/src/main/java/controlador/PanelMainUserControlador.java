@@ -132,7 +132,7 @@ public class PanelMainUserControlador implements Initializable {
                 
                 btnVerDetallesDestacado.setDisable(true);
                 btnVerDetallesDestacado.setText("RESERVADO");
-                btnVerDetallesDestacado.setStyle("-fx-background-color: #ff5555; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;");
+                btnVerDetallesDestacado.setStyle("-fx-background-color: #666666; -fx-text-fill: #999999; -fx-font-size: 14px; -fx-font-weight: bold;");
                 
                 // Oscurecer imagen
                 imgDestacado.setOpacity(0.6);
@@ -214,17 +214,21 @@ public class PanelMainUserControlador implements Initializable {
     private VBox crearCard(CocheDTO c) {
         VBox card = new VBox(12);
         card.setPrefWidth(360);
-        card.setStyle("-fx-background-color: #121212; -fx-background-radius: 18; -fx-border-radius: 18; -fx-border-color: #3b3320;");
+        card.setStyle("-fx-background-color: #121212; -fx-background-radius: 18; " +
+                      "-fx-border-radius: 18; -fx-border-color: #3b3320;");
 
+        // CONTENEDOR PARA LA IMAGEN (con StackPane para superponer etiqueta)
         StackPane imagenContainer = new StackPane();
         imagenContainer.setPrefSize(360, 180);
         
+        // IMAGEN DEL COCHE
         ImageView img = new ImageView();
         img.setFitWidth(360);
         img.setFitHeight(180);
         img.setPreserveRatio(false);
         img.setSmooth(true);
 
+        // CARGAR IMAGEN
         if (c.getImagenURL() != null && !c.getImagenURL().isEmpty()) {
             try {
                 Image imagen = new Image(getClass().getResourceAsStream("/vista/" + c.getImagenURL()));
@@ -235,62 +239,104 @@ public class PanelMainUserControlador implements Initializable {
         
         imagenContainer.getChildren().add(img);
         
+        // VERIFICAR DISPONIBILIDAD
         boolean tieneReservasActivas = cocheDAO.tieneReservasActivas(c.getBastidor());
         boolean estaDisponible = c.isDisponible() && !tieneReservasActivas;
         
-        // Si el coche tiene reservas activas, mostrar cartel "RESERVADO"
-        if (tieneReservasActivas) {
-            Label lblReservado = new Label("RESERVADO");
-            lblReservado.setStyle("-fx-background-color: rgba(255, 85, 85, 0.9); -fx-text-fill: white; -fx-font-size: 14px; " +
-                                  "-fx-font-weight: bold; -fx-padding: 8 16 8 16; -fx-background-radius: 20;");
-            
+        // SI ESTÁ RESERVADO O NO DISPONIBLE
+        if (tieneReservasActivas || !c.isDisponible()) {
+            // 1. OSCURECER LA IMAGEN (como el MK8)
             img.setOpacity(0.6);
+            
+            // 2. CREAR ETIQUETA "RESERVADO" ENCIMA DE LA FOTO (EXACTO como la imagen)
+            Label lblReservado = new Label("RESERVADO");
+            lblReservado.setStyle(
+                "-fx-background-color: rgba(255, 85, 85, 0.9); " +  // Rojo semitransparente
+                "-fx-text-fill: white; " +
+                "-fx-font-size: 16px; " +                          // Tamaño más grande
+                "-fx-font-weight: bold; " +
+                "-fx-padding: 8px 20px 8px 20px; " +               // Más padding horizontal
+                "-fx-background-radius: 20px;"                     // Bordes redondeados
+            );
+            lblReservado.setMaxWidth(Double.MAX_VALUE);
+            lblReservado.setAlignment(javafx.geometry.Pos.CENTER);
+            
+            // 3. POSICIONAR EN EL CENTRO (como en la imagen)
+            StackPane.setAlignment(lblReservado, javafx.geometry.Pos.CENTER);
             imagenContainer.getChildren().add(lblReservado);
         }
-        // Si no está disponible (pero no por reservas activas), mostrar "NO DISPONIBLE"
-        else if (!c.isDisponible()) {
-            Label lblNoDisponible = new Label("NO DISPONIBLE");
-            lblNoDisponible.setStyle("-fx-background-color: rgba(102, 102, 102, 0.9); -fx-text-fill: white; -fx-font-size: 14px; " +
-                                     "-fx-font-weight: bold; -fx-padding: 8 16 8 16; -fx-background-radius: 20;");
-            
-            img.setOpacity(0.6);
-            imagenContainer.getChildren().add(lblNoDisponible);
-        }
 
+        // NOMBRE DEL MODELO (con "RESERVADO" si corresponde)
         Label modelo = new Label(c.getModelo());
         modelo.setWrapText(true);
-        modelo.setStyle("-fx-text-fill: #f5f5f5; -fx-font-size: 14px; -fx-font-weight: bold;");
-
-        Label desc = new Label(c.getDescripcion());
-        desc.setWrapText(true);
-        desc.setStyle("-fx-text-fill: #b5b5b5; -fx-font-size: 12px;");
-
+        
+        // PRECIO
         Label lblDesde = new Label("Desde");
         lblDesde.setStyle("-fx-text-fill: #b5b5b5; -fx-font-size: 11px;");
 
         Label lblPrecio = new Label((int) c.getPrecioDiario() + "€/mes");
-        lblPrecio.setStyle("-fx-text-fill: #ffd666; -fx-font-size: 14px; -fx-font-weight: bold;");
-
+        
+        // BOTÓN
         Button btn = new Button("Ver Más");
-        btn.setStyle("-fx-background-radius: 16; -fx-background-color: #ffd666; -fx-text-fill: #111111; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 6 16 6 16;");
+        btn.setStyle("-fx-background-radius: 16; -fx-background-color: #ffd666; " +
+                     "-fx-text-fill: #111111; -fx-font-size: 12px; -fx-font-weight: bold; " +
+                     "-fx-padding: 6px 16px 6px 16px;");
         btn.setOnAction(e -> abrirDetalles(c));
         
+        // APLICAR ESTILOS ESPECÍFICOS PARA RESERVADOS
         if (tieneReservasActivas || !c.isDisponible()) {
-            btn.setDisable(true);
-            String textoBoton = tieneReservasActivas ? "RESERVADO" : "NO DISPONIBLE";
-            btn.setText(textoBoton);
-            btn.setStyle("-fx-background-color: #666666; -fx-text-fill: #999999; -fx-font-size: 12px;");
+            // ESTILO PARA COCHES RESERVADOS (EXACTO como la imagen):
             
-            lblPrecio.setStyle("-fx-text-fill: #ff5555; -fx-font-size: 14px; -fx-font-weight: bold; -fx-strikethrough: true;");
-            modelo.setStyle("-fx-text-fill: #ff9999; -fx-font-size: 14px; -fx-font-weight: bold;");
+            // 1. BOTÓN OSCURO CON TEXTO "RESERVADO" (como en la imagen)
+            btn.setDisable(true);
+            btn.setText("RESERVADO");  // Texto exacto
+            btn.setStyle(
+                "-fx-background-color: #666666; " +  // Gris oscuro
+                "-fx-text-fill: #999999; " +         // Gris claro
+                "-fx-font-size: 12px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-background-radius: 16px; " +
+                "-fx-padding: 6px 16px 6px 16px;"
+            );
+            
+            // 2. PRECIO TACHADO EN ROJO (como en la imagen)
+            lblPrecio.setStyle(
+                "-fx-text-fill: #ff5555; " +         // Rojo
+                "-fx-font-size: 14px; " +
+                "-fx-font-weight: bold; " +
+                "-fx-strikethrough: true;"          // Tachado
+            );
+            
+            // 3. NOMBRE DEL MODELO EN ROJO/GRIS (como en la imagen)
+            modelo.setStyle(
+                "-fx-text-fill: #ff9999; " +         // Rojo claro
+                "-fx-font-size: 14px; " +
+                "-fx-font-weight: bold;"
+            );
+            
+            // 4. CAMBIAR TEXTO "Desde" A ROJO
+            lblDesde.setStyle("-fx-text-fill: #ff5555; -fx-font-size: 11px;");
+            
+        } else {
+            // ESTILO NORMAL PARA COCHES DISPONIBLES
+            modelo.setStyle("-fx-text-fill: #f5f5f5; -fx-font-size: 14px; -fx-font-weight: bold;");
+            lblPrecio.setStyle("-fx-text-fill: #ffd666; -fx-font-size: 14px; -fx-font-weight: bold;");
         }
 
+        // DESCRIPCIÓN
+        Label desc = new Label(c.getDescripcion());
+        desc.setWrapText(true);
+        desc.setStyle("-fx-text-fill: #b5b5b5; -fx-font-size: 12px;");
+
+        // CONTENEDOR INFERIOR (precio + botón)
         HBox abajo = new HBox(12, new VBox(4, lblDesde, lblPrecio), new StackPane(), btn);
         HBox.setHgrow(abajo.getChildren().get(1), javafx.scene.layout.Priority.ALWAYS);
 
+        // CONTENIDO TEXTO
         VBox contenido = new VBox(8, modelo, desc, abajo);
         contenido.setPadding(new Insets(0, 18, 18, 18));
 
+        // ENSAMBLAR TARJETA COMPLETA
         card.getChildren().addAll(imagenContainer, contenido);
         return card;
     }
@@ -317,6 +363,11 @@ public class PanelMainUserControlador implements Initializable {
         }
         
         try {
+            // 1. Cerrar la ventana actual (PanelMainUser)
+            Stage stageActual = (Stage) menuUsuario.getScene().getWindow();
+            stageActual.close();
+            
+            // 2. Abrir la nueva ventana (PanelCocheUser)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelCocheUser.fxml"));
             Parent root = loader.load();
 
@@ -324,10 +375,10 @@ public class PanelMainUserControlador implements Initializable {
             controlador.setCoche(coche);
             controlador.setNifUsuarioActual(this.nifUsuarioActual);
 
-            Stage stage = new Stage();
-            stage.setTitle("Detalles del Coche");
-            stage.setScene(new Scene(root));
-            stage.show();
+            Stage stageNueva = new Stage();
+            stageNueva.setTitle("Detalles del Coche");
+            stageNueva.setScene(new Scene(root));
+            stageNueva.show();
 
         } catch (IOException e) {
             e.printStackTrace();
