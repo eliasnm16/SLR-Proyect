@@ -16,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -30,79 +29,50 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import controlador.AlertUtils;
+
 public class PanelMainUserControlador implements Initializable {
 
-    @FXML
-    private BorderPane root;
+    @FXML private BorderPane root;
+    @FXML private HBox contenedorCoches;
+    @FXML private ImageView imgDestacado;
 
-    @FXML
-    private HBox contenedorCoches;
+    @FXML private Label lblModeloDestacado;
+    @FXML private Label lblDescripcionDestacado;
+    @FXML private Label lblPotenciaDestacado;
+    @FXML private Label lblAceleracionDestacado;
+    @FXML private Label lblVelocidadDestacado;
+    @FXML private Label lblTransmisionDestacado;
+    @FXML private Label lblPrecioDestacado;
 
-    @FXML
-    private ImageView imgDestacado;
+    @FXML private Button btnVerDetallesDestacado;
 
-    @FXML
-    private Label lblModeloDestacado;
+    @FXML private MenuButton menuUsuario;
+    @FXML private MenuItem itemConfig;
+    @FXML private MenuItem itemMisReservas;
+    @FXML private MenuItem itemLogout;
 
-    @FXML
-    private Label lblDescripcionDestacado;
+    private final CocheDAO cocheDAO = new CocheDAO();
 
-    @FXML
-    private Label lblPotenciaDestacado;
-
-    @FXML
-    private Label lblAceleracionDestacado;
-
-    @FXML
-    private Label lblVelocidadDestacado;
-
-    @FXML
-    private Label lblTransmisionDestacado;
-
-    @FXML
-    private Label lblPrecioDestacado;
-
-    @FXML
-    private Button btnVerDetallesDestacado;
-
-    @FXML
-    private MenuButton menuUsuario;
-
-    @FXML
-    private MenuItem itemConfig;
-
-    @FXML
-    private MenuItem itemMisReservas;
-
-    @FXML
-    private MenuItem itemLogout;
-
-    private CocheDAO cocheDAO = new CocheDAO();
-
-    
     private CocheDTO cocheDestacado;
-
-    
     private ClienteDTO usuario;
-
-    
     private String nifUsuarioActual;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-       
         usuario = LoginUsuarioRegistradoControlador.usuarioActual;
 
         if (usuario != null) {
-           
             if (menuUsuario != null) {
-                menuUsuario.setText(usuario.getNombreCompleto());
+                String nombre = usuario.getNombreCompleto();
+                menuUsuario.setText(nombre != null && !nombre.isBlank() ? nombre : "Usuario");
             }
-           
             if (this.nifUsuarioActual == null || this.nifUsuarioActual.isEmpty()) {
                 this.nifUsuarioActual = usuario.getNif_nie();
             }
+        } else {
+            if (menuUsuario != null) menuUsuario.setText("Usuario");
         }
 
         cargarDestacado();
@@ -112,30 +82,20 @@ public class PanelMainUserControlador implements Initializable {
 
     private void cargarDestacado() {
         List<CocheDTO> nuevos = cocheDAO.listarCochesNuevos();
-        if (nuevos.isEmpty()) return;
+        if (nuevos == null || nuevos.isEmpty()) return;
 
         cocheDestacado = nuevos.get(0);
         CocheDTO c = cocheDestacado;
 
-        lblModeloDestacado.setText(c.getModelo());
-        lblDescripcionDestacado.setText(c.getDescripcion());
+        lblModeloDestacado.setText(valorSeguro(c.getModelo(), "Modelo"));
+        lblDescripcionDestacado.setText(valorSeguro(c.getDescripcion(), ""));
         lblPotenciaDestacado.setText(c.getPotencia() + " CV");
         lblAceleracionDestacado.setText(c.getPlazas() + " Plazas");
         lblVelocidadDestacado.setText(c.getVelocidadMax() + " km/h");
-        lblTransmisionDestacado.setText(c.getMotor());
+        lblTransmisionDestacado.setText(valorSeguro(c.getMotor(), "Desconocido"));
         lblPrecioDestacado.setText((int) c.getPrecioDiario() + "€/mes");
 
-        if (c.getImagenURL() != null && !c.getImagenURL().isEmpty()) {
-            try {
-                Image img = new Image(getClass().getResourceAsStream("/vista/" + c.getImagenURL()));
-                imgDestacado.setImage(img);
-                imgDestacado.setFitWidth(420);
-                imgDestacado.setFitHeight(260);
-                imgDestacado.setPreserveRatio(false);
-                imgDestacado.setSmooth(true);
-            } catch (Exception ignored) {
-            }
-        }
+        cargarImagenEn(imgDestacado, c.getImagenURL(), 420, 260, false);
 
         btnVerDetallesDestacado.setOnAction(e -> abrirDetalles(c));
     }
@@ -144,10 +104,10 @@ public class PanelMainUserControlador implements Initializable {
         contenedorCoches.getChildren().clear();
 
         List<CocheDTO> disponibles = cocheDAO.listarCochesDisponibles();
+        if (disponibles == null) return;
 
         for (CocheDTO c : disponibles) {
 
-           
             if (cocheDestacado != null && c.getBastidor() == cocheDestacado.getBastidor()) {
                 continue;
             }
@@ -168,19 +128,13 @@ public class PanelMainUserControlador implements Initializable {
         img.setPreserveRatio(false);
         img.setSmooth(true);
 
-        if (c.getImagenURL() != null && !c.getImagenURL().isEmpty()) {
-            try {
-                Image imagen = new Image(getClass().getResourceAsStream("/vista/" + c.getImagenURL()));
-                img.setImage(imagen);
-            } catch (Exception ignored) {
-            }
-        }
+        cargarImagenEn(img, c.getImagenURL(), 360, 180, false);
 
-        Label modelo = new Label(c.getModelo());
+        Label modelo = new Label(valorSeguro(c.getModelo(), "Modelo"));
         modelo.setWrapText(true);
         modelo.setStyle("-fx-text-fill: #f5f5f5; -fx-font-size: 14px; -fx-font-weight: bold;");
 
-        Label desc = new Label(c.getDescripcion());
+        Label desc = new Label(valorSeguro(c.getDescripcion(), ""));
         desc.setWrapText(true);
         desc.setStyle("-fx-text-fill: #b5b5b5; -fx-font-size: 12px;");
 
@@ -201,7 +155,6 @@ public class PanelMainUserControlador implements Initializable {
         contenido.setPadding(new Insets(0, 18, 18, 18));
 
         card.getChildren().addAll(img, contenido);
-
         return card;
     }
 
@@ -227,9 +180,9 @@ public class PanelMainUserControlador implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
+            AlertUtils.error("Error", "No se pudo abrir el detalle del coche.");
         }
     }
-
 
     @FXML
     private void abrirMisReservas() {
@@ -239,6 +192,12 @@ public class PanelMainUserControlador implements Initializable {
 
             PanelConfigReservaUserControlador controlador = loader.getController();
             String nifUsuario = obtenerNifUsuarioActual();
+
+            if (nifUsuario == null || nifUsuario.isBlank()) {
+                AlertUtils.warning("Sesión", "No se pudo identificar el usuario actual.");
+                return;
+            }
+
             controlador.setNifUsuarioActual(nifUsuario);
 
             Stage stage = new Stage();
@@ -251,6 +210,7 @@ public class PanelMainUserControlador implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
+            AlertUtils.error("Error", "No se pudo abrir el panel de reservas.");
         }
     }
 
@@ -263,8 +223,6 @@ public class PanelMainUserControlador implements Initializable {
         return this.nifUsuarioActual;
     }
 
- //En este metodo abrimos la opcion de configurar los datos del usuario
-    
     private void abrirConfig() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelConfigUser.fxml"));
@@ -272,9 +230,10 @@ public class PanelMainUserControlador implements Initializable {
 
             PanelConfigUserControlador controller = loader.getController();
 
-            // Mediante este metodo podemos ver el nombre del usuario en el panel de los usuarios 
             if (usuario != null) {
                 controller.cargarUsuario(usuario);
+            } else {
+                AlertUtils.warning("Sesión", "No hay usuario cargado para mostrar la configuración.");
             }
 
             Stage stage = (Stage) menuUsuario.getScene().getWindow();
@@ -284,15 +243,14 @@ public class PanelMainUserControlador implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
+            AlertUtils.error("Error", "No se pudo abrir la configuración del usuario.");
         }
     }
 
-  //en este metodo usamos el logout del panel de usuario
     @FXML
     private void cerrarSesion() {
         try {
             List<Window> windows = new ArrayList<>(Window.getWindows());
-
             for (Window window : windows) {
                 if (window instanceof Stage) {
                     ((Stage) window).close();
@@ -310,11 +268,48 @@ public class PanelMainUserControlador implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("No se pudo cerrar sesión");
-            alert.showAndWait();
+            AlertUtils.error("Error", "No se pudo cerrar sesión.");
+        }
+    }
+
+    // ======================
+    // Helpers
+    // ======================
+
+    private static String valorSeguro(String s, String fallback) {
+        if (s == null) return fallback;
+        s = s.trim();
+        return s.isEmpty() ? fallback : s;
+    }
+
+    /**
+     * Carga imagen desde /vista/<imagenURL>.
+     * Si no existe o falla, deja la imagen a null (o placeholder si quieres).
+     */
+    private void cargarImagenEn(ImageView imageView, String imagenURL, double w, double h, boolean preserveRatio) {
+        imageView.setFitWidth(w);
+        imageView.setFitHeight(h);
+        imageView.setPreserveRatio(preserveRatio);
+        imageView.setSmooth(true);
+
+        if (imagenURL == null || imagenURL.isBlank()) {
+            imageView.setImage(null);
+            return;
+        }
+
+        String path = "/vista/" + imagenURL.trim();
+
+        try {
+            var is = getClass().getResourceAsStream(path);
+            if (is == null) {
+                System.err.println("Imagen no encontrada en classpath: " + path);
+                imageView.setImage(null);
+                return;
+            }
+            imageView.setImage(new Image(is));
+        } catch (Exception ex) {
+            System.err.println("Error cargando imagen: " + path + " -> " + ex.getMessage());
+            imageView.setImage(null);
         }
     }
 }

@@ -1,59 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Light.Distant?>
-<?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="fondo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="588.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.AñadirChoferControlador">
-   <children>
-      <Line endX="170.0" endY="49.9999885559082" layoutX="-2.0" layoutY="-1.0" startX="165.79287719726562" startY="467.7928771972656" stroke="#fcdb00" />
-      <Line endX="170.0" endY="49.9999885559082" layoutX="259.0" startX="168.20712280273438" startY="466.7928771972656" stroke="#fad900" />
-      <Line endX="-100.5" endY="341.5" layoutX="270.0" layoutY="-292.0" startX="158.5" startY="341.5" stroke="#fcdb00" />
-      <Text fill="#c4c4c2" layoutX="210.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingrese los datos para añadir chofer" />
-      <Text fill="WHITE" layoutX="185.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Completo" />
-      <Text fill="WHITE" layoutX="185.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DNI" wrappingWidth="73.38397216796875" />
-      <Text fill="WHITE" layoutX="185.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telefono" />
-      
+<BorderPane prefHeight="512.0" prefWidth="588.0"
+            style="-fx-background-color: black;"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controlador.AñadirChoferControlador">
 
-      <TextField fx:id="txtNombreCompleto" layoutX="185.0" layoutY="176.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
-      <TextField fx:id="txtDni" layoutX="185.0" layoutY="232.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
-      <TextField fx:id="txtTelefono" layoutX="185.0" layoutY="292.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
-      
+    <center>
+        <StackPane>
+            <padding>
+                <Insets top="22" right="22" bottom="22" left="22"/>
+            </padding>
 
-      <Button fx:id="btnRegistrar" layoutX="185.0" layoutY="417.0" mnemonicParsing="false" onAction="#registrarChofer" prefHeight="32.0" prefWidth="99.0" style="-fx-background-color: fcdb00; -fx-border-color: fcdb00; -fx-text-fill: black; -fx-background-radius: 16; -fx-border-radius: 16;" text="Registrar" wrapText="true" />
-      
-      <Text fill="WHITE" layoutX="185.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="73.38397216796875" />
-      
+            <VBox maxWidth="520" spacing="16"
+                  style="-fx-background-color: #0b0b0b; -fx-background-radius: 18;
+                         -fx-border-color: #3b3320; -fx-border-width: 1.2; -fx-border-radius: 18;">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
 
-      <CheckBox fx:id="chkDisposicion" layoutX="185.0" layoutY="357.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-border-color: fcdb00;" text="Disposicion" textFill="#2b2b2b">
-         <effect>
-            <Lighting>
-               <bumpInput>
-                  <Shadow />
-               </bumpInput>
-               <light>
-                  <Light.Distant />
-               </light>
-            </Lighting>
-         </effect>
-      </CheckBox>
-      
-      <Line endX="-100.5" endY="341.5" layoutX="265.0" layoutY="126.0" startX="161.5" startY="342.10003662109375" stroke="#fcdb00" />
-      <ImageView fitHeight="66.0" fitWidth="98.0" layoutX="177.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@logo.jpg" />
-         </image>
-      </ImageView>
-      <Button fx:id="btnSalir" layoutX="307.0" layoutY="417.0" mnemonicParsing="false" onAction="#salir" prefHeight="32.0" prefWidth="99.0"
-        style="-fx-background-color: fcdb00; -fx-border-color: fcdb00; -fx-text-fill: black; -fx-background-radius: 16; -fx-border-radius: 16;"
-        text="Salir" wrapText="true" />
-   </children>
-</AnchorPane>
+                <HBox spacing="12" style="-fx-alignment: center-left;">
+                    <ImageView fitHeight="54" fitWidth="54" preserveRatio="true">
+                        <image><Image url="@logo.jpg"/></image>
+                    </ImageView>
+
+                    <VBox spacing="2">
+                        <Text fill="#ffd666" text="Seville Luxury Renting">
+                            <font><Font size="14"/></font>
+                        </Text>
+                        <Text fill="#b5b5b5" text="Alta de chófer">
+                            <font><Font size="11"/></font>
+                        </Text>
+                    </VBox>
+                </HBox>
+
+                <Text fill="#b5b5b5" text="Ingrese los datos para añadir chofer"/>
+
+                <GridPane hgap="12" vgap="10">
+
+                    <Text fill="WHITE" text="Nombre completo" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtNombreCompleto" promptText="Nombre y apellidos"
+                               GridPane.rowIndex="1" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777;
+                                      -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16;
+                                      -fx-padding: 10 14 10 14;"/>
+
+                    <Text fill="WHITE" text="DNI" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtDni" promptText="00000000X"
+                               GridPane.rowIndex="3" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777;
+                                      -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16;
+                                      -fx-padding: 10 14 10 14;"/>
+
+                    <Text fill="WHITE" text="Teléfono" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtTelefono" promptText="+34..."
+                               GridPane.rowIndex="5" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777;
+                                      -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16;
+                                      -fx-padding: 10 14 10 14;"/>
+                </GridPane>
+
+                <CheckBox fx:id="chkDisposicion"
+                          text="Disponibilidad"
+                          textFill="WHITE"
+                          style="-fx-text-fill: #f5f5f5;"/>
+
+                <HBox spacing="12">
+                    <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#registrarChofer" text="Registrar"
+                            style="-fx-background-color: #ffd666; -fx-text-fill: #111111; -fx-font-weight: bold;
+                                   -fx-background-radius: 18; -fx-padding: 10 18 10 18;"/>
+
+                    <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#salir" text="Salir"
+                            style="-fx-background-color: transparent; -fx-border-color: #ffd666; -fx-border-width: 1.2;
+                                   -fx-text-fill: #ffd666; -fx-font-weight: bold;
+                                   -fx-background-radius: 18; -fx-border-radius: 18;
+                                   -fx-padding: 10 18 10 18;"/>
+                </HBox>
+
+            </VBox>
+        </StackPane>
+    </center>
+
+</BorderPane>

@@ -1,53 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="fondo" fx:id="paneLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="620.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.LoginRegistroControlador">
-   <children>
-      <Line endX="170.0" endY="49.9999885559082" layoutX="-2.0" layoutY="-1.0" startX="167.79290771484375" startY="583.2070922851562" stroke="#fcdb00" />
-      <Line endX="170.0" endY="49.9999885559082" layoutX="259.0" startX="170.0" startY="581.6000366210938" stroke="#fad900" />
-      <Line endX="-100.5" endY="341.5" layoutX="270.0" layoutY="-292.0" startX="158.5" startY="341.5" stroke="#fcdb00" />
+<BorderPane prefHeight="607.0" prefWidth="620.0"
+            style="-fx-background-color: black;"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controlador.LoginRegistroControlador">
 
-      <Text fill="WHITE" layoutX="261.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido" />
-      <Text fill="#c4c4c2" layoutX="210.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingrese sus datos para acceder" />
+    <center>
+        <StackPane>
+            <padding>
+                <Insets top="28" right="28" bottom="28" left="28"/>
+            </padding>
 
-      <Text fill="WHITE" layoutX="185.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre Completo" />
-      <Text fill="WHITE" layoutX="185.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="73.38397216796875" />
-      <Text fill="WHITE" layoutX="185.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NIF/NIE" />
-      <Text fill="WHITE" layoutX="185.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Teléfono" wrappingWidth="73.38397216796875" />
+            <VBox maxWidth="520" spacing="16"
+                  style="-fx-background-color: #0b0b0b; -fx-background-radius: 18;
+                         -fx-border-color: #3b3320; -fx-border-width: 1.2; -fx-border-radius: 18;">
+                <padding>
+                    <Insets top="22" right="22" bottom="22" left="22"/>
+                </padding>
 
+                <ImageView fitHeight="72" fitWidth="72" preserveRatio="true">
+                    <image><Image url="@logo.jpg"/></image>
+                </ImageView>
 
-      <TextField fx:id="txtNombre" layoutX="185.0" layoutY="176.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
-      <TextField fx:id="txtCorreo" layoutX="185.0" layoutY="232.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
-      <TextField fx:id="txtNif" layoutX="185.0" layoutY="292.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
-      <TextField fx:id="txtTelefono" layoutX="185.0" layoutY="352.0" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
+                <Text fill="WHITE" text="Registro">
+                    <font><Font size="22"/></font>
+                </Text>
 
+                <Text fill="#b5b5b5" text="Introduce tus datos para crear la cuenta"/>
 
-      <Button fx:id="btnRegistro" layoutX="206.0" layoutY="492.0" mnemonicParsing="false" onAction="#onAcceder" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: grey; -fx-border-color: fcdb00; -fx-text-fill: black;" text="Registrarse" wrapText="true" />
+                <GridPane hgap="12" vgap="10">
+                    <Text fill="WHITE" text="Nombre completo" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtNombre" promptText="Nombre y apellidos"
+                               GridPane.rowIndex="1" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777; -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
 
+                    <Text fill="WHITE" text="Email" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtCorreo" promptText="correo@ejemplo.com"
+                               GridPane.rowIndex="3" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777; -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
 
-      <Button fx:id="btnVolverLogin" layoutX="206.0" layoutY="540.0" mnemonicParsing="false" onAction="#irALogin" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: black; -fx-border-color: fcdb00; -fx-text-fill: white;" text="¿Ya tienes cuenta? Inicia sesión aquí" wrapText="true" />
+                    <Text fill="WHITE" text="NIF/NIE" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtNif" promptText="00000000X"
+                               GridPane.rowIndex="5" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777; -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
 
-      <Text fill="WHITE" layoutX="185.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña" wrappingWidth="73.38397216796875" />
+                    <Text fill="WHITE" text="Teléfono" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtTelefono" promptText="+34..."
+                               GridPane.rowIndex="7" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777; -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
 
-      <CheckBox fx:id="chkCarnet" layoutX="182.0" layoutY="453.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="222.0" style="-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-border-color: fcdb00;" text="Dispone de carnet de conducir" textFill="WHITE" />
+                    <Text fill="WHITE" text="Contraseña" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                    <PasswordField fx:id="txtPassword" promptText="••••••••"
+                                   GridPane.rowIndex="9" GridPane.columnIndex="0"
+                                   style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                          -fx-prompt-text-fill: #777777; -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                          -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
+                </GridPane>
 
-      <Line endX="-100.5" endY="341.5" layoutX="267.0" layoutY="240.0" startX="161.5" startY="342.10003662109375" stroke="#fcdb00" />
+                <CheckBox fx:id="chkCarnet" text="Dispone de carnet de conducir" textFill="WHITE"
+                          style="-fx-text-fill: #f5f5f5;"/>
 
-      <ImageView fitHeight="66.0" fitWidth="98.0" layoutX="177.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@logo.jpg" />
-         </image>
-      </ImageView>
+                <Button fx:id="btnRegistro" mnemonicParsing="false" onAction="#onAcceder" text="Registrarse"
+                        style="-fx-background-color: #ffd666; -fx-text-fill: #111111; -fx-font-weight: bold;
+                               -fx-background-radius: 18; -fx-padding: 10 18 10 18;"/>
 
-      <PasswordField fx:id="txtPassword" layoutX="185.0" layoutY="409.0" prefHeight="27.0" prefWidth="222.0" style="-fx-background-color: grey; -fx-border-color: fcdb00;" />
-   </children>
-</AnchorPane>
+                <Button fx:id="btnVolverLogin" mnemonicParsing="false" onAction="#irALogin"
+                        text="¿Ya tienes cuenta? Inicia sesión aquí"
+                        style="-fx-background-color: transparent; -fx-border-color: #ffd666; -fx-border-width: 1.2;
+                               -fx-text-fill: #ffd666; -fx-font-weight: bold;
+                               -fx-background-radius: 18; -fx-border-radius: 18; -fx-padding: 10 18 10 18;"/>
+            </VBox>
+        </StackPane>
+    </center>
+
+</BorderPane>
