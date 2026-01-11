@@ -29,10 +29,10 @@ public class AñadirCocheControlador {
 
     @FXML private Button btnRegistrar;
 
-    private CocheDTO cocheEditar = null;
-      private final CocheDAO cocheDAO = new CocheDAO();
+    private CocheDTO cocheEditar = null;  
+    private final CocheDAO cocheDAO = new CocheDAO();
 
-  
+    // Método para cargar un coche existente para editar
     public void setCoche(CocheDTO coche) {
         this.cocheEditar = coche;
 
@@ -51,18 +51,13 @@ public class AñadirCocheControlador {
         chkNuevo.setSelected(coche.isNuevo());
         chkDisponible.setSelected(coche.isDisponible());
 
-  
         txtBastidor.setDisable(true);
-
-   
         btnRegistrar.setText("Actualizar");
     }
 
-   
     @FXML
     private void registrarCoche(ActionEvent event) {
         try {
-
             if (txtMarca.getText().isEmpty() || txtModelo.getText().isEmpty() ||
                 txtMatricula.getText().isEmpty() || txtPrecioDiario.getText().isEmpty() ||
                 txtDescripcion.getText().isEmpty() || txtPlazas.getText().isEmpty() ||
@@ -72,7 +67,7 @@ public class AñadirCocheControlador {
                 mostrarAlerta("Error", "Por favor, rellene todos los campos.", Alert.AlertType.ERROR);
                 return;
             }
-
+           
             CocheDTO coche = new CocheDTO(
                     Integer.parseInt(txtBastidor.getText().trim()),
                     txtMarca.getText().trim(),
@@ -89,7 +84,7 @@ public class AñadirCocheControlador {
                     chkDisponible.isSelected()
             );
 
-               if (cocheEditar != null) {
+            if (cocheEditar != null) {
                 cocheDAO.modificarCoche(coche);
                 mostrarAlerta("Éxito", "Coche actualizado correctamente.", Alert.AlertType.INFORMATION);
 
@@ -98,10 +93,8 @@ public class AñadirCocheControlador {
                 return;
             }
 
-   
             cocheDAO.registrarCoche(coche);
             mostrarAlerta("Éxito", "Coche registrado correctamente.", Alert.AlertType.INFORMATION);
-
             limpiarFormulario();
 
         } catch (NumberFormatException e) {
@@ -109,7 +102,7 @@ public class AñadirCocheControlador {
         }
     }
 
-   
+    // Limpia el formulario después de registrar un coche
     private void limpiarFormulario() {
         txtBastidor.clear();
         txtMarca.clear();
@@ -130,14 +123,13 @@ public class AñadirCocheControlador {
         btnRegistrar.setText("Registrar");
         cocheEditar = null;
     }
-
-       @FXML
+    
+    @FXML
     private void salir(ActionEvent event) {
         Stage stage = (Stage) btnRegistrar.getScene().getWindow();
         stage.close();
     }
 
-   
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

@@ -12,6 +12,7 @@ public class AlquilerDTO {
     private LocalDate fechaFin;
     private double precioTotal;
     private EstadoAlquiler estado = EstadoAlquiler.PENDIENTE;
+    private boolean clienteTieneCarnet; // NUEVO campo - inicializa en false por defecto
 
     public enum EstadoAlquiler {
         PENDIENTE,
@@ -20,82 +21,90 @@ public class AlquilerDTO {
         CANCELADA
     }
 
-	public AlquilerDTO(int idAlquiler, int bastidor, String nif_nie, LocalDate fechaInicio, LocalDate fechaFin,
-			double precioTotal, EstadoAlquiler estado) {
-		super();
-		this.idAlquiler = idAlquiler;
-		this.bastidor = bastidor;
-		this.nif_nie = nif_nie;
-		this.fechaInicio = fechaInicio;
-		this.fechaFin = fechaFin;
-		this.precioTotal = precioTotal;
-		this.estado = estado;
-	}
+    // CONSTRUCTOR SE MANTIENE IGUAL (7 parámetros)
+    public AlquilerDTO(int idAlquiler, int bastidor, String nif_nie, LocalDate fechaInicio, LocalDate fechaFin,
+                       double precioTotal, EstadoAlquiler estado) {
+        super();
+        this.idAlquiler = idAlquiler;
+        this.bastidor = bastidor;
+        this.nif_nie = nif_nie;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.precioTotal = precioTotal;
+        this.estado = estado;
+        this.clienteTieneCarnet = false; // Valor por defecto
+    }
 
-	public int getIdAlquiler() {
-		return idAlquiler;
-	}
+    public int getIdAlquiler() {
+        return idAlquiler;
+    }
 
-	public void setIdAlquiler(int idAlquiler) {
-		this.idAlquiler = idAlquiler;
-	}
+    public void setIdAlquiler(int idAlquiler) {
+        this.idAlquiler = idAlquiler;
+    }
 
-	public int getBastidor() {
-		return bastidor;
-	}
+    public int getBastidor() {
+        return bastidor;
+    }
 
-	public void setBastidor(int bastidor) {
-		this.bastidor = bastidor;
-	}
+    public void setBastidor(int bastidor) {
+        this.bastidor = bastidor;
+    }
 
-	public int getId_Chofer() {
-		return id_Chofer;
-	}
+    public int getId_Chofer() {
+        return id_Chofer;
+    }
 
-	public void setId_Chofer(int id_Chofer) {
-		this.id_Chofer = id_Chofer;
-	}
+    public void setId_Chofer(int id_Chofer) {
+        this.id_Chofer = id_Chofer;
+    }
 
-	public String getNif_nie() {
-		return nif_nie;
-	}
+    public String getNif_nie() {
+        return nif_nie;
+    }
 
-	public void setNif_nie(String nif_nie) {
-		this.nif_nie = nif_nie;
-	}
+    public void setNif_nie(String nif_nie) {
+        this.nif_nie = nif_nie;
+    }
 
-	public LocalDate getFechaInicio() {
-		return fechaInicio;
-	}
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
 
-	public void setFechaInicio(LocalDate fechaInicio) {
-		this.fechaInicio = fechaInicio;
-	}
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
 
-	public LocalDate getFechaFin() {
-		return fechaFin;
-	}
+    public LocalDate getFechaFin() {
+        return fechaFin;
+    }
 
-	public void setFechaFin(LocalDate fechaFin) {
-		this.fechaFin = fechaFin;
-	}
+    public void setFechaFin(LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
+    }
 
-	public double getPrecioTotal() {
-		return precioTotal;
-	}
+    public double getPrecioTotal() {
+        return precioTotal;
+    }
 
-	public void setPrecioTotal(double precioTotal) {
-		this.precioTotal = precioTotal;
-	}
+    public void setPrecioTotal(double precioTotal) {
+        this.precioTotal = precioTotal;
+    }
 
-	public EstadoAlquiler getEstado() {
-		return estado;
-	}
+    public EstadoAlquiler getEstado() {
+        return estado;
+    }
 
-	public void setEstado(EstadoAlquiler estado) {
-		this.estado = estado;
-	}
-	
-	
+    public void setEstado(EstadoAlquiler estado) {
+        this.estado = estado;
+    }
     
+    // NUEVOS getter y setter para clienteTieneCarnet
+    public boolean isClienteTieneCarnet() {
+        return clienteTieneCarnet;
+    }
+    
+    public void setClienteTieneCarnet(boolean clienteTieneCarnet) {
+        this.clienteTieneCarnet = clienteTieneCarnet;
+    }
 }

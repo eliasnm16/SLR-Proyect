@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 
@@ -71,6 +72,8 @@ public class LoginUsuarioRegistradoControlador implements Initializable {
             );
         }
     }
+    @FXML private Label lblErrorEmail;
+    @FXML private Label lblErrorPassword;
 
     @FXML
     private void irARegistro(ActionEvent event) {
@@ -95,13 +98,52 @@ public class LoginUsuarioRegistradoControlador implements Initializable {
 
         if (email.isEmpty() || pass.isEmpty()) {
             AlertUtils.warning("Datos incompletos", "Debe introducir email y contraseña.");
+        // Limpiar errores previos
+        limpiarErrores();
+        
+        String email = txtEmail.getText();
+        String pass = txtPassword.getText();
+
+        boolean valido = true;
+
+        // Validar email
+        if (email == null || email.trim().isEmpty()) {
+            mostrarError(lblErrorEmail, "El email no puede estar vacío");
+            valido = false;
+        } else if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            mostrarError(lblErrorEmail, "Formato de correo inválido");
+            valido = false;
+        }
+
+        // Validar contraseña
+        if (pass == null || pass.trim().isEmpty()) {
+            mostrarError(lblErrorPassword, "La contraseña no puede estar vacía");
+            valido = false;
+        }
+
+        // Si hay errores de validación básica, no continuar
+        if (!valido) {
             return;
         }
 
+        email = email.trim();
+        pass = pass.trim();
+
+        // Primero verificamos si el correo existe (en cliente o admin)
+        boolean correoExiste = verificarCorreoExiste(email);
+        
+        if (!correoExiste) {
+            mostrarError(lblErrorEmail, "✗ Este correo no está registrado");
+            return;
+        }
+
+        // Si el correo existe, verificamos la contraseña
         ClienteDTO cliente = buscarUsuario(email, pass);
 
         if (cliente == null) {
             AlertUtils.error("Acceso denegado", "Usuario o contraseña incorrectos.");
+            // El correo existe pero la contraseña es incorrecta
+            mostrarError(lblErrorPassword, "✗ Contraseña incorrecta");
             return;
         }
 
@@ -109,6 +151,57 @@ public class LoginUsuarioRegistradoControlador implements Initializable {
 
         if (cliente.getAdmin()) abrirPanelAdmin(event);
         else abrirPanelUsuario(event);
+    }
+
+    /**
+     * Verifica si un correo existe en la base de datos (en cliente o admin)
+     */
+    private boolean verificarCorreoExiste(String email) {
+        // Verificar en tabla cliente
+        String sqlCliente = "SELECT COUNT(*) as count FROM cliente WHERE CORREO = ?";
+        String sqlAdmin = "SELECT COUNT(*) as count FROM admin WHERE CORREO = ?";
+        
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmtCliente = conn.prepareStatement(sqlCliente);
+             PreparedStatement stmtAdmin = conn.prepareStatement(sqlAdmin)) {
+            
+            // Verificar en cliente
+            stmtCliente.setString(1, email);
+            ResultSet rsCliente = stmtCliente.executeQuery();
+            if (rsCliente.next() && rsCliente.getInt("count") > 0) {
+                return true;
+            }
+            
+            // Verificar en admin
+            stmtAdmin.setString(1, email);
+            ResultSet rsAdmin = stmtAdmin.executeQuery();
+            if (rsAdmin.next() && rsAdmin.getInt("count") > 0) {
+                return true;
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return false;
+    }
+
+    /**
+     * Limpia todos los mensajes de error
+     */
+    private void limpiarErrores() {
+        lblErrorEmail.setVisible(false);
+        lblErrorEmail.setText("");
+        lblErrorPassword.setVisible(false);
+        lblErrorPassword.setText("");
+    }
+
+    /**
+     * Muestra un mensaje de error en un label específico
+     */
+    private void mostrarError(Label label, String mensaje) {
+        label.setText(mensaje);
+        label.setVisible(true);
     }
 
     private ClienteDTO buscarUsuario(String email, String pass) {
@@ -233,6 +326,10 @@ public class LoginUsuarioRegistradoControlador implements Initializable {
             PanelMainUserControlador controlador = loader.getController();
             controlador.setNifUsuarioActual(usuarioActual.getNif_nie());
 
+            
+            PanelMainUserControlador controlador = loader.getController();
+            controlador.setNifUsuarioActual(usuarioActual.getNif_nie());
+            
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
          
@@ -244,5 +341,14 @@ public class LoginUsuarioRegistradoControlador implements Initializable {
             e.printStackTrace();
             AlertUtils.error("Error", "No se pudo abrir el panel de usuario.");
         }
+    }
+}
+
+    // Este método ya no se usa directamente, pero lo dejo por compatibilidad
+    private void mostrarErrorAlerta(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 }

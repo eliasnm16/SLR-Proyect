@@ -56,6 +56,10 @@
       <!-- Title -->
       <Text layoutX="16.0" layoutY="116.0" fill="WHITE" text="Panel administración de chófers">
          <font><Font size="22.0"/></font>
+      <Text fill="WHITE" layoutX="7.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Panel administración de Chofers" wrappingWidth="634.6878051757812">
+         <font>
+            <Font size="43.0" />
+         </font>
       </Text>
 
       <!-- Actions -->

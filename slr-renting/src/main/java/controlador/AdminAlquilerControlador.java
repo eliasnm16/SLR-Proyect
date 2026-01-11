@@ -19,6 +19,7 @@ import javafx.scene.control.ChoiceDialog;
 import dao.AlquilerDAO;
 import dto.AlquilerDTO;
 import javafx.stage.Stage;
+import javafx.beans.property.SimpleStringProperty; // NUEVA importación
 
 public class AdminAlquilerControlador implements Initializable {
 
@@ -38,6 +39,13 @@ public class AdminAlquilerControlador implements Initializable {
     private TableColumn<AlquilerDTO, Double> colPrecio;
     @FXML
     private TableColumn<AlquilerDTO, String> colEstado;
+    
+    // NUEVAS COLUMNAS para chofer y carnet
+    @FXML
+    private TableColumn<AlquilerDTO, String> colChofer;
+    @FXML
+    private TableColumn<AlquilerDTO, String> colCarnet;
+    
     @FXML
     private Button btnBorrar;
     @FXML
@@ -62,6 +70,29 @@ public class AdminAlquilerControlador implements Initializable {
         colFechaFin.setCellValueFactory(new PropertyValueFactory<>("fechaFin"));
         colPrecio.setCellValueFactory(new PropertyValueFactory<>("precioTotal"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+        
+        // Configuración especial para la columna CHOEFER
+        // Muestra "Sí" o "No" dependiendo si tiene ID_CHOFER
+        colChofer.setCellValueFactory(cell -> {
+            AlquilerDTO alquiler = cell.getValue();
+            if (alquiler.getId_Chofer() > 0) {
+                return new SimpleStringProperty("Sí");
+            } else {
+                return new SimpleStringProperty("No");
+            }
+        });
+        
+        // Configuración especial para la columna CARNET
+        // Muestra "Sí" o "No" dependiendo si el cliente tiene carnet
+        colCarnet.setCellValueFactory(cell -> {
+            AlquilerDTO alquiler = cell.getValue();
+            // Usamos el nuevo campo que añadimos a AlquilerDTO
+            if (alquiler.isClienteTieneCarnet()) {
+                return new SimpleStringProperty("Sí");
+            } else {
+                return new SimpleStringProperty("No");
+            }
+        });
 
         // Carga inicial de alquileres desde la base de datos
         cargarAlquileres();
@@ -76,7 +107,8 @@ public class AdminAlquilerControlador implements Initializable {
         alquileresList.clear();
 
         // Obtiene todos los alquileres mediante el DAO
-        alquileresList.addAll(alquilerDAO.listarAlquileres());
+        // Ahora usa el nuevo método que incluye información del cliente
+        alquileresList.addAll(alquilerDAO.listarAlquileresConCliente());
 
         // Muestra la lista en la tabla
         tablaAlquileres.setItems(alquileresList);
@@ -134,6 +166,17 @@ public class AdminAlquilerControlador implements Initializable {
 
             // Convierte el texto al enum del DTO
             AlquilerDTO.EstadoAlquiler nuevoEstado = AlquilerDTO.EstadoAlquiler.valueOf(resultado);
+
+            // No se puede marcar como completado antes de la fecha de fin
+            if (nuevoEstado == AlquilerDTO.EstadoAlquiler.COMPLETADA) {
+                if (alquilerSeleccionado.getFechaFin().isAfter(java.time.LocalDate.now())) {
+                    mostrarAlerta(
+                        "Acción no permitida",
+                        "No se puede marcar el alquiler como COMPLETADO antes de su fecha de finalización."
+                    );
+                    return;
+                }
+            }
 
             alquilerSeleccionado.setEstado(nuevoEstado);
 
