@@ -146,7 +146,7 @@ public class PanelFacturaUserControlador implements Initializable {
                 fechaInicio,
                 fechaFin,
                 total,
-                AlquilerDTO.EstadoAlquiler.PENDIENTE
+                AlquilerDTO.EstadoAlquiler.PENDIENTE  // Estado inicial: PENDIENTE
         );
 
         if (idChoferAsignado != null) a.setId_Chofer(idChoferAsignado);
@@ -155,27 +155,20 @@ public class PanelFacturaUserControlador implements Initializable {
         int idGenerado = alquilerDAO.crearAlquiler(a);
 
         if (idGenerado > 0) {
-            // Marcar coche como no disponible
-            try {
-                CocheDTO cEnBd = cocheDAO.buscarCoche(coche.getBastidor());
-                if (cEnBd != null) {
-                    cEnBd.setDisponible(false);
-                    cocheDAO.modificarCoche(cEnBd);
-                }
-            } catch (Exception ex) {
-                System.err.println("Error actualizando disponibilidad del coche: " + ex.getMessage());
-            }
-
+            // MODIFICACIÓN: NO marcar el coche como no disponible aquí
+            // El coche se mantiene disponible hasta que el administrador confirme la reserva
+            // El administrador cambiará el estado a CONFIRMADO y entonces marcará el coche como no disponible
+            
             // Mostrar mensaje de confirmación en lblMensaje
             if (lblMensaje != null) {
-                lblMensaje.setText("Nos pondremos en contacto con usted por correo con la resolución de su renting. Muchas gracias.");
+                lblMensaje.setText("¡Reserva solicitada con éxito! El administrador revisará tu solicitud y te notificará la confirmación por correo. Estado actual: PENDIENTE");
                 lblMensaje.setVisible(true);
             } else {
                 // fallback: alerta
                 Alert ok = new Alert(AlertType.INFORMATION);
-                ok.setTitle("Reserva creada");
+                ok.setTitle("Reserva solicitada");
                 ok.setHeaderText(null);
-                ok.setContentText("Nos pondremos en contacto con usted por correo con la resolución de su renting. Muchas gracias.");
+                ok.setContentText("¡Reserva solicitada con éxito! El administrador revisará tu solicitud y te notificará la confirmación por correo. Estado actual: PENDIENTE");
                 ok.showAndWait();
             }
 

@@ -29,13 +29,11 @@ public class AñadirCocheControlador {
 
     @FXML private Button btnRegistrar;
 
-    private CocheDTO cocheEditar = null;
-    // <-- aquí la corrección: usar constructor por defecto
+    private CocheDTO cocheEditar = null;  
+    
     private final CocheDAO cocheDAO = new CocheDAO();
 
-    // ───────────────────────────────────────────────
-    //   MÉTODO PARA RECIBIR COCHE AL EDITAR
-    // ───────────────────────────────────────────────
+    // Método para cargar un coche existente para editar
     public void setCoche(CocheDTO coche) {
         this.cocheEditar = coche;
 
@@ -61,9 +59,6 @@ public class AñadirCocheControlador {
         btnRegistrar.setText("Actualizar");
     }
 
-    // ───────────────────────────────────────────────
-    //   BOTÓN REGISTRAR / ACTUALIZAR
-    // ───────────────────────────────────────────────
     @FXML
     private void registrarCoche(ActionEvent event) {
         try {
@@ -77,7 +72,8 @@ public class AñadirCocheControlador {
                 mostrarAlerta("Error", "Por favor, rellene todos los campos.", Alert.AlertType.ERROR);
                 return;
             }
-
+            // Validar que los campos numéricos son correctos con el trim para que elimine los espacion en blanco
+           
             CocheDTO coche = new CocheDTO(
                     Integer.parseInt(txtBastidor.getText().trim()),
                     txtMarca.getText().trim(),
@@ -94,7 +90,6 @@ public class AñadirCocheControlador {
                     chkDisponible.isSelected()
             );
 
-            // ─────────── MODO EDITAR ───────────
             if (cocheEditar != null) {
                 cocheDAO.modificarCoche(coche);
                 mostrarAlerta("Éxito", "Coche actualizado correctamente.", Alert.AlertType.INFORMATION);
@@ -104,7 +99,6 @@ public class AñadirCocheControlador {
                 return;
             }
 
-            // ─────────── MODO REGISTRAR ───────────
             cocheDAO.registrarCoche(coche);
             mostrarAlerta("Éxito", "Coche registrado correctamente.", Alert.AlertType.INFORMATION);
 
@@ -115,9 +109,8 @@ public class AñadirCocheControlador {
         }
     }
 
-    // ───────────────────────────────────────────────
-    //   LIMPIAR FORMULARIO
-    // ───────────────────────────────────────────────
+    //limpia el formulario después de registrar un coche
+    //por si quiere añadir otro coche mas
     private void limpiarFormulario() {
         txtBastidor.clear();
         txtMarca.clear();
@@ -138,19 +131,14 @@ public class AñadirCocheControlador {
         btnRegistrar.setText("Registrar");
         cocheEditar = null;
     }
-
-    // ───────────────────────────────────────────────
-    //   BOTÓN SALIR
-    // ───────────────────────────────────────────────
+    
     @FXML
     private void salir(ActionEvent event) {
         Stage stage = (Stage) btnRegistrar.getScene().getWindow();
         stage.close();
     }
 
-    // ───────────────────────────────────────────────
-    //   UTILIDAD PARA ALERTAS
-    // ───────────────────────────────────────────────
+  
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

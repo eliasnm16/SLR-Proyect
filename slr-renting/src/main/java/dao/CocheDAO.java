@@ -179,7 +179,14 @@ public class CocheDAO {
     // lista los coches que están disponibles para alquilar
     public List<CocheDTO> listarCochesDisponibles() {
 
-        String sql = "SELECT * FROM COCHE WHERE Disponible = TRUE";
+    	String sql = "SELECT c.* FROM COCHE c " +
+                "WHERE c.Disponible = TRUE " +
+                "AND c.Bastidor NOT IN (" +
+                "    SELECT a.Bastidor FROM ALQUILER a " +
+                "    WHERE a.ESTADO IN ('CONFIRMADA', 'COMPLETADA')" +
+                "    AND CURDATE() BETWEEN a.FECHAINICIO AND a.FECHAFIN" +
+                ")";
+    	
         List<CocheDTO> lista = new ArrayList<>();
 
         try (Connection conn = ConexionBD.getConnection();
@@ -253,4 +260,66 @@ public class CocheDAO {
         return lista;
     }
 
+ // lista los coches que son nuevos Y están disponibles
+    public List<CocheDTO> listarCochesNuevosDisponibles() {
+        
+    	String sql = "SELECT c.* FROM COCHE c " +
+                "WHERE c.Nuevo = TRUE AND c.Disponible = TRUE " +
+                "AND c.Bastidor NOT IN (" +
+                "    SELECT a.Bastidor FROM ALQUILER a " +
+                "    WHERE a.ESTADO IN ('CONFIRMADA', 'COMPLETADA')" +
+                "    AND CURDATE() BETWEEN a.FECHAINICIO AND a.FECHAFIN" +
+                ")";
+    	
+        List<CocheDTO> lista = new ArrayList<>();
+        
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                CocheDTO coche = new CocheDTO(
+                        rs.getInt("Bastidor"),
+                        rs.getString("Marca"),
+                        rs.getString("Modelo"),
+                        rs.getDouble("PrecioDiario"),
+                        rs.getString("Descripcion"),
+                        rs.getInt("Plazas"),
+                        rs.getInt("Potencia"),
+                        rs.getString("Motor"),
+                        rs.getInt("VelocidadMax"),
+                        rs.getString("Matricula"),
+                        rs.getString("ImagenURL"),
+                        rs.getBoolean("Nuevo"),
+                        rs.getBoolean("Disponible")
+                );
+                lista.add(coche);
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("Error listando coches nuevos disponibles: " + e.getMessage());
+        }
+        
+        return lista;
+    }
+    
+ // En CocheDAO.java, añade este método:
+    public boolean tieneReservasActivas(int bastidor) {
+    	String sql = "SELECT COUNT(*) FROM ALQUILER WHERE BASTIDOR = ? AND ESTADO IN ('CONFIRMADA', 'COMPLETADA')";        
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, bastidor);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("Error verificando reservas activas: " + e.getMessage());
+        }
+        
+        return false;
+    }
 }

@@ -150,6 +150,56 @@ public class ClienteDAO {
         }
     }
 
+ // En ClienteDAO.java - añade este método
+    public boolean existeClienteCon(String nif, String correo, String telefono) {
+        String sql = "SELECT COUNT(*) as count FROM cliente WHERE Nif_nie = ? OR Correo = ? OR Telefono = ?";
+        
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, nif);
+            stmt.setString(2, correo);
+            stmt.setString(3, telefono);
+            
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("count") > 0;
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("Error verificando duplicados: " + e.getMessage());
+        }
+        return false;
+    }
 
+    // También añade este método para verificar duplicados específicos
+    public String obtenerCampoDuplicado(String nif, String correo, String telefono) {
+        String sql = "SELECT Nif_nie, Correo, Telefono FROM cliente WHERE Nif_nie = ? OR Correo = ? OR Telefono = ? LIMIT 1";
+        
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, nif);
+            stmt.setString(2, correo);
+            stmt.setString(3, telefono);
+            
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                if (nif.equals(rs.getString("Nif_nie"))) {
+                    return "NIF/NIE";
+                }
+                if (correo.equals(rs.getString("Correo"))) {
+                    return "correo electrónico";
+                }
+                if (telefono.equals(rs.getString("Telefono"))) {
+                    return "teléfono";
+                }
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("Error verificando campo duplicado: " + e.getMessage());
+        }
+        return null;
+    }
     
 }
