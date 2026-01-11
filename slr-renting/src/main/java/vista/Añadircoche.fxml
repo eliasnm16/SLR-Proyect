@@ -22,14 +22,20 @@
 
     <top>
         <HBox style="-fx-background-color: #0b0b0b; -fx-border-color: #3b3320; -fx-border-width: 0 0 1 0;">
-            <padding><Insets top="14" right="16" bottom="14" left="16"/></padding>
+            <padding>
+                <Insets top="14" right="16" bottom="14" left="16"/>
+            </padding>
 
             <VBox spacing="2">
                 <Text fill="#ffd666" text="Seville Luxury Renting">
-                    <font><Font size="14"/></font>
+                    <font>
+                        <Font size="14"/>
+                    </font>
                 </Text>
                 <Text fill="#b5b5b5" text="Alta de vehículo">
-                    <font><Font size="11"/></font>
+                    <font>
+                        <Font size="11"/>
+                    </font>
                 </Text>
             </VBox>
 
@@ -42,15 +48,21 @@
                     style="-fx-background-color: transparent;">
             <content>
                 <StackPane>
-                    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+                    <padding>
+                        <Insets top="18" right="18" bottom="18" left="18"/>
+                    </padding>
 
                     <VBox maxWidth="1000" spacing="16"
                           style="-fx-background-color: #0b0b0b; -fx-background-radius: 18;
                                  -fx-border-color: #3b3320; -fx-border-width: 1.2; -fx-border-radius: 18;">
-                        <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+                        <padding>
+                            <Insets top="18" right="18" bottom="18" left="18"/>
+                        </padding>
 
                         <Text fill="WHITE" text="Ingrese datos para añadir coche">
-                            <font><Font size="18"/></font>
+                            <font>
+                                <Font size="18"/>
+                            </font>
                         </Text>
 
                         <HBox spacing="18">
@@ -142,7 +154,7 @@
                             <Button fx:id="btnRegistrar" mnemonicParsing="false" onAction="#registrarCoche" text="Registrar"
                                     style="-fx-background-color: #ffd666; -fx-text-fill: #111111; -fx-font-weight: bold;
                                            -fx-background-radius: 18; -fx-padding: 10 18 10 18;"/>
-                            <Button fx:id="btnRegistrar1" mnemonicParsing="false" onAction="#salir" text="Salir"
+                            <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#salir" text="Salir"
                                     style="-fx-background-color: transparent; -fx-border-color: #ffd666; -fx-border-width: 1.2;
                                            -fx-text-fill: #ffd666; -fx-font-weight: bold;
                                            -fx-background-radius: 18; -fx-border-radius: 18; -fx-padding: 10 18 10 18;"/>

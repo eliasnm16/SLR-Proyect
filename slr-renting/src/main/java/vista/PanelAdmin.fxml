@@ -25,10 +25,14 @@
     <center>
         <StackPane>
 
+            <!-- Logo de fondo (marca de agua) -->
             <ImageView fitWidth="700" fitHeight="700" preserveRatio="true" opacity="0.12">
-                <image><Image url="@logo.jpg"/></image>
+                <image>
+                    <Image url="@logo.jpg"/>
+                </image>
             </ImageView>
 
+            <!-- Contenedor principal -->
             <VBox maxWidth="820" spacing="18"
                   style="-fx-background-color: rgba(11,11,11,0.65); -fx-background-radius: 18;
                          -fx-border-color: #3b3320; -fx-border-width: 1.2; -fx-border-radius: 18;">
@@ -36,13 +40,18 @@
                     <Insets top="18" right="18" bottom="18" left="18"/>
                 </padding>
 
+                <!-- Header -->
                 <HBox spacing="14" style="-fx-alignment: center-left;">
                     <ImageView fitHeight="44" fitWidth="44" preserveRatio="true">
-                        <image><Image url="@logo.jpg"/></image>
+                        <image>
+                            <Image url="@logo.jpg"/>
+                        </image>
                     </ImageView>
 
-                    <Text text="Panel de administración" fill="#ffd666">
-                        <font><Font size="22"/></font>
+                    <Text fill="#ffd666" text="Panel de administración">
+                        <font>
+                            <Font size="22"/>
+                        </font>
                     </Text>
 
                     <Pane HBox.hgrow="ALWAYS"/>
@@ -64,13 +73,17 @@
                     </ComboBox>
                 </HBox>
 
-                <Text text="Accesos rápidos" fill="#b5b5b5">
-                    <font><Font size="12"/></font>
+                <Text fill="#b5b5b5" text="Accesos rápidos">
+                    <font>
+                        <Font size="12"/>
+                    </font>
                 </Text>
 
+                <!-- Botones -->
                 <ButtonBar>
                     <buttons>
-                        <Button mnemonicParsing="false" text="Alquiler"
+                        <!-- OJO: si tu controlador no tiene irAAlquileres, quita onAction o cambia al método correcto -->
+                        <Button mnemonicParsing="false" text="Alquiler" onAction="#irAAlquileres"
                                 style="-fx-background-color: #ffd666; -fx-text-fill: #111111; -fx-font-weight: bold;
                                        -fx-background-radius: 18; -fx-padding: 10 18 10 18;"/>
 
@@ -93,6 +106,7 @@
                                        -fx-padding: 10 18 10 18;"/>
                     </buttons>
                 </ButtonBar>
+
             </VBox>
 
         </StackPane>

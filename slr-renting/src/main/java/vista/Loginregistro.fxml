@@ -34,11 +34,15 @@
                 </padding>
 
                 <ImageView fitHeight="72" fitWidth="72" preserveRatio="true">
-                    <image><Image url="@logo.jpg"/></image>
+                    <image>
+                        <Image url="@logo.jpg"/>
+                    </image>
                 </ImageView>
 
                 <Text fill="WHITE" text="Registro">
-                    <font><Font size="22"/></font>
+                    <font>
+                        <Font size="22"/>
+                    </font>
                 </Text>
 
                 <Text fill="#b5b5b5" text="Introduce tus datos para crear la cuenta"/>

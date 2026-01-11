@@ -21,7 +21,7 @@
 <BorderPane fx:id="root"
             prefHeight="720.0" prefWidth="1280.0"
             style="-fx-background-color: black;"
-            xmlns="http://javafx.com/javafx/24.0.1"
+            xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controlador.PanelCocheUserControlador">
 
@@ -33,7 +33,9 @@
             </padding>
 
             <ImageView fitHeight="42" fitWidth="42" preserveRatio="true">
-                <image><Image url="@logo.jpg"/></image>
+                <image>
+                    <Image url="@logo.jpg"/>
+                </image>
             </ImageView>
 
             <StackPane HBox.hgrow="ALWAYS" alignment="CENTER">
@@ -56,8 +58,8 @@
                                    -fx-padding: 8 18 8 18;">
                     <items>
                         <MenuItem fx:id="itemConfig" text="Config"/>
-                        <MenuItem fx:id="itemMisReservas" onAction="#abrirMisReservas" text="Mis Reservas"/>
-                        <MenuItem fx:id="itemLogout" text="Logout"/>
+					    <MenuItem fx:id="itemMisReservas" text="Mis Reservas"/>
+					    <MenuItem fx:id="itemLogout" text="Logout"/>
                     </items>
                 </MenuButton>
             </VBox>
@@ -70,7 +72,6 @@
                     vbarPolicy="AS_NEEDED">
             <content>
 
-                <!-- CENTRADOR + ANCHO MÁXIMO -->
                 <StackPane style="-fx-background-color: black;">
                     <padding>
                         <Insets top="24" right="24" bottom="32" left="24"/>
@@ -81,12 +82,12 @@
                         <Label text="Detalles del Coche"
                                style="-fx-text-fill: #ffd666; -fx-font-size: 22px; -fx-font-weight: bold;"/>
 
-                        <!-- Contenedor principal (se adapta, y no se va a la izquierda en pantallas grandes) -->
                         <HBox spacing="24" style="-fx-background-color: transparent;">
 
                             <!-- Imagen -->
                             <StackPane prefHeight="360" prefWidth="520"
-                                       style="-fx-background-color: #050608; -fx-background-radius: 18; -fx-border-radius: 18; -fx-border-color: #3b3320; -fx-border-width: 1.2;">
+                                       style="-fx-background-color: #050608; -fx-background-radius: 18;
+                                              -fx-border-radius: 18; -fx-border-color: #3b3320; -fx-border-width: 1.2;">
                                 <ImageView fx:id="imgCoche"
                                            fitHeight="360" fitWidth="520"
                                            preserveRatio="true"
@@ -113,7 +114,8 @@
                                         <RowConstraints minHeight="60"/>
                                     </rowConstraints>
 
-                                    <StackPane style="-fx-background-color: #050608; -fx-background-radius: 16; -fx-border-radius: 16; -fx-border-color: #3b3320; -fx-border-width: 1.2;">
+                                    <StackPane style="-fx-background-color: #050608; -fx-background-radius: 16;
+                                                     -fx-border-radius: 16; -fx-border-color: #3b3320; -fx-border-width: 1.2;">
                                         <padding><Insets top="12" right="16" bottom="12" left="16"/></padding>
                                         <VBox spacing="6">
                                             <Label text="Potencia" style="-fx-text-fill: #b5b5b5; -fx-font-size: 11px;"/>
@@ -123,7 +125,8 @@
                                     </StackPane>
 
                                     <StackPane GridPane.columnIndex="1"
-                                               style="-fx-background-color: #050608; -fx-background-radius: 16; -fx-border-radius: 16; -fx-border-color: #3b3320; -fx-border-width: 1.2;">
+                                               style="-fx-background-color: #050608; -fx-background-radius: 16;
+                                                      -fx-border-radius: 16; -fx-border-color: #3b3320; -fx-border-width: 1.2;">
                                         <padding><Insets top="12" right="16" bottom="12" left="16"/></padding>
                                         <VBox spacing="6">
                                             <Label text="Motor" style="-fx-text-fill: #b5b5b5; -fx-font-size: 11px;"/>
@@ -133,7 +136,8 @@
                                     </StackPane>
 
                                     <StackPane GridPane.rowIndex="1"
-                                               style="-fx-background-color: #050608; -fx-background-radius: 16; -fx-border-radius: 16; -fx-border-color: #3b3320; -fx-border-width: 1.2;">
+                                               style="-fx-background-color: #050608; -fx-background-radius: 16;
+                                                      -fx-border-radius: 16; -fx-border-color: #3b3320; -fx-border-width: 1.2;">
                                         <padding><Insets top="12" right="16" bottom="12" left="16"/></padding>
                                         <VBox spacing="6">
                                             <Label text="Velocidad Máx" style="-fx-text-fill: #b5b5b5; -fx-font-size: 11px;"/>
@@ -143,7 +147,8 @@
                                     </StackPane>
 
                                     <StackPane GridPane.columnIndex="1" GridPane.rowIndex="1"
-                                               style="-fx-background-color: #050608; -fx-background-radius: 16; -fx-border-radius: 16; -fx-border-color: #3b3320; -fx-border-width: 1.2;">
+                                               style="-fx-background-color: #050608; -fx-background-radius: 16;
+                                                      -fx-border-radius: 16; -fx-border-color: #3b3320; -fx-border-width: 1.2;">
                                         <padding><Insets top="12" right="16" bottom="12" left="16"/></padding>
                                         <VBox spacing="6">
                                             <Label text="Plazas" style="-fx-text-fill: #b5b5b5; -fx-font-size: 11px;"/>

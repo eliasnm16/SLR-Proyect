@@ -64,9 +64,16 @@ public class AdminUsuarioControlador implements Initializable {
     }
 
     private void handleVolver() {
-        Stage stage = (Stage) btnVolver.getScene().getWindow();
-        stage.close();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/vista/Paneladmin.fxml"));
+            Stage stage = (Stage) btnVolver.getScene().getWindow();
+            stage.getScene().setRoot(root);
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarError("No se pudo volver al panel principal.");
+        }
     }
+    
 
     private void handleAñadir() {
         try {

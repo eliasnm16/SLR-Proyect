@@ -19,6 +19,7 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controlador.PanelReservaUserControlador">
 
+    <!-- TOP -->
     <top>
         <HBox alignment="CENTER_LEFT" spacing="16"
               style="-fx-background-color: #0b0b0b; -fx-border-color: #3b3320; -fx-border-width: 0 0 1 0;">
@@ -27,7 +28,9 @@
             </padding>
 
             <ImageView fitHeight="36" fitWidth="36" preserveRatio="true">
-                <image><Image url="@logo.jpg"/></image>
+                <image>
+                    <Image url="@logo.jpg"/>
+                </image>
             </ImageView>
 
             <Label text="Selecciona tus fechas"
@@ -35,7 +38,7 @@
 
             <StackPane HBox.hgrow="ALWAYS"/>
 
-            <MenuButton text="Usuario"
+            <MenuButton fx:id="menuUsuario" text="Usuario"
                         style="-fx-background-radius: 20;
                                -fx-background-color: transparent;
                                -fx-border-radius: 20;
@@ -45,14 +48,15 @@
                                -fx-font-size: 12px;
                                -fx-padding: 6 14 6 14;">
                 <items>
-                    <MenuItem text="Config"/>
-                    <MenuItem text="Mis Reservas"/>
-                    <MenuItem text="Logout"/>
+                    <MenuItem fx:id="itemConfig" text="Config"/>
+                    <MenuItem fx:id="itemMisReservas" text="Mis Reservas"/>
+                    <MenuItem fx:id="itemLogout" text="Logout"/>
                 </items>
             </MenuButton>
         </HBox>
     </top>
 
+    <!-- CENTER -->
     <center>
         <StackPane>
             <padding>

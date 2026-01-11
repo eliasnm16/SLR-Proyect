@@ -24,8 +24,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import controlador.AlertUtils;
-
 public class PanelCocheUserControlador implements Initializable {
 
     @FXML private ImageView imgCoche;
@@ -54,9 +52,11 @@ public class PanelCocheUserControlador implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         configurarMenu();
-        btnSeleccionarDias.setOnAction(e -> onSeleccionarDiasClicked());
 
-        // Opcional: si quieres que el menú muestre el nombre del usuario si existe
+        if (btnSeleccionarDias != null) {
+            btnSeleccionarDias.setOnAction(e -> onSeleccionarDiasClicked());
+        }
+
         ClienteDTO u = LoginUsuarioRegistradoControlador.usuarioActual;
         if (u != null && u.getNombreCompleto() != null && !u.getNombreCompleto().isBlank()) {
             menuUsuario.setText(u.getNombreCompleto());
@@ -66,9 +66,16 @@ public class PanelCocheUserControlador implements Initializable {
     }
 
     private void configurarMenu() {
-        itemConfig.setOnAction(e -> abrirConfig());
-        itemMisReservas.setOnAction(e -> abrirMisReservas());
-        itemLogout.setOnAction(e -> cerrarSesion());
+        if (itemConfig != null) itemConfig.setOnAction(e -> abrirConfig());
+        if (itemMisReservas != null) itemMisReservas.setOnAction(e -> abrirMisReservas());
+        if (itemLogout != null) itemLogout.setOnAction(e -> logout()); // alias claro
+    }
+
+    
+    @FXML
+    private void logout() {
+        AlertUtils.warning("Cerrar sesión", "Vas a cerrar sesión y volver al login.");
+        cerrarSesion();
     }
 
     private void abrirConfig() {
@@ -85,7 +92,6 @@ public class PanelCocheUserControlador implements Initializable {
                 AlertUtils.warning("Sesión", "No hay usuario cargado para mostrar la configuración.");
             }
 
-            // Abrimos en la MISMA ventana donde está el PanelCocheUser
             Stage stage = (Stage) menuUsuario.getScene().getWindow();
             stage.setScene(new Scene(rootConfig));
             stage.setTitle("Configuración de Usuario");
@@ -100,6 +106,7 @@ public class PanelCocheUserControlador implements Initializable {
     @FXML
     private void cerrarSesion() {
         try {
+            // Cierra todas las ventanas abiertas del proceso (ok si es lo que quieres)
             List<Window> windows = new ArrayList<>(Window.getWindows());
             for (Window window : windows) {
                 if (window instanceof Stage) {
@@ -107,7 +114,8 @@ public class PanelCocheUserControlador implements Initializable {
                 }
             }
 
-            Parent root = FXMLLoader.load(getClass().getResource("/vista/loginusuarioregistrado.fxml"));
+            // OJO con el nombre exacto del FXML (mayúsculas/minúsculas)
+            Parent root = FXMLLoader.load(getClass().getResource("/vista/Loginusuarioregistrado.fxml"));
             Stage loginStage = new Stage();
             loginStage.setScene(new Scene(root));
             loginStage.setTitle("Inicio de Sesión");
@@ -133,7 +141,9 @@ public class PanelCocheUserControlador implements Initializable {
         lblVelocidad.setText(coche.getVelocidadMax() + " km/h");
         lblPlazas.setText(String.valueOf(coche.getPlazas()));
         lblMatricula.setText(safe(coche.getMatricula(), "---"));
-        lblPrecio.setText((int) coche.getPrecioDiario() + "€/mes");
+
+        // coherencia: en alta de coche es "precio diario"
+        lblPrecio.setText(((int) coche.getPrecioDiario()) + "€/día");
 
         cargarImagen(coche.getImagenURL());
     }
@@ -141,7 +151,7 @@ public class PanelCocheUserControlador implements Initializable {
     private void cargarImagen(String imagenURL) {
         imgCoche.setFitWidth(520);
         imgCoche.setFitHeight(360);
-        imgCoche.setPreserveRatio(true);   // 👈 más elegante visualmente
+        imgCoche.setPreserveRatio(true);
         imgCoche.setSmooth(true);
 
         if (imagenURL == null || imagenURL.trim().isEmpty()) {
@@ -152,24 +162,17 @@ public class PanelCocheUserControlador implements Initializable {
         try {
             Image img = null;
 
-            // 1) /vista
             URL urlVista = getClass().getResource("/vista/" + imagenURL.trim());
             if (urlVista != null) {
                 img = new Image(urlVista.toExternalForm());
             } else {
-                // 2) /imagenes
                 URL urlImagenes = getClass().getResource("/imagenes/" + imagenURL.trim());
                 if (urlImagenes != null) {
                     img = new Image(urlImagenes.toExternalForm());
                 }
             }
 
-            if (img != null) {
-                imgCoche.setImage(img);
-            } else {
-                System.err.println("No se encontró la imagen en /vista ni en /imagenes: " + imagenURL);
-                imgCoche.setImage(null);
-            }
+            imgCoche.setImage(img);
 
         } catch (Exception ex) {
             System.err.println("No se pudo cargar la imagen: " + imagenURL + " -> " + ex.getMessage());
@@ -183,7 +186,7 @@ public class PanelCocheUserControlador implements Initializable {
             return;
         }
 
-        boolean elegirChofer = chkChofer.isSelected();
+        boolean elegirChofer = chkChofer != null && chkChofer.isSelected();
 
         if (seleccionHandler != null) {
             seleccionHandler.handle(cocheActual, elegirChofer);
@@ -193,7 +196,6 @@ public class PanelCocheUserControlador implements Initializable {
         try {
             URL fxmlUrl = getClass().getResource("/vista/PanelReservaUser.fxml");
             if (fxmlUrl == null) {
-                System.err.println("ERROR: no se encontró /vista/PanelReservaUser.fxml");
                 AlertUtils.error("Error", "No se encontró la vista de reservas (PanelReservaUser.fxml).");
                 return;
             }
@@ -208,6 +210,7 @@ public class PanelCocheUserControlador implements Initializable {
             stage.setTitle("Seleccionar días de alquiler");
             stage.setScene(new Scene(root));
             stage.initOwner(menuUsuario.getScene().getWindow());
+            stage.initModality(Modality.WINDOW_MODAL);
             stage.show();
 
         } catch (IOException ex) {
@@ -218,12 +221,12 @@ public class PanelCocheUserControlador implements Initializable {
 
     @FXML
     private void abrirMisReservas() {
-        try {
-            String nifUsuario = obtenerNifUsuarioActual();
-            if (nifUsuario == null || nifUsuario.isBlank()) {
-                AlertUtils.warning("Sesión", "No se pudo identificar el usuario actual (NIF/NIE vacío).");
-                return;
-            }
+    	  try {
+    	        String nifUsuario = obtenerNifUsuarioActual();
+    	        if (nifUsuario == null || nifUsuario.isBlank()) {
+    	            AlertUtils.warning("Sesión", "No se pudo identificar el usuario actual (NIF/NIE vacío).");
+    	            return;
+    	        }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelConfigReservaUser.fxml"));
             Parent rootReservas = loader.load();
@@ -247,7 +250,6 @@ public class PanelCocheUserControlador implements Initializable {
 
     public void setNifUsuarioActual(String nif) {
         this.nifUsuarioActual = nif;
-        System.out.println("NIF del usuario: " + nif);
     }
 
     private String obtenerNifUsuarioActual() {
@@ -258,7 +260,7 @@ public class PanelCocheUserControlador implements Initializable {
         this.seleccionHandler = handler;
     }
 
-    public static interface SeleccionDiasHandler {
+    public interface SeleccionDiasHandler {
         void handle(CocheDTO coche, boolean contratarChofer);
     }
 

@@ -6,19 +6,20 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="520.0" prefWidth="720.0"
             style="-fx-background-color: black;"
-            xmlns="http://javafx.com/javafx/21"
+            xmlns="http://javafx.com/javafx/24.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controlador.PanelFacturaUserControlador">
 
-    <!-- TOP -->
     <top>
         <HBox alignment="CENTER_LEFT" spacing="12"
               style="-fx-background-color: #0b0b0b; -fx-border-color: #3b3320; -fx-border-width: 0 0 1 0;">
@@ -26,8 +27,10 @@
                 <Insets top="12" right="16" bottom="12" left="16"/>
             </padding>
 
-            <ImageView fitHeight="34" fitWidth="34" preserveRatio="true">
-                <image><Image url="@logo.jpg"/></image>
+            <ImageView fitHeight="34.0" fitWidth="34.0" preserveRatio="true">
+                <image>
+                    <Image url="@/logo.jpg"/>
+                </image>
             </ImageView>
 
             <Label text="Factura de Alquiler"
@@ -40,14 +43,16 @@
         </HBox>
     </top>
 
-    <!-- CENTER -->
     <center>
-        <StackPane>
+        <StackPane style="-fx-background-color: black;">
             <padding>
                 <Insets top="18" right="18" bottom="18" left="18"/>
             </padding>
 
-            <VBox maxWidth="980" spacing="16">
+            <!-- Contenedor centrado y responsive -->
+            <VBox spacing="16" maxWidth="980.0"
+                  style="-fx-background-color: transparent;">
+                <StackPane VBox.vgrow="NEVER"/>
 
                 <!-- CARD: Datos del vehículo -->
                 <VBox spacing="10"
@@ -61,20 +66,28 @@
                            style="-fx-text-fill: #ffd666; -fx-font-size: 14px; -fx-font-weight: bold;"/>
 
                     <GridPane hgap="14" vgap="10">
-                        <Label text="Marca y Modelo:"
-                               style="-fx-text-fill: #b5b5b5;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="160.0"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                        </columnConstraints>
+
+                        <Label text="Marca y Modelo:" style="-fx-text-fill: #b5b5b5;"
+                               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
                         <Label fx:id="lblMarcaModelo" text="-"
-                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;"
+                               GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-                        <Label text="Bastidor:"
-                               style="-fx-text-fill: #b5b5b5;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label text="Bastidor:" style="-fx-text-fill: #b5b5b5;"
+                               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
                         <Label fx:id="lblBastidor" text="-"
-                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;"
+                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-                        <Label text="Matrícula:"
-                               style="-fx-text-fill: #b5b5b5;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label text="Matrícula:" style="-fx-text-fill: #b5b5b5;"
+                               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
                         <Label fx:id="lblMatricula" text="-"
-                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;"
+                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
                     </GridPane>
                 </VBox>
 
@@ -90,30 +103,40 @@
                            style="-fx-text-fill: #ffd666; -fx-font-size: 14px; -fx-font-weight: bold;"/>
 
                     <GridPane hgap="14" vgap="10">
-                        <Label text="Precio por día:"
-                               style="-fx-text-fill: #b5b5b5;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="220.0"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                        </columnConstraints>
+
+                        <Label text="Precio por día:" style="-fx-text-fill: #b5b5b5;"
+                               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
                         <Label fx:id="lblPrecioDia" text="0€"
-                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;"
+                               GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-                        <Label text="Días alquilados:"
-                               style="-fx-text-fill: #b5b5b5;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label text="Días alquilados:" style="-fx-text-fill: #b5b5b5;"
+                               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
                         <Label fx:id="lblDias" text="0"
-                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;"
+                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-                        <Label text="Subtotal (sin descuentos):"
-                               style="-fx-text-fill: #b5b5b5;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label text="Subtotal (sin descuentos):" style="-fx-text-fill: #b5b5b5;"
+                               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
                         <Label fx:id="lblSubtotal" text="0€"
-                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;"
+                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-                        <Label text="Descuento aplicado:"
-                               style="-fx-text-fill: #b5b5b5;" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <Label text="Descuento aplicado:" style="-fx-text-fill: #b5b5b5;"
+                               GridPane.columnIndex="0" GridPane.rowIndex="3"/>
                         <Label fx:id="lblDescuento" text="0% (0€)"
-                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;"
+                               GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
-                        <Label text="Chofer privado:"
-                               style="-fx-text-fill: #b5b5b5;" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                        <Label text="Chofer privado:" style="-fx-text-fill: #b5b5b5;"
+                               GridPane.columnIndex="0" GridPane.rowIndex="4"/>
                         <Label fx:id="lblChofer" text="No"
-                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                               style="-fx-text-fill: #f5f5f5; -fx-font-weight: bold;"
+                               GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
                         <Label text="Total a pagar:"
                                style="-fx-text-fill: #ffd666; -fx-font-size: 16px; -fx-font-weight: bold;"
@@ -128,7 +151,6 @@
         </StackPane>
     </center>
 
-    <!-- BOTTOM -->
     <bottom>
         <VBox spacing="8"
               style="-fx-padding: 12 16 12 16; -fx-background-color: black;">
