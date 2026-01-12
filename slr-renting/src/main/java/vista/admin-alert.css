@@ -1,4 +1,4 @@
-/* Fondo del diálogo */
+
 .dialog-pane {
     -fx-background-color: #0b0b0b;
     -fx-border-color: #3b3320;
@@ -8,7 +8,7 @@
     -fx-padding: 14;
 }
 
-/* Cabecera (si existe) */
+
 .dialog-pane .header-panel {
     -fx-background-color: #0b0b0b;
     -fx-padding: 10 10 8 10;
@@ -20,7 +20,7 @@
     -fx-font-weight: bold;
 }
 
-/* Contenido */
+
 .dialog-pane .content {
     -fx-padding: 12 10 10 10;
 }
@@ -30,12 +30,12 @@
     -fx-font-size: 12px;
 }
 
-/* Botonera */
+
 .dialog-pane .button-bar {
     -fx-padding: 10 10 8 10;
 }
 
-/* Botones por defecto */
+
 .dialog-pane .button {
     -fx-background-color: #1a1a1a;
     -fx-border-color: #3b3320;
@@ -46,7 +46,7 @@
     -fx-padding: 6 14 6 14;
 }
 
-/* Botón principal (OK / Sí) */
+
 .dialog-pane .button:default {
     -fx-background-color: #ffd666;
     -fx-text-fill: #111111;
@@ -54,12 +54,12 @@
     -fx-border-color: transparent;
 }
 
-/* Hover */
+
 .dialog-pane .button:hover {
     -fx-opacity: 0.92;
 }
 
-/* Colorear por tipo usando clases (las añadimos en código) */
+
 .alert-success .header-panel .label { -fx-text-fill: #b6f0c2; }
 .alert-success { -fx-border-color: #2f6b3b; }
 

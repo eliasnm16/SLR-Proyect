@@ -63,7 +63,6 @@ public class AdminCocheControlador implements Initializable {
         clmDisp.setCellValueFactory(cell ->
                 new ReadOnlyStringWrapper(cell.getValue().isDisponible() ? "Sí" : "No"));
 
-        // ASOCIAR LA URL DE IMAGEN A LA COLUMNA
         if (clmImg != null) {
             clmImg.setCellValueFactory(cell ->
                     new ReadOnlyStringWrapper(cell.getValue().getImagenURL()));

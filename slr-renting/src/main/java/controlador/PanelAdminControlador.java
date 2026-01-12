@@ -57,8 +57,7 @@ public class PanelAdminControlador {
                 break;
         }
 
-        // opcional: limpiar selección para que no dispare cosas raras al volver
-        // comboAdmin.getSelectionModel().clearSelection();
+
     }
 
     private void cargarVista(String rutaFxml, String titulo, ActionEvent event) {

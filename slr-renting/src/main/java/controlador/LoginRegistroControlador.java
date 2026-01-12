@@ -23,8 +23,6 @@ public class LoginRegistroControlador {
     @FXML private CheckBox chkCarnet;
     @FXML private Button btnRegistro;
     @FXML private Button btnVolverLogin;
-    
-    // Labels de error para validación visual
     @FXML private Label lblErrorNombre;
     @FXML private Label lblErrorCorreo;
     @FXML private Label lblErrorNif;
@@ -50,9 +48,7 @@ public class LoginRegistroControlador {
         btnRegistro.setText("Guardar cambios");
     }
 
-    /**
-     * Limpia todos los mensajes de error
-     */
+   
     private void limpiarErrores() {
         lblErrorNombre.setVisible(false);
         lblErrorNombre.setText("");
@@ -66,18 +62,13 @@ public class LoginRegistroControlador {
         lblErrorPassword.setText("");
     }
 
-    /**
-     * Muestra un mensaje de error en un label específico
-     */
+   
     private void mostrarError(Label label, String mensaje) {
         label.setText(mensaje);
         label.setVisible(true);
     }
 
-    /**
-     * Valida todos los campos del formulario
-     * @return true si todos los campos son válidos, false si hay errores
-     */
+   
     private boolean validarCampos() {
         boolean valido = true;
         limpiarErrores();
@@ -88,13 +79,12 @@ public class LoginRegistroControlador {
         String telefono = txtTelefono.getText().trim();
         String contrasena = txtPassword.getText();
 
-        // VALIDACIÓN 1: Nombre no vacío
-        if (nombre.isEmpty()) {
+           if (nombre.isEmpty()) {
             mostrarError(lblErrorNombre, "El nombre no puede estar vacío");
             valido = false;
         }
 
-        // VALIDACIÓN 2: Correo no vacío y formato válido
+   
         if (correo.isEmpty()) {
             mostrarError(lblErrorCorreo, "El correo no puede estar vacío");
             valido = false;
@@ -103,7 +93,7 @@ public class LoginRegistroControlador {
             valido = false;
         }
 
-        // VALIDACIÓN 3: NIF/NIE no vacío y 9 caracteres
+        
         if (nif.isEmpty()) {
             mostrarError(lblErrorNif, "El NIF/NIE no puede estar vacío");
             valido = false;
@@ -112,7 +102,7 @@ public class LoginRegistroControlador {
             valido = false;
         }
 
-        // VALIDACIÓN 4: Contraseña no vacía y mínimo 8 caracteres
+        
         if (contrasena.isEmpty()) {
             mostrarError(lblErrorPassword, "La contraseña no puede estar vacía");
             valido = false;
@@ -121,8 +111,7 @@ public class LoginRegistroControlador {
             valido = false;
         }
 
-        // VALIDACIÓN 5: Teléfono obligatorio
-        if (telefono.isEmpty()) {
+                if (telefono.isEmpty()) {
             mostrarError(lblErrorTelefono, "El teléfono no puede estar vacío");
             valido = false;
         } else if (!telefono.matches("^[0-9]{9,}$")) {
@@ -135,7 +124,7 @@ public class LoginRegistroControlador {
 
     @FXML
     private void onAcceder(ActionEvent event) {
-        // Validar todos los campos primero
+        
         if (!validarCampos()) {
             return; // Detener si hay errores de validación
         }
@@ -147,8 +136,7 @@ public class LoginRegistroControlador {
         String telefono = txtTelefono.getText().trim();
         String contrasena = txtPassword.getText();
 
-        // VALIDACIÓN EXTRA: Verificar duplicados solo para NUEVOS registros
-        if (!editing) {
+                if (!editing) {
             if (clienteDAO.existeClienteCon(nif, correo, telefono)) {
                 String campoDuplicado = clienteDAO.obtenerCampoDuplicado(nif, correo, telefono);
                 

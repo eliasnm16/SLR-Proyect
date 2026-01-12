@@ -71,7 +71,7 @@
                         </HBox>
 
                         <GridPane hgap="14" vgap="10">
-                            <!-- Columna izquierda -->
+                           
                             <Text fill="WHITE" text="Nº Bastidor" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                             <TextField fx:id="txtBastidor" promptText="Bastidor"
                                        GridPane.rowIndex="1" GridPane.columnIndex="0"
@@ -107,7 +107,7 @@
                                               -fx-prompt-text-fill: #777777; -fx-border-color: #3b3320; -fx-border-width: 1.2;
                                               -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
 
-                            <!-- Columna derecha -->
+                            
                             <Text fill="WHITE" text="Descripción" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
                             <TextField fx:id="txtDescripcion" promptText="Descripción"
                                        GridPane.rowIndex="1" GridPane.columnIndex="1"

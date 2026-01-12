@@ -13,18 +13,19 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="root" prefHeight="600.0" prefWidth="800.0"
+<BorderPane fx:id="root"
+            prefHeight="600.0" prefWidth="800.0"
             style="-fx-background-color: black;"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controlador.PanelReservaUserControlador">
 
-    <!-- TOP -->
+
     <top>
         <HBox alignment="CENTER_LEFT" spacing="16"
               style="-fx-background-color: #0b0b0b; -fx-border-color: #3b3320; -fx-border-width: 0 0 1 0;">
             <padding>
-                <Insets bottom="12" left="20" right="20" top="12"/>
+                <Insets top="12" right="20" bottom="12" left="20"/>
             </padding>
 
             <ImageView fitHeight="36" fitWidth="36" preserveRatio="true">
@@ -48,7 +49,7 @@
                                -fx-font-size: 12px;
                                -fx-padding: 6 14 6 14;">
                 <items>
-                    <MenuItem fx:id="itemConfig" text="Config"/>
+                    <MenuItem fx:id="itemConfig" text="Configuración"/>
                     <MenuItem fx:id="itemMisReservas" text="Mis Reservas"/>
                     <MenuItem fx:id="itemLogout" text="Logout"/>
                 </items>
@@ -56,38 +57,9 @@
         </HBox>
     </top>
 
-    <!-- CENTER -->
-    <center>
-        <StackPane>
-    <top>
-    <HBox alignment="CENTER_LEFT" spacing="16" style="-fx-background-color: black;">
-        <padding>
-            <Insets bottom="12" left="20" right="20" top="12" />
-        </padding>
-
-        <ImageView fitHeight="36" fitWidth="36" preserveRatio="true">
-            <image>
-                <Image url="@logo.jpg" />
-            </image>
-        </ImageView>
-
-        <Label style="-fx-text-fill: #ffd666; -fx-font-size: 18px; -fx-font-weight: bold;" text="Selecciona tus fechas" />
-
-        <StackPane HBox.hgrow="ALWAYS" />
-
-        <!-- MENÚ USUARIO (NUEVO) -->
-        <MenuButton fx:id="menuUsuario" style="-fx-background-radius: 20; -fx-background-color: transparent; -fx-border-radius: 20; -fx-border-color: #ffd666; -fx-border-width: 1.2; -fx-text-fill: #ffd666; -fx-font-size: 12px; -fx-padding: 6 14 6 14;" text="Usuario">
-            <items>
-                <MenuItem fx:id="itemConfig" text="Configuración" />
-                <MenuItem fx:id="itemMisReservas" text="Mis Reservas" />
-                <MenuItem fx:id="itemLogout" text="Logout" />
-            </items>
-        </MenuButton>
-    </HBox>
-</top>
 
     <center>
-        <VBox alignment="TOP_CENTER" prefHeight="399.0" prefWidth="800.0" spacing="18" style="-fx-background-color: black;">
+        <StackPane style="-fx-background-color: black;">
             <padding>
                 <Insets top="22" right="22" bottom="22" left="22"/>
             </padding>
@@ -112,7 +84,7 @@
                                        -fx-border-color: #3b3320; -fx-border-width: 1.2; -fx-border-radius: 14;"/>
                 </HBox>
 
-                <HBox spacing="18">
+                <HBox alignment="CENTER_LEFT" spacing="18">
                     <Label text="Días seleccionados:" style="-fx-text-fill: #b5b5b5; -fx-font-size: 13px;"/>
                     <Label fx:id="lblDiasSeleccionados" text="0"
                            style="-fx-text-fill: #f5f5f5; -fx-font-size: 13px; -fx-font-weight: bold;"/>
@@ -138,38 +110,6 @@
 
             </VBox>
         </StackPane>
-            <Label style="-fx-text-fill: #ffd666; -fx-font-size: 12px; -fx-font-weight: bold;" text="Precio rebajado a partir de 7 y 30 días de alquiler" />
-
-            <GridPane hgap="24" vgap="18">
-                <DatePicker fx:id="desdePicker" promptText="Fecha de inicio" style="-fx-background-radius: 12; -fx-font-size: 13px; -fx-padding: 8 12 8 12;" GridPane.columnIndex="0" />
-
-                <DatePicker fx:id="hastaPicker" promptText="Fecha de fin" style="-fx-background-radius: 12; -fx-font-size: 13px; -fx-padding: 8 12 8 12;" GridPane.columnIndex="1" />
-                
-                <columnConstraints>
-                    <ColumnConstraints />
-                    <ColumnConstraints />
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints />
-                </rowConstraints>
-            </GridPane>
-
-            <HBox alignment="CENTER_LEFT" spacing="18">
-                <Label style="-fx-text-fill: #b5b5b5; -fx-font-size: 13px;" text="Días seleccionados: " />
-                <Label fx:id="lblDiasSeleccionados" style="-fx-text-fill: #f5f5f5; -fx-font-size: 13px; -fx-font-weight: bold;" text="0" />
-
-                <StackPane HBox.hgrow="ALWAYS" />
-
-                <Label style="-fx-text-fill: #b5b5b5; -fx-font-size: 13px;" text="Precio estimado: " />
-                <Label fx:id="lblPrecioEstimado" style="-fx-text-fill: #ffd666; -fx-font-size: 13px; -fx-font-weight: bold;" text="0€" />
-            </HBox>
-
-            <!-- CORREGIDO: Solo un HBox aquí -->
-            <HBox alignment="CENTER" spacing="12">
-                <Button fx:id="btnConfirmar" style="-fx-background-radius: 20; -fx-background-color: #ffd666; -fx-text-fill: #111111; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 8 20 8 20;" text="Confirmar fechas" />
-
-                <Button fx:id="btnCancelar" style="-fx-background-radius: 20; -fx-background-color: transparent; -fx-border-color: #3b3320; -fx-border-width: 1.2; -fx-text-fill: #f5f5f5; -fx-font-size: 14px; -fx-padding: 8 20 8 20;" text="Cancelar" />
-            </HBox>
-        </VBox>
     </center>
+
 </BorderPane>

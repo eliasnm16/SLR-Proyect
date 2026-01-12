@@ -4,13 +4,15 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -25,14 +27,12 @@
     <center>
         <StackPane>
 
-            <!-- Logo de fondo (marca de agua) -->
             <ImageView fitWidth="700" fitHeight="700" preserveRatio="true" opacity="0.12">
                 <image>
                     <Image url="@logo.jpg"/>
                 </image>
             </ImageView>
 
-            <!-- Contenedor principal -->
             <VBox maxWidth="820" spacing="18"
                   style="-fx-background-color: rgba(11,11,11,0.65); -fx-background-radius: 18;
                          -fx-border-color: #3b3320; -fx-border-width: 1.2; -fx-border-radius: 18;">
@@ -40,7 +40,6 @@
                     <Insets top="18" right="18" bottom="18" left="18"/>
                 </padding>
 
-                <!-- Header -->
                 <HBox spacing="14" style="-fx-alignment: center-left;">
                     <ImageView fitHeight="44" fitWidth="44" preserveRatio="true">
                         <image>
@@ -49,9 +48,7 @@
                     </ImageView>
 
                     <Text fill="#ffd666" text="Panel de administración">
-                        <font>
-                            <Font size="22"/>
-                        </font>
+                        <font><Font size="22"/></font>
                     </Text>
 
                     <Pane HBox.hgrow="ALWAYS"/>
@@ -74,96 +71,58 @@
                 </HBox>
 
                 <Text fill="#b5b5b5" text="Accesos rápidos">
-                    <font>
-                        <Font size="12"/>
-                    </font>
+                    <font><Font size="12"/></font>
                 </Text>
 
-                <!-- Botones -->
-                <ButtonBar>
-                    <buttons>
-                        <!-- OJO: si tu controlador no tiene irAAlquileres, quita onAction o cambia al método correcto -->
-                        <Button mnemonicParsing="false" text="Alquiler" onAction="#irAAlquileres"
-                                style="-fx-background-color: #ffd666; -fx-text-fill: #111111; -fx-font-weight: bold;
-                                       -fx-background-radius: 18; -fx-padding: 10 18 10 18;"/>
+                <GridPane alignment="CENTER" hgap="22" vgap="22" style="-fx-padding: 10 0 0 0;">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+                        <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+                    </rowConstraints>
 
-                        <Button mnemonicParsing="false" text="Usuarios" onAction="#irAUsuarios"
-                                style="-fx-background-color: #1a1a1a; -fx-border-color: #3b3320; -fx-border-width: 1.2;
-                                       -fx-text-fill: #f5f5f5; -fx-font-weight: bold;
-                                       -fx-background-radius: 18; -fx-border-radius: 18;
-                                       -fx-padding: 10 18 10 18;"/>
+                    <Button fx:id="btnAlquiler" text="ALQUILER" onAction="#irAAlquileres"
+                            GridPane.rowIndex="0" GridPane.columnIndex="0"
+                            style="-fx-pref-width: 190; -fx-pref-height: 190;
+                                   -fx-background-color: transparent;
+                                   -fx-border-color: #ffd666; -fx-border-width: 2;
+                                   -fx-border-radius: 18; -fx-background-radius: 18;
+                                   -fx-text-fill: #ffd666; -fx-font-weight: bold; -fx-font-size: 16px;
+                                   -fx-cursor: hand;"/>
 
-                        <Button mnemonicParsing="false" text="Chofer" onAction="#irAChofer"
-                                style="-fx-background-color: #1a1a1a; -fx-border-color: #3b3320; -fx-border-width: 1.2;
-                                       -fx-text-fill: #f5f5f5; -fx-font-weight: bold;
-                                       -fx-background-radius: 18; -fx-border-radius: 18;
-                                       -fx-padding: 10 18 10 18;"/>
+                    <Button fx:id="btnUsuarios" text="USUARIOS" onAction="#irAUsuarios"
+                            GridPane.rowIndex="0" GridPane.columnIndex="1"
+                            style="-fx-pref-width: 190; -fx-pref-height: 190;
+                                   -fx-background-color: transparent;
+                                   -fx-border-color: #ffd666; -fx-border-width: 2;
+                                   -fx-border-radius: 18; -fx-background-radius: 18;
+                                   -fx-text-fill: #ffd666; -fx-font-weight: bold; -fx-font-size: 16px;
+                                   -fx-cursor: hand;"/>
 
-                        <Button mnemonicParsing="false" text="Coches" onAction="#irACoches"
-                                style="-fx-background-color: #1a1a1a; -fx-border-color: #3b3320; -fx-border-width: 1.2;
-                                       -fx-text-fill: #f5f5f5; -fx-font-weight: bold;
-                                       -fx-background-radius: 18; -fx-border-radius: 18;
-                                       -fx-padding: 10 18 10 18;"/>
-                    </buttons>
-                </ButtonBar>
+                    <Button fx:id="btnChofer" text="CHÓFER" onAction="#irAChofer"
+                            GridPane.rowIndex="1" GridPane.columnIndex="0"
+                            style="-fx-pref-width: 190; -fx-pref-height: 190;
+                                   -fx-background-color: transparent;
+                                   -fx-border-color: #ffd666; -fx-border-width: 2;
+                                   -fx-border-radius: 18; -fx-background-radius: 18;
+                                   -fx-text-fill: #ffd666; -fx-font-weight: bold; -fx-font-size: 16px;
+                                   -fx-cursor: hand;"/>
+
+                    <Button fx:id="btnCoches" text="COCHES" onAction="#irACoches"
+                            GridPane.rowIndex="1" GridPane.columnIndex="1"
+                            style="-fx-pref-width: 190; -fx-pref-height: 190;
+                                   -fx-background-color: transparent;
+                                   -fx-border-color: #ffd666; -fx-border-width: 2;
+                                   -fx-border-radius: 18; -fx-background-radius: 18;
+                                   -fx-text-fill: #ffd666; -fx-font-weight: bold; -fx-font-size: 16px;
+                                   -fx-cursor: hand;"/>
+                </GridPane>
 
             </VBox>
 
         </StackPane>
     </center>
-
 </BorderPane>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="586.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.PanelAdminControlador">
-
-   <children>
-      <!-- Fondo con logo -->
-      <ImageView fitHeight="576" fitWidth="586" layoutX="0" layoutY="0" opacity="0.15" pickOnBounds="false" preserveRatio="true" style="-fx-alignment: center;">
-         <image>
-            <Image url="@logo.jpg" />
-         </image>
-      </ImageView>
-
-      <!-- Barra superior -->
-      <HBox layoutX="0.0" layoutY="0.0" prefWidth="586.0" spacing="20.0" style="-fx-padding: 10 20; -fx-background-color: #b99a41;">
-         <children>
-            <!-- Logo y título -->
-            <HBox alignment="CENTER_LEFT" spacing="10.0">
-               <children>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
-                     <image>
-                        <Image url="@logo.jpg" />
-                     </image>
-                  </ImageView>
-
-                  <Text fill="black" text="Panel de administración">
-                     <font>
-                        <Font name="Gill Sans MT Condensed" size="26.0" />
-                     </font>
-                  </Text>
-               </children>
-            </HBox>
-
-            <Pane HBox.hgrow="ALWAYS" />
-
-            <!-- ComboBox de administración -->
-            <ComboBox fx:id="comboAdmin" onAction="#logout" prefWidth="120.0" promptText="Admin" style="-fx-background-color: black; -fx-text-fill: #b99a41; -fx-background-radius: 6;">
-               <items>
-                  <FXCollections fx:factory="observableArrayList">
-                     <String fx:value="Logout" />
-                  </FXCollections>
-               </items>
-            </ComboBox>
-         </children>
-      </HBox>
-
-      <!-- Botones de navegación -->
-      <ButtonBar layoutX="62.0" layoutY="449.0" prefHeight="74.0" prefWidth="414.0">
-         <buttons>
-            <Button mnemonicParsing="false" onAction="#irAAlquileres" prefHeight="33.0" prefWidth="103.0" style="-fx-background-color: #b99a41;" text="Alquiler" />
-            <Button mnemonicParsing="false" onAction="#irAUsuarios" prefHeight="32.0" style="-fx-background-color: #b99a41;" text="Usuarios" />
-            <Button mnemonicParsing="false" onAction="#irAChofer" prefHeight="34.0" style="-fx-background-color: #b99a41;" text="Chofer" />
-            <Button mnemonicParsing="false" onAction="#irACoches" prefHeight="33.0" prefWidth="110.0" style="-fx-background-color: #b99a41;" text="Coches" />
-         </buttons>
-      </ButtonBar>
-   </children>
-</AnchorPane>

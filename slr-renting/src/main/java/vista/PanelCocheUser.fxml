@@ -32,7 +32,6 @@
                 <Insets top="14" bottom="14" left="24" right="24"/>
             </padding>
 
-            <ImageView fitHeight="42" fitWidth="42" preserveRatio="true">
             <ImageView fitHeight="40" fitWidth="40" preserveRatio="true">
                 <image>
                     <Image url="@logo.jpg"/>
@@ -45,8 +44,7 @@
             </StackPane>
 
             <VBox spacing="6" alignment="CENTER_RIGHT">
-                <Label text="Menú"
-                       style="-fx-text-fill: #b5b5b5; -fx-font-size: 10px;"/>
+                <Label text="Menú" style="-fx-text-fill: #b5b5b5; -fx-font-size: 10px;"/>
                 <MenuButton fx:id="menuUsuario" text="Usuario ▾"
                             style="-fx-background-radius: 18;
                                    -fx-background-color: rgba(255,214,102,0.08);
@@ -58,21 +56,12 @@
                                    -fx-font-weight: bold;
                                    -fx-padding: 8 18 8 18;">
                     <items>
-                        <MenuItem fx:id="itemConfig" text="Config"/>
-					    <MenuItem fx:id="itemMisReservas" text="Mis Reservas"/>
-					    <MenuItem fx:id="itemLogout" text="Logout"/>
+                        <MenuItem fx:id="itemConfig" text="Configuración"/>
+                        <MenuItem fx:id="itemMisReservas" text="Mis Reservas"/>
+                        <MenuItem fx:id="itemLogout" text="Logout"/>
                     </items>
                 </MenuButton>
             </VBox>
-            <StackPane HBox.hgrow="ALWAYS" />
-
-            <MenuButton fx:id="menuUsuario" style="-fx-background-radius: 20; -fx-background-color: transparent; -fx-border-radius: 20; -fx-border-color: #ffd666; -fx-border-width: 1.5; -fx-text-fill: #ffd666; -fx-font-size: 13px; -fx-padding: 8 18 8 18;" text="Usuario">
-                <items>
-                    <MenuItem fx:id="itemConfig" text="Configuración" />
-                    <MenuItem fx:id="itemMisReservas" onAction="#abrirMisReservas" text="Mis Reservas" />
-                    <MenuItem fx:id="itemLogout" text="Logout" />
-                </items>
-            </MenuButton>
         </HBox>
     </top>
 
@@ -94,7 +83,7 @@
 
                         <HBox spacing="24" style="-fx-background-color: transparent;">
 
-                            <!-- Imagen -->
+                          
                             <StackPane prefHeight="360" prefWidth="520"
                                        style="-fx-background-color: #050608; -fx-background-radius: 18;
                                               -fx-border-radius: 18; -fx-border-color: #3b3320; -fx-border-width: 1.2;">
@@ -104,8 +93,7 @@
                                            smooth="true"/>
                             </StackPane>
 
-                            <!-- Info -->
-                            <VBox prefWidth="640" spacing="14">
+                                <VBox prefWidth="640" spacing="14">
 
                                 <Label fx:id="lblMarcaYModelo" text="Marca · Modelo"
                                        style="-fx-text-fill: #f5f5f5; -fx-font-size: 26px; -fx-font-weight: bold;"/>
@@ -189,7 +177,18 @@
                             </VBox>
                         </HBox>
 
-                        <HBox alignment="CENTER" style="-fx-padding: 6 0 0 0;">
+                        <HBox alignment="CENTER" spacing="16" style="-fx-padding: 8 0 0 0;">
+                            <Button fx:id="btnVolver" text="Volver"
+                                    style="-fx-background-radius: 20;
+                                           -fx-background-color: transparent;
+                                           -fx-border-radius: 20;
+                                           -fx-border-color: #ffd666;
+                                           -fx-border-width: 1.5;
+                                           -fx-text-fill: #ffd666;
+                                           -fx-font-size: 14px;
+                                           -fx-font-weight: bold;
+                                           -fx-padding: 10 26 10 26;"/>
+
                             <Button fx:id="btnSeleccionarDias" text="Seleccionar días para el alquiler"
                                     style="-fx-background-radius: 20; -fx-background-color: #ffd666;
                                            -fx-text-fill: #111111; -fx-font-size: 14px; -fx-font-weight: bold;
@@ -199,96 +198,8 @@
                     </VBox>
                 </StackPane>
 
-                    <!-- SOLO UN Label aquí (eliminé el duplicado) -->
-                    <Label style="-fx-text-fill: #ffd666; -fx-font-size: 22px; -fx-font-weight: bold;" text="Detalles del Coche" />
-
-                    <!-- SOLO UN HBox aquí (eliminé el duplicado) -->
-                    <HBox spacing="24">
-                        <StackPane prefHeight="360" prefWidth="520" style="-fx-background-color: #050608; -fx-background-radius: 18;">
-                            <ImageView fx:id="imgCoche" fitHeight="360" fitWidth="520" preserveRatio="true" style="-fx-background-radius: 18;" />
-                        </StackPane>
-
-                        <VBox prefWidth="640" spacing="14" style="-fx-background-color: transparent;">
-                            <Label fx:id="lblMarcaYModelo" style="-fx-text-fill: #f5f5f5; -fx-font-size: 26px; -fx-font-weight: bold;" text="Marca · Modelo" />
-
-                            <Label fx:id="lblDescripcion" style="-fx-text-fill: #b5b5b5; -fx-font-size: 13px;" text="Descripción del coche" wrapText="true" />
-
-                            <GridPane hgap="18" vgap="18">
-                                <columnConstraints>
-                                    <ColumnConstraints percentWidth="50" />
-                                    <ColumnConstraints percentWidth="50" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                    <RowConstraints minHeight="60" />
-                                    <RowConstraints minHeight="60" />
-                                    <RowConstraints minHeight="60" />
-                                </rowConstraints>
-
-                                <StackPane style="-fx-background-color: #050608; -fx-background-radius: 16; -fx-border-radius: 16; -fx-border-color: #3b3320;">
-                                    <padding>
-                                        <Insets bottom="12" left="16" right="16" top="12" />
-                                    </padding>
-                                    <VBox spacing="6">
-                                        <Label style="-fx-text-fill: #b5b5b5; -fx-font-size: 11px;" text="Potencia" />
-                                        <Label fx:id="lblPotencia" style="-fx-text-fill: #f5f5f5; -fx-font-size: 16px; -fx-font-weight: bold;" text="000 CV" />
-                                    </VBox>
-                                </StackPane>
-
-                                <StackPane style="-fx-background-color: #050608; -fx-background-radius: 16; -fx-border-radius: 16; -fx-border-color: #3b3320;" GridPane.columnIndex="1">
-                                    <padding>
-                                        <Insets bottom="12" left="16" right="16" top="12" />
-                                    </padding>
-                                    <VBox spacing="6">
-                                        <Label style="-fx-text-fill: #b5b5b5; -fx-font-size: 11px;" text="Motor" />
-                                        <Label fx:id="lblMotor" style="-fx-text-fill: #f5f5f5; -fx-font-size: 16px; -fx-font-weight: bold;" text="Desconocido" />
-                                    </VBox>
-                                </StackPane>
-
-                                <StackPane style="-fx-background-color: #050608; -fx-background-radius: 16; -fx-border-radius: 16; -fx-border-color: #3b3320;" GridPane.rowIndex="1">
-                                    <padding>
-                                        <Insets bottom="12" left="16" right="16" top="12" />
-                                    </padding>
-                                    <VBox spacing="6">
-                                        <Label style="-fx-text-fill: #b5b5b5; -fx-font-size: 11px;" text="Velocidad Máx" />
-                                        <Label fx:id="lblVelocidad" style="-fx-text-fill: #f5f5f5; -fx-font-size: 16px; -fx-font-weight: bold;" text="000 km/h" />
-                                    </VBox>
-                                </StackPane>
-
-                                <StackPane style="-fx-background-color: #050608; -fx-background-radius: 16; -fx-border-radius: 16; -fx-border-color: #3b3320;" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                    <padding>
-                                        <Insets bottom="12" left="16" right="16" top="12" />
-                                    </padding>
-                                    <VBox spacing="6">
-                                        <Label style="-fx-text-fill: #b5b5b5; -fx-font-size: 11px;" text="Plazas" />
-                                        <Label fx:id="lblPlazas" style="-fx-text-fill: #f5f5f5; -fx-font-size: 16px; -fx-font-weight: bold;" text="0" />
-                                        <Label style="-fx-text-fill: #b5b5b5; -fx-font-size: 11px; margin-top:8px;" text="Matrícula" />
-                                        <Label fx:id="lblMatricula" style="-fx-text-fill: #f5f5f5; -fx-font-size: 14px; -fx-font-weight: bold;" text="---" />
-                                    </VBox>
-                                </StackPane>
-                            </GridPane>
-
-                            <HBox alignment="CENTER_LEFT" spacing="18">
-                                <VBox spacing="4">
-                                    <Label style="-fx-text-fill: #b5b5b5; -fx-font-size: 11px;" text="Precio" />
-                                    <Label fx:id="lblPrecio" style="-fx-text-fill: #ffd666; -fx-font-size: 18px; -fx-font-weight: bold;" text="0€/día" />
-                                </VBox>
-
-                                <VBox alignment="CENTER_LEFT" spacing="4">
-                                    <CheckBox fx:id="chkChofer" style="-fx-text-fill: #f5f5f5; -fx-font-size: 13px;" text="Contratar chófer privado" />
-                                </VBox>
-                            </HBox>
-                        </VBox>
-                    </HBox> <!-- CIERRE DEL HBox principal -->
-
-                    <HBox alignment="CENTER" spacing="16" style="-fx-padding: 8 0 0 0;">
-                        <!-- BOTÓN VOLVER (con el mismo estilo que el botón Usuario) -->
-                        <Button fx:id="btnVolver" style="-fx-background-radius: 20;                                         -fx-background-color: transparent;                                         -fx-border-radius: 20;                                         -fx-border-color: #ffd666;                                         -fx-border-width: 1.5;                                         -fx-text-fill: #ffd666;                                         -fx-font-size: 14px;                                         -fx-font-weight: bold;                                         -fx-padding: 10 26 10 26;" text="Volver" />
-                        
-                        <!-- BOTÓN SELECCIONAR DÍAS (existente) -->
-                        <Button fx:id="btnSeleccionarDias" style="-fx-background-radius: 20;                                         -fx-background-color: #ffd666;                                         -fx-text-fill: #111111;                                         -fx-font-size: 14px;                                         -fx-font-weight: bold;                                         -fx-padding: 10 26 10 26;" text="Seleccionar días para el alquiler" />
-                    </HBox>
-                </VBox>
             </content>
         </ScrollPane>
     </center>
+
 </BorderPane>
