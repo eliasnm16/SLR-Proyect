@@ -152,13 +152,7 @@ public class AlquilerDAO {
         return lista;
     }
 
-       public Integer buscarChoferDisponible(LocalDate inicio, LocalDate fin) {
-        String sql = "SELECT c.ID_CHOFER FROM chofer c WHERE c.ID_CHOFER NOT IN ("
-                   + "  SELECT a.ID_CHOFER FROM alquiler a "
-                   + "  WHERE a.ID_CHOFER IS NOT NULL "
-                   + "    AND a.FECHAINICIO <= ? "   
-                   + "    AND a.FECHAFIN >= ? "      
-
+   
 
     // Busca un chofer libre que no esté ocupado entre dos fechas
     public Integer buscarChoferDisponible(LocalDate inicio, LocalDate fin) {

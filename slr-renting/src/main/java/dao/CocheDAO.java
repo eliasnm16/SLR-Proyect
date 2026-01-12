@@ -43,9 +43,7 @@ public class CocheDAO {
 
         } catch (SQLException e) {
             System.err.println(" Error registrando coche: " + e.getMessage());
-        } catch (SQLException e) {
-            System.err.println("Error registrando coche: " + e.getMessage());
-        }
+        } 
     }
 
 
@@ -162,9 +160,7 @@ public class CocheDAO {
                 System.out.println(" No existe un coche con bastidor: " + coche.getBastidor());
             }
 
-        } catch (SQLException e) {
-            System.err.println(" Error actualizando coche: " + e.getMessage());
-            stmt.executeUpdate();
+        
 
         } catch (SQLException e) {
             System.err.println("Error actualizando coche: " + e.getMessage());
@@ -191,10 +187,7 @@ public class CocheDAO {
                 System.out.println(" No existe un coche con bastidor: " + bastidor);
             }
 
-        } catch (SQLException e) {
-            System.err.println(" Error eliminando coche: " + e.getMessage());
-            stmt.executeUpdate();
-
+        
         } catch (SQLException e) {
             System.err.println("Error eliminando coche: " + e.getMessage());
         }
