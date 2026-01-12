@@ -143,13 +143,13 @@ public class LoginRegistroControlador {
                 // Mostrar error en el campo correspondiente
                 switch (campoDuplicado) {
                     case "NIF/NIE":
-                        mostrarError(lblErrorNif, "✗ Ya existe un usuario con este NIF/NIE");
+                        mostrarError(lblErrorNif, "Ya existe un usuario con este NIF/NIE");
                         break;
                     case "correo electrónico":
-                        mostrarError(lblErrorCorreo, "✗ Ya existe un usuario con este correo");
+                        mostrarError(lblErrorCorreo, "Ya existe un usuario con este correo");
                         break;
                     case "teléfono":
-                        mostrarError(lblErrorTelefono, "✗ Ya existe un usuario con este teléfono");
+                        mostrarError(lblErrorTelefono, "Ya existe un usuario con este teléfono");
                         break;
                 }
                 return;
