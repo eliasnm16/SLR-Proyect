@@ -1,6 +1,7 @@
 package controlador;
 
 import java.net.URL;
+import util.FacturaPDFGenerator;
 import java.time.temporal.ChronoUnit;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -124,7 +125,6 @@ public class PanelFacturaUserControlador implements Initializable {
         Integer idChoferAsignado = null;
         if (choferSolicitado) {
             idChoferAsignado = alquilerDAO.buscarChoferDisponible(fechaInicio, fechaFin);
- 
         }
 
         // Construir DTO de alquiler
@@ -135,40 +135,42 @@ public class PanelFacturaUserControlador implements Initializable {
                 fechaInicio,
                 fechaFin,
                 total,
-                AlquilerDTO.EstadoAlquiler.PENDIENTE
+                AlquilerDTO.EstadoAlquiler.PENDIENTE  // Estado inicial: PENDIENTE
         );
 
         if (idChoferAsignado != null) a.setId_Chofer(idChoferAsignado);
 
- 
         int idGenerado = alquilerDAO.crearAlquiler(a);
 
         if (idGenerado > 0) {
- 
+            // FUSIÓN: Generar PDF (de la versión del repositorio)
             try {
-                CocheDTO cEnBd = cocheDAO.buscarCoche(coche.getBastidor());
-                if (cEnBd != null) {
-                    cEnBd.setDisponible(false);
-                    cocheDAO.modificarCoche(cEnBd);
-                }
+                FacturaPDFGenerator.generarFactura(
+                    idGenerado,
+                    a,
+                    coche,
+                    choferSolicitado,
+                    coche.getPrecioDiario(),
+                    dias,
+                    subtotal,
+                    descuentoEuros,
+                    total
+                );
             } catch (Exception ex) {
-                System.err.println("Error actualizando disponibilidad del coche: " + ex.getMessage());
+                System.err.println("Error generando PDF: " + ex.getMessage());
             }
-
-            // Mostrar mensaje de confirmación en lblMensaje
+            
             if (lblMensaje != null) {
-                lblMensaje.setText("Nos pondremos en contacto con usted por correo con la resolución de su renting. Muchas gracias.");
+                lblMensaje.setText("¡Reserva solicitada con éxito! El administrador revisará tu solicitud y te notificará la confirmación por correo. Estado actual: PENDIENTE");
                 lblMensaje.setVisible(true);
             } else {
- 
                 Alert ok = new Alert(AlertType.INFORMATION);
-                ok.setTitle("Reserva creada");
+                ok.setTitle("Reserva solicitada");
                 ok.setHeaderText(null);
-                ok.setContentText("Nos pondremos en contacto con usted por correo con la resolución de su renting. Muchas gracias.");
+                ok.setContentText("¡Reserva solicitada con éxito! El administrador revisará tu solicitud y te notificará la confirmación por correo. Estado actual: PENDIENTE");
                 ok.showAndWait();
             }
 
- 
             btnConfirmar.setDisable(true);
 
         } else {
@@ -181,10 +183,8 @@ public class PanelFacturaUserControlador implements Initializable {
     }
 
     private void cerrarVentana() {
- 
         if (btnCerrar != null && btnCerrar.getScene() != null) {
             btnCerrar.getScene().getWindow().hide();
         }
     }
 }
-

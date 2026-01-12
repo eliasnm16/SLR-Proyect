@@ -13,18 +13,19 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="root" prefHeight="600.0" prefWidth="800.0"
+<BorderPane fx:id="root"
+            prefHeight="600.0" prefWidth="800.0"
             style="-fx-background-color: black;"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controlador.PanelReservaUserControlador">
 
-    <!-- TOP -->
+
     <top>
         <HBox alignment="CENTER_LEFT" spacing="16"
               style="-fx-background-color: #0b0b0b; -fx-border-color: #3b3320; -fx-border-width: 0 0 1 0;">
             <padding>
-                <Insets bottom="12" left="20" right="20" top="12"/>
+                <Insets top="12" right="20" bottom="12" left="20"/>
             </padding>
 
             <ImageView fitHeight="36" fitWidth="36" preserveRatio="true">
@@ -48,7 +49,7 @@
                                -fx-font-size: 12px;
                                -fx-padding: 6 14 6 14;">
                 <items>
-                    <MenuItem fx:id="itemConfig" text="Config"/>
+                    <MenuItem fx:id="itemConfig" text="Configuración"/>
                     <MenuItem fx:id="itemMisReservas" text="Mis Reservas"/>
                     <MenuItem fx:id="itemLogout" text="Logout"/>
                 </items>
@@ -56,9 +57,9 @@
         </HBox>
     </top>
 
-    <!-- CENTER -->
+
     <center>
-        <StackPane>
+        <StackPane style="-fx-background-color: black;">
             <padding>
                 <Insets top="22" right="22" bottom="22" left="22"/>
             </padding>
@@ -83,7 +84,7 @@
                                        -fx-border-color: #3b3320; -fx-border-width: 1.2; -fx-border-radius: 14;"/>
                 </HBox>
 
-                <HBox spacing="18">
+                <HBox alignment="CENTER_LEFT" spacing="18">
                     <Label text="Días seleccionados:" style="-fx-text-fill: #b5b5b5; -fx-font-size: 13px;"/>
                     <Label fx:id="lblDiasSeleccionados" text="0"
                            style="-fx-text-fill: #f5f5f5; -fx-font-size: 13px; -fx-font-weight: bold;"/>

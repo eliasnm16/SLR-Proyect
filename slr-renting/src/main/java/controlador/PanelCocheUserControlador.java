@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -37,6 +38,8 @@ public class PanelCocheUserControlador implements Initializable {
     @FXML private Label lblMatricula;
     @FXML private Label lblPrecio;
 
+    @FXML private Button btnVolver;
+
     @FXML private CheckBox chkChofer;
     @FXML private Button btnSeleccionarDias;
 
@@ -48,34 +51,36 @@ public class PanelCocheUserControlador implements Initializable {
     private CocheDTO cocheActual;
     private SeleccionDiasHandler seleccionHandler;
     private String nifUsuarioActual;
+    private ClienteDTO usuario;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        usuario = LoginUsuarioRegistradoControlador.usuarioActual;
+
+        if (menuUsuario != null) {
+            String nombre = (usuario != null) ? usuario.getNombreCompleto() : null;
+            menuUsuario.setText(nombre != null && !nombre.isBlank() ? nombre : "Usuario");
+        }
+
+        if (usuario != null && (this.nifUsuarioActual == null || this.nifUsuarioActual.isEmpty())) {
+            this.nifUsuarioActual = usuario.getNif_nie();
+        }
+
         configurarMenu();
 
         if (btnSeleccionarDias != null) {
             btnSeleccionarDias.setOnAction(e -> onSeleccionarDiasClicked());
         }
-
-        ClienteDTO u = LoginUsuarioRegistradoControlador.usuarioActual;
-        if (u != null && u.getNombreCompleto() != null && !u.getNombreCompleto().isBlank()) {
-            menuUsuario.setText(u.getNombreCompleto());
-        } else {
-            menuUsuario.setText("Usuario");
+        if (btnVolver != null) {
+            btnVolver.setOnAction(e -> volverAtras());
         }
     }
 
     private void configurarMenu() {
         if (itemConfig != null) itemConfig.setOnAction(e -> abrirConfig());
         if (itemMisReservas != null) itemMisReservas.setOnAction(e -> abrirMisReservas());
-        if (itemLogout != null) itemLogout.setOnAction(e -> logout()); // alias claro
-    }
-
-    
-    @FXML
-    private void logout() {
-        AlertUtils.warning("Cerrar sesión", "Vas a cerrar sesión y volver al login.");
-        cerrarSesion();
+        if (itemLogout != null) itemLogout.setOnAction(e -> cerrarSesion());
     }
 
     private void abrirConfig() {
@@ -85,9 +90,9 @@ public class PanelCocheUserControlador implements Initializable {
 
             PanelConfigUserControlador controller = loader.getController();
 
-            ClienteDTO usuario = LoginUsuarioRegistradoControlador.usuarioActual;
-            if (usuario != null) {
-                controller.cargarUsuario(usuario);
+            ClienteDTO u = LoginUsuarioRegistradoControlador.usuarioActual;
+            if (u != null) {
+                controller.cargarUsuario(u);
             } else {
                 AlertUtils.warning("Sesión", "No hay usuario cargado para mostrar la configuración.");
             }
@@ -103,10 +108,29 @@ public class PanelCocheUserControlador implements Initializable {
         }
     }
 
+    private void volverAtras() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelMainUser.fxml"));
+            Parent root = loader.load();
+
+            PanelMainUserControlador controlador = loader.getController();
+            controlador.setNifUsuarioActual(this.nifUsuarioActual);
+
+            Stage stage = (Stage) btnVolver.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Catálogo de Coches");
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Stage stage = (Stage) btnVolver.getScene().getWindow();
+            stage.close();
+        }
+    }
+
     @FXML
     private void cerrarSesion() {
         try {
-            // Cierra todas las ventanas abiertas del proceso (ok si es lo que quieres)
             List<Window> windows = new ArrayList<>(Window.getWindows());
             for (Window window : windows) {
                 if (window instanceof Stage) {
@@ -114,7 +138,6 @@ public class PanelCocheUserControlador implements Initializable {
                 }
             }
 
-            // OJO con el nombre exacto del FXML (mayúsculas/minúsculas)
             Parent root = FXMLLoader.load(getClass().getResource("/vista/Loginusuarioregistrado.fxml"));
             Stage loginStage = new Stage();
             loginStage.setScene(new Scene(root));
@@ -122,6 +145,7 @@ public class PanelCocheUserControlador implements Initializable {
             loginStage.show();
 
             this.nifUsuarioActual = null;
+            this.usuario = null;
             LoginUsuarioRegistradoControlador.usuarioActual = null;
 
         } catch (IOException e) {
@@ -134,6 +158,7 @@ public class PanelCocheUserControlador implements Initializable {
         if (coche == null) return;
         this.cocheActual = coche;
 
+
         lblMarcaYModelo.setText((coche.getMarca() != null ? coche.getMarca() + " · " : "") + safe(coche.getModelo(), "Modelo"));
         lblDescripcion.setText(safe(coche.getDescripcion(), ""));
         lblPotencia.setText(coche.getPotencia() + " CV");
@@ -142,8 +167,44 @@ public class PanelCocheUserControlador implements Initializable {
         lblPlazas.setText(String.valueOf(coche.getPlazas()));
         lblMatricula.setText(safe(coche.getMatricula(), "---"));
 
-        // coherencia: en alta de coche es "precio diario"
+
         lblPrecio.setText(((int) coche.getPrecioDiario()) + "€/día");
+
+if (!coche.isDisponible()) {
+            lblMarcaYModelo.setText(safe(coche.getMarca(), "") + " · " + safe(coche.getModelo(), "") + " (RESERVADO)");
+            lblMarcaYModelo.setStyle("-fx-text-fill: #ff5555;");
+
+            lblDescripcion.setText("Este vehículo está actualmente reservado y no disponible para alquiler.");
+            lblDescripcion.setStyle("-fx-text-fill: #ff5555;");
+
+            lblPrecio.setText(((int) coche.getPrecioDiario()) + "€/día");
+            lblPrecio.setStyle("-fx-text-fill: #ff5555; -fx-strikethrough: true;");
+
+            if (btnSeleccionarDias != null) {
+                btnSeleccionarDias.setDisable(true);
+                btnSeleccionarDias.setText("RESERVADO");
+                btnSeleccionarDias.setStyle("-fx-background-color: #666666; -fx-text-fill: #999999;");
+            }
+
+            if (chkChofer != null) chkChofer.setDisable(true);
+
+            if (imgCoche != null && imgCoche.getImage() != null) imgCoche.setOpacity(0.6);
+
+        } else {
+            lblMarcaYModelo.setStyle("-fx-text-fill: #f5f5f5; -fx-font-size: 26px; -fx-font-weight: bold;");
+            lblDescripcion.setStyle("-fx-text-fill: #b5b5b5; -fx-font-size: 13px;");
+            lblPrecio.setStyle("-fx-text-fill: #ffd666; -fx-font-size: 18px; -fx-font-weight: bold;");
+
+            if (btnSeleccionarDias != null) {
+                btnSeleccionarDias.setDisable(false);
+                btnSeleccionarDias.setText("Seleccionar días para el alquiler");
+                btnSeleccionarDias.setStyle("-fx-background-radius: 20; -fx-background-color: #ffd666; -fx-text-fill: #111111; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10 26 10 26;");
+            }
+
+            if (chkChofer != null) chkChofer.setDisable(false);
+
+            if (imgCoche != null) imgCoche.setOpacity(1.0);
+        }
 
         cargarImagen(coche.getImagenURL());
     }
@@ -181,12 +242,22 @@ public class PanelCocheUserControlador implements Initializable {
     }
 
     private void onSeleccionarDiasClicked() {
+
         if (cocheActual == null) {
             AlertUtils.warning("Seleccionar días", "No hay ningún coche cargado para proceder con la selección de días.");
             return;
         }
 
-        boolean elegirChofer = chkChofer != null && chkChofer.isSelected();
+        if (!cocheActual.isDisponible()) {
+            Alert a = new Alert(Alert.AlertType.WARNING);
+            a.setTitle("Coche reservado");
+            a.setHeaderText(null);
+            a.setContentText("Este coche está actualmente reservado y no disponible para alquiler.");
+            a.showAndWait();
+            return;
+        }
+
+        boolean elegirChofer = (chkChofer != null && chkChofer.isSelected());
 
         if (seleccionHandler != null) {
             seleccionHandler.handle(cocheActual, elegirChofer);
@@ -205,6 +276,7 @@ public class PanelCocheUserControlador implements Initializable {
 
             PanelReservaUserControlador controladorReserva = loader.getController();
             controladorReserva.setDatos(cocheActual, elegirChofer);
+            controladorReserva.setNifUsuario(obtenerNifUsuarioActual());
 
             Stage stage = new Stage();
             stage.setTitle("Seleccionar días de alquiler");
@@ -221,12 +293,12 @@ public class PanelCocheUserControlador implements Initializable {
 
     @FXML
     private void abrirMisReservas() {
-    	  try {
-    	        String nifUsuario = obtenerNifUsuarioActual();
-    	        if (nifUsuario == null || nifUsuario.isBlank()) {
-    	            AlertUtils.warning("Sesión", "No se pudo identificar el usuario actual (NIF/NIE vacío).");
-    	            return;
-    	        }
+        try {
+            String nifUsuario = obtenerNifUsuarioActual();
+            if (nifUsuario == null || nifUsuario.isBlank()) {
+                AlertUtils.warning("Sesión", "No se pudo identificar el usuario actual (NIF/NIE vacío).");
+                return;
+            }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelConfigReservaUser.fxml"));
             Parent rootReservas = loader.load();

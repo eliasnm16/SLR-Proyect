@@ -32,7 +32,7 @@
                 <Insets top="14" bottom="14" left="24" right="24"/>
             </padding>
 
-            <ImageView fitHeight="42" fitWidth="42" preserveRatio="true">
+            <ImageView fitHeight="40" fitWidth="40" preserveRatio="true">
                 <image>
                     <Image url="@logo.jpg"/>
                 </image>
@@ -44,8 +44,7 @@
             </StackPane>
 
             <VBox spacing="6" alignment="CENTER_RIGHT">
-                <Label text="Menú"
-                       style="-fx-text-fill: #b5b5b5; -fx-font-size: 10px;"/>
+                <Label text="Menú" style="-fx-text-fill: #b5b5b5; -fx-font-size: 10px;"/>
                 <MenuButton fx:id="menuUsuario" text="Usuario ▾"
                             style="-fx-background-radius: 18;
                                    -fx-background-color: rgba(255,214,102,0.08);
@@ -57,9 +56,9 @@
                                    -fx-font-weight: bold;
                                    -fx-padding: 8 18 8 18;">
                     <items>
-                        <MenuItem fx:id="itemConfig" text="Config"/>
-					    <MenuItem fx:id="itemMisReservas" text="Mis Reservas"/>
-					    <MenuItem fx:id="itemLogout" text="Logout"/>
+                        <MenuItem fx:id="itemConfig" text="Configuración"/>
+                        <MenuItem fx:id="itemMisReservas" text="Mis Reservas"/>
+                        <MenuItem fx:id="itemLogout" text="Logout"/>
                     </items>
                 </MenuButton>
             </VBox>
@@ -84,7 +83,7 @@
 
                         <HBox spacing="24" style="-fx-background-color: transparent;">
 
-                            <!-- Imagen -->
+                          
                             <StackPane prefHeight="360" prefWidth="520"
                                        style="-fx-background-color: #050608; -fx-background-radius: 18;
                                               -fx-border-radius: 18; -fx-border-color: #3b3320; -fx-border-width: 1.2;">
@@ -94,8 +93,7 @@
                                            smooth="true"/>
                             </StackPane>
 
-                            <!-- Info -->
-                            <VBox prefWidth="640" spacing="14">
+                                <VBox prefWidth="640" spacing="14">
 
                                 <Label fx:id="lblMarcaYModelo" text="Marca · Modelo"
                                        style="-fx-text-fill: #f5f5f5; -fx-font-size: 26px; -fx-font-weight: bold;"/>
@@ -179,7 +177,18 @@
                             </VBox>
                         </HBox>
 
-                        <HBox alignment="CENTER" style="-fx-padding: 6 0 0 0;">
+                        <HBox alignment="CENTER" spacing="16" style="-fx-padding: 8 0 0 0;">
+                            <Button fx:id="btnVolver" text="Volver"
+                                    style="-fx-background-radius: 20;
+                                           -fx-background-color: transparent;
+                                           -fx-border-radius: 20;
+                                           -fx-border-color: #ffd666;
+                                           -fx-border-width: 1.5;
+                                           -fx-text-fill: #ffd666;
+                                           -fx-font-size: 14px;
+                                           -fx-font-weight: bold;
+                                           -fx-padding: 10 26 10 26;"/>
+
                             <Button fx:id="btnSeleccionarDias" text="Seleccionar días para el alquiler"
                                     style="-fx-background-radius: 20; -fx-background-color: #ffd666;
                                            -fx-text-fill: #111111; -fx-font-size: 14px; -fx-font-weight: bold;

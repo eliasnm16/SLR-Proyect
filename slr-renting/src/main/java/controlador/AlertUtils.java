@@ -33,7 +33,7 @@ public class AlertUtils {
         dp.getStyleClass().add(clase);
     }
 
-    // ===== ALERTAS PÚBLICAS =====
+
 
     public static void info(String titulo, String msg) {
         mostrar(Alert.AlertType.INFORMATION, titulo, msg, "alert-info");

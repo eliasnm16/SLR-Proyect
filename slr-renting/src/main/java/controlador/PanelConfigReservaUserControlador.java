@@ -43,7 +43,6 @@ public class PanelConfigReservaUserControlador implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Configurar las columnas de la tabla, vinculando cada columna con la propiedad del DTO correspondiente
         colBastidor.setCellValueFactory(new PropertyValueFactory<>("bastidor"));
         colNif.setCellValueFactory(new PropertyValueFactory<>("nif_nie"));
         colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
@@ -53,32 +52,28 @@ public class PanelConfigReservaUserControlador implements Initializable {
 
         
 
-        // Configurar el botón de cancelar
         btnCancelar.setOnAction(event -> cancelarReserva());
         btnVolver.setOnAction(event -> volver());
     }
 
-    // Establece el NIF del usuario actual y carga sus reservas
     public void setNifUsuarioActual(String nif) {
         this.nifUsuarioActual = nif;
         cargarReservas(); // Carga las reservas del usuario en la tabla
     }
 
-    // Carga las reservas del usuario actual en la tabla
-    private void cargarReservas() {
-        if (nifUsuarioActual != null) { // Solo si se ha establecido el NIF
-            reservasList.clear(); // Limpiar la lista antes de cargar los datos nuevos
-            reservasList.addAll(alquilerDAO.listarAlquileresPorUsuario(nifUsuarioActual)); // Obtener reservas del DAO
-            tblReservas.setItems(reservasList); // Asignar la lista a la tabla
+        private void cargarReservas() {
+        if (nifUsuarioActual != null) { 
+            reservasList.clear(); 
+            reservasList.addAll(alquilerDAO.listarAlquileresPorUsuario(nifUsuarioActual));
+            tblReservas.setItems(reservasList); 
         }
     }
 
-    // Cancela la reserva seleccionada en la tabla
+    
     private void cancelarReserva() {
-        // Obtener la reserva seleccionada en la tabla
+    
         AlquilerDTO reservaSeleccionada = tblReservas.getSelectionModel().getSelectedItem();
-        if (reservaSeleccionada == null) { // Si no hay reserva seleccionada
-            mostrarAlerta("Error", "Por favor, selecciona una reserva para cancelar.");
+        if (reservaSeleccionada == null) {             mostrarAlerta("Error", "Por favor, selecciona una reserva para cancelar.");
             return;
         }
 
@@ -112,7 +107,7 @@ public class PanelConfigReservaUserControlador implements Initializable {
     }
 
     
-     //Método genérico para mostrar alertas
+     
      
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION); // Tipo de alerta: información

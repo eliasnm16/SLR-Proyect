@@ -1,5 +1,6 @@
 package controlador;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -34,7 +35,6 @@ public class PanelReservaUserControlador implements Initializable {
     @FXML private Button btnConfirmar;
     @FXML private Button btnCancelar;
 
-
     @FXML private MenuButton menuUsuario;
     @FXML private MenuItem itemConfig;
     @FXML private MenuItem itemMisReservas;
@@ -43,6 +43,7 @@ public class PanelReservaUserControlador implements Initializable {
     private CocheDTO cocheSeleccionado;
     private boolean quiereChofer;
     private String nifUsuario;
+    private ClienteDTO usuarioActual;
 
     private static final double DESCUENTO_7 = 0.10;
     private static final double DESCUENTO_30 = 0.20;
@@ -51,6 +52,22 @@ public class PanelReservaUserControlador implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+
+        usuarioActual = LoginUsuarioRegistradoControlador.usuarioActual;
+
+        if (usuarioActual != null) {
+            if (menuUsuario != null) {
+                String nombre = usuarioActual.getNombreCompleto();
+                menuUsuario.setText(nombre != null && !nombre.isBlank() ? nombre : "Usuario");
+            }
+            if (this.nifUsuario == null || this.nifUsuario.isEmpty()) {
+                this.nifUsuario = usuarioActual.getNif_nie();
+            }
+        } else {
+            if (menuUsuario != null) menuUsuario.setText("Usuario");
+        }
+
+        // Validación de inyección FXML
         if (desdePicker == null || hastaPicker == null || lblDiasSeleccionados == null ||
             lblPrecioEstimado == null || btnConfirmar == null || btnCancelar == null) {
 
@@ -62,37 +79,13 @@ public class PanelReservaUserControlador implements Initializable {
         // Menú usuario
         configurarMenu();
 
-        // Si hay usuario en sesión, usarlo para nombre y NIF
-        ClienteDTO u = LoginUsuarioRegistradoControlador.usuarioActual;
-        if (u != null) {
-            if (menuUsuario != null) {
-                String nombre = u.getNombreCompleto();
-                menuUsuario.setText(nombre != null && !nombre.isBlank() ? nombre : "Usuario");
-            }
-            if ((nifUsuario == null || nifUsuario.isBlank()) && u.getNif_nie() != null) {
-                nifUsuario = u.getNif_nie();
-            }
-        } else {
-            if (menuUsuario != null) menuUsuario.setText("Usuario");
-        }
-
         bloquearFechasPasadas();
 
         desdePicker.setOnAction(e -> actualizarCalculosSeguros());
         hastaPicker.setOnAction(e -> actualizarCalculosSeguros());
 
         btnConfirmar.setOnAction(e -> confirmarReserva());
-        btnCancelar.setOnAction(e -> btnCancelar.getScene().getWindow().hide());
-    }
-
-    public void setDatos(CocheDTO coche, boolean contratarChofer) {
-        this.cocheSeleccionado = coche;
-        this.quiereChofer = contratarChofer;
-        actualizarCalculosSeguros();
-    }
-
-    public void setNifUsuario(String nif) {
-        this.nifUsuario = nif;
+        btnCancelar.setOnAction(e -> volverAtras());
     }
 
     private void configurarMenu() {
@@ -126,6 +119,7 @@ public class PanelReservaUserControlador implements Initializable {
         }
     }
 
+    @FXML
     private void abrirMisReservas() {
         try {
             String nif = obtenerNifUsuario();
@@ -154,6 +148,7 @@ public class PanelReservaUserControlador implements Initializable {
         }
     }
 
+    @FXML
     private void cerrarSesion() {
         try {
             // Cierra solo esta ventana y vuelve al login (manteniendo tu patrón)
@@ -168,6 +163,7 @@ public class PanelReservaUserControlador implements Initializable {
 
             LoginUsuarioRegistradoControlador.usuarioActual = null;
             nifUsuario = null;
+            usuarioActual = null;
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -175,9 +171,32 @@ public class PanelReservaUserControlador implements Initializable {
         }
     }
 
+    private void volverAtras() {
+        Stage stage = (Stage) btnCancelar.getScene().getWindow();
+        stage.close();
+    }
+
+    public void setUsuarioActual(ClienteDTO usuario) {
+        this.usuarioActual = usuario;
+        if (usuarioActual != null && menuUsuario != null) {
+            String nombre = usuarioActual.getNombreCompleto();
+            menuUsuario.setText(nombre != null && !nombre.isBlank() ? nombre : "Usuario");
+            this.nifUsuario = usuarioActual.getNif_nie();
+        }
+    }
+
+    public void setDatos(CocheDTO coche, boolean contratarChofer) {
+        this.cocheSeleccionado = coche;
+        this.quiereChofer = contratarChofer;
+        actualizarCalculosSeguros();
+    }
+
+    public void setNifUsuario(String nif) {
+        this.nifUsuario = nif;
+    }
+
     private void actualizarCalculosSeguros() {
-        if (desdePicker == null || hastaPicker == null || lblDiasSeleccionados == null || lblPrecioEstimado == null)
-            return;
+        if (desdePicker == null || hastaPicker == null || lblDiasSeleccionados == null || lblPrecioEstimado == null) return;
         actualizarCalculos();
     }
 
@@ -249,7 +268,6 @@ public class PanelReservaUserControlador implements Initializable {
             nifUsuario = u.getNif_nie();
             return nifUsuario;
         }
-
         return null;
     }
 
@@ -265,10 +283,14 @@ public class PanelReservaUserControlador implements Initializable {
             return;
         }
 
+        if (cocheSeleccionado == null) {
+            AlertUtils.error("Error", "No hay coche seleccionado.");
+            return;
+        }
+
         LocalDate inicio = desdePicker.getValue();
         LocalDate fin = hastaPicker.getValue();
 
-        // Si sigue sin NIF -> pedirlo
         if (obtenerNifUsuario() == null) {
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Introducir NIF/NIE");
@@ -280,40 +302,26 @@ public class PanelReservaUserControlador implements Initializable {
                 AlertUtils.warning("NIF/NIE", "No se proporcionó NIF/NIE.");
                 return;
             }
-
             nifUsuario = res.get().trim();
         }
 
-        if (cocheSeleccionado == null) {
-            AlertUtils.error("Error", "No hay coche seleccionado.");
-            return;
-        }
-
         try {
-            URL fxmlUrl = getClass().getResource("/vista/PanelFacturaUser.fxml");
-            if (fxmlUrl == null) {
-                AlertUtils.error("Error", "No se encontró PanelFacturaUser.fxml");
-                return;
-            }
-
-            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelFacturaUser.fxml"));
             Parent root = loader.load();
 
             PanelFacturaUserControlador ctrl = loader.getController();
             ctrl.setDatos(cocheSeleccionado, inicio, fin, quiereChofer, nifUsuario);
 
-            Stage stage = new Stage();
-            stage.setTitle("Factura de alquiler");
-            stage.setScene(new Scene(root));
-            stage.initOwner(btnConfirmar.getScene().getWindow());
-            stage.show();
-
-            // Cerrar esta ventana
-            btnConfirmar.getScene().getWindow().hide();
+ 
+            Stage stageActual = (Stage) btnConfirmar.getScene().getWindow();
+            stageActual.setScene(new Scene(root));
+            stageActual.setTitle("Factura de alquiler");
+            stageActual.show();
 
         } catch (Exception e) {
             e.printStackTrace();
             AlertUtils.error("Error", "Error al abrir la factura:\n" + e.getMessage());
         }
     }
+
 }
