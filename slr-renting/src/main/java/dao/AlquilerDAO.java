@@ -71,7 +71,7 @@ public class AlquilerDAO {
 
             stmt.setInt(1, a.getBastidor());
 
-            if (a.getId_Chofer() > 0) { 
+            if (a.getId_Chofer() > 0) {
                 stmt.setInt(2, a.getId_Chofer());
             } else {
                 stmt.setNull(2, java.sql.Types.INTEGER);
@@ -90,19 +90,18 @@ public class AlquilerDAO {
             System.err.println("Error modificando alquiler: " + ex.getMessage());
         }
     }
-    
+
     public List<AlquilerDTO> listarAlquileresConCliente() {
         List<AlquilerDTO> lista = new ArrayList<>();
         String sql = "SELECT a.*, c.CARNET FROM alquiler a " +
                      "LEFT JOIN cliente c ON a.NIF_NIE = c.NIF_NIE " +
                      "ORDER BY a.FECHAINICIO DESC";
-        
+
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                // Usa el constructor VIEJO (7 parámetros)
                 AlquilerDTO a = new AlquilerDTO(
                     rs.getInt("IDALQUILER"),
                     rs.getInt("BASTIDOR"),
@@ -112,14 +111,12 @@ public class AlquilerDAO {
                     rs.getDouble("PRECIOTOTAL"),
                     AlquilerDTO.EstadoAlquiler.valueOf(rs.getString("ESTADO"))
                 );
-                
-                // ID del chofer (puede ser NULL)
+
                 a.setId_Chofer(rs.getInt("ID_CHOFER"));
                 if (rs.wasNull()) a.setId_Chofer(0);
-                
-                // Establece el valor del carnet usando el SETTER
+
                 a.setClienteTieneCarnet(rs.getBoolean("CARNET"));
-                
+
                 lista.add(a);
             }
 
@@ -131,7 +128,6 @@ public class AlquilerDAO {
 
     // Busca un chofer libre que no esté ocupado entre dos fechas
     public Integer buscarChoferDisponible(LocalDate inicio, LocalDate fin) {
-        // SQL que busca choferes que NO estén en ningún alquiler que coincida con ese periodo
         String sql = "SELECT c.ID_CHOFER FROM chofer c WHERE c.ID_CHOFER NOT IN ("
                    + "  SELECT a.ID_CHOFER FROM alquiler a "
                    + "  WHERE a.ID_CHOFER IS NOT NULL "
@@ -147,7 +143,6 @@ public class AlquilerDAO {
 
             ResultSet rs = stmt.executeQuery();
 
-            // si hay algún chofer libre, se devuelve su ID
             if (rs.next()) return rs.getInt("ID_CHOFER");
 
         } catch (SQLException ex) {
@@ -167,7 +162,7 @@ public class AlquilerDAO {
 
             stmt.setString(1, nifNie);
             ResultSet rs = stmt.executeQuery();
-           
+
             while (rs.next()) {
                 AlquilerDTO a = new AlquilerDTO(
                     rs.getInt("IDALQUILER"),

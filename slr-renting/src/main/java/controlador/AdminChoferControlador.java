@@ -84,10 +84,7 @@ public class AdminChoferControlador implements Initializable {
         }
     }
 
-    /**
-     * Abre Añadirchofer.fxml. Si se pasa un ChoferDTO, intenta invocar setChofer(ChoferDTO)
-     * en el controlador del formulario para que éste rellene los campos (edición).
-     */
+    
     private void abrirFormulario(ChoferDTO choferSeleccionado) {
         try {
             URL fxmlUrl = getClass().getResource("/vista/Añadirchofer.fxml");

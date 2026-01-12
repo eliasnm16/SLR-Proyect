@@ -1,0 +1,73 @@
+
+.dialog-pane {
+    -fx-background-color: #0b0b0b;
+    -fx-border-color: #3b3320;
+    -fx-border-width: 1.2;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-padding: 14;
+}
+
+
+.dialog-pane .header-panel {
+    -fx-background-color: #0b0b0b;
+    -fx-padding: 10 10 8 10;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: #f5f5f5;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+
+.dialog-pane .content {
+    -fx-padding: 12 10 10 10;
+}
+
+.dialog-pane .content .label {
+    -fx-text-fill: #b5b5b5;
+    -fx-font-size: 12px;
+}
+
+
+.dialog-pane .button-bar {
+    -fx-padding: 10 10 8 10;
+}
+
+
+.dialog-pane .button {
+    -fx-background-color: #1a1a1a;
+    -fx-border-color: #3b3320;
+    -fx-border-width: 1.2;
+    -fx-text-fill: #f5f5f5;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-padding: 6 14 6 14;
+}
+
+
+.dialog-pane .button:default {
+    -fx-background-color: #ffd666;
+    -fx-text-fill: #111111;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent;
+}
+
+
+.dialog-pane .button:hover {
+    -fx-opacity: 0.92;
+}
+
+
+.alert-success .header-panel .label { -fx-text-fill: #b6f0c2; }
+.alert-success { -fx-border-color: #2f6b3b; }
+
+.alert-warning .header-panel .label { -fx-text-fill: #ffe08a; }
+.alert-warning { -fx-border-color: #7a5a1f; }
+
+.alert-error .header-panel .label { -fx-text-fill: #ffb3b3; }
+.alert-error { -fx-border-color: #b34a4a; }
+
+.alert-info .header-panel .label { -fx-text-fill: #ffd666; }
+.alert-info { -fx-border-color: #3b3320; }

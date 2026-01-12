@@ -160,12 +160,6 @@ public class PanelFacturaUserControlador implements Initializable {
                 System.err.println("Error generando PDF: " + ex.getMessage());
             }
             
-            // FUSIÓN: NO marcar el coche como no disponible aquí (de tu versión)
-            // El coche se mantiene disponible hasta que el administrador confirme
-            // La lógica de reserva ya está en CocheDAO.listarCochesDisponibles()
-            // que filtra por estado CONFIRMADA/COMPLETADA
-
-            // Mostrar mensaje de confirmación en lblMensaje
             if (lblMensaje != null) {
                 lblMensaje.setText("¡Reserva solicitada con éxito! El administrador revisará tu solicitud y te notificará la confirmación por correo. Estado actual: PENDIENTE");
                 lblMensaje.setVisible(true);
