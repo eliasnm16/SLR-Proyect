@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -7,10 +8,100 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<BorderPane prefHeight="607.0" prefWidth="620.0"
+            style="-fx-background-color: black;"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controlador.LoginRegistroControlador">
+
+    <center>
+        <StackPane>
+            <padding>
+                <Insets top="28" right="28" bottom="28" left="28"/>
+            </padding>
+
+            <VBox maxWidth="520" spacing="16"
+                  style="-fx-background-color: #0b0b0b; -fx-background-radius: 18;
+                         -fx-border-color: #3b3320; -fx-border-width: 1.2; -fx-border-radius: 18;">
+                <padding>
+                    <Insets top="22" right="22" bottom="22" left="22"/>
+                </padding>
+
+                <ImageView fitHeight="72" fitWidth="72" preserveRatio="true">
+                    <image>
+                        <Image url="@logo.jpg"/>
+                    </image>
+                </ImageView>
+
+                <Text fill="WHITE" text="Registro">
+                    <font>
+                        <Font size="22"/>
+                    </font>
+                </Text>
+
+                <Text fill="#b5b5b5" text="Introduce tus datos para crear la cuenta"/>
+
+                <GridPane hgap="12" vgap="10">
+                    <Text fill="WHITE" text="Nombre completo" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtNombre" promptText="Nombre y apellidos"
+                               GridPane.rowIndex="1" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777; -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
+
+                    <Text fill="WHITE" text="Email" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtCorreo" promptText="correo@ejemplo.com"
+                               GridPane.rowIndex="3" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777; -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
+
+                    <Text fill="WHITE" text="NIF/NIE" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtNif" promptText="00000000X"
+                               GridPane.rowIndex="5" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777; -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
+
+                    <Text fill="WHITE" text="Teléfono" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtTelefono" promptText="+34..."
+                               GridPane.rowIndex="7" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777; -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
+
+                    <Text fill="WHITE" text="Contraseña" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                    <PasswordField fx:id="txtPassword" promptText="••••••••"
+                                   GridPane.rowIndex="9" GridPane.columnIndex="0"
+                                   style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                          -fx-prompt-text-fill: #777777; -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                          -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
+                </GridPane>
+
+                <CheckBox fx:id="chkCarnet" text="Dispone de carnet de conducir" textFill="WHITE"
+                          style="-fx-text-fill: #f5f5f5;"/>
+
+                <Button fx:id="btnRegistro" mnemonicParsing="false" onAction="#onAcceder" text="Registrarse"
+                        style="-fx-background-color: #ffd666; -fx-text-fill: #111111; -fx-font-weight: bold;
+                               -fx-background-radius: 18; -fx-padding: 10 18 10 18;"/>
+
+                <Button fx:id="btnVolverLogin" mnemonicParsing="false" onAction="#irALogin"
+                        text="¿Ya tienes cuenta? Inicia sesión aquí"
+                        style="-fx-background-color: transparent; -fx-border-color: #ffd666; -fx-border-width: 1.2;
+                               -fx-text-fill: #ffd666; -fx-font-weight: bold;
+                               -fx-background-radius: 18; -fx-border-radius: 18; -fx-padding: 10 18 10 18;"/>
+            </VBox>
+        </StackPane>
+    </center>
+
+</BorderPane>
 <AnchorPane id="fondo" fx:id="paneLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="638.0" prefWidth="620.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.LoginRegistroControlador">
    <children>
       <Line endX="170.0" endY="49.9999885559082" layoutX="-2.0" layoutY="-1.0" startX="168.79287719726562" startY="624.800048828125" stroke="#fcdb00" />

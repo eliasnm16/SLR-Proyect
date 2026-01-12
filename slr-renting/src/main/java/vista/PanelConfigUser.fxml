@@ -1,15 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<BorderPane prefHeight="620.0" prefWidth="620.0"
+            style="-fx-background-color: black;"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controlador.PanelConfigUserControlador">
+
+    <center>
+        <StackPane>
+            <padding>
+                <Insets top="24" right="24" bottom="24" left="24"/>
+            </padding>
+
+            <VBox maxWidth="520" spacing="16"
+                  style="-fx-background-color: #0b0b0b; -fx-background-radius: 18;
+                         -fx-border-color: #3b3320; -fx-border-width: 1.2; -fx-border-radius: 18;">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+
+                <!-- Líneas decorativas (si las quieres, ya están bien formadas) -->
+                <Line endX="170.0" endY="49.0" layoutX="-2.0" layoutY="-1.0"
+                      startX="167.7" startY="583.0" stroke="#fcdb00"/>
+
+                <Line endX="170.0" endY="49.0" layoutX="259.0"
+                      startX="170.0" startY="581.0" stroke="#fad900"/>
+
+                <Line endX="-100.5" endY="341.5" layoutX="270.0" layoutY="-292.0"
+                      startX="158.5" startY="341.5" stroke="#fcdb00"/>
+
+                <HBox spacing="12" style="-fx-alignment: center-left;">
+                    <ImageView fitHeight="54" fitWidth="54" preserveRatio="true">
+                        <image>
+                            <Image url="@logo.jpg"/>
+                        </image>
+                    </ImageView>
+
+                    <VBox spacing="2">
+                        <Text fill="#ffd666" text="Tu Perfil">
+                            <font>
+                                <Font size="20"/>
+                            </font>
+                        </Text>
+                        <Text fill="#b5b5b5" text="Modifica tus datos personales"/>
+                    </VBox>
+                </HBox>
+
+                <GridPane hgap="12" vgap="10">
+
+                    <Text fill="WHITE" text="Nombre completo" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtNombre" promptText="Nombre y apellidos"
+                               GridPane.rowIndex="1" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777;
+                                      -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
+
+                    <Text fill="WHITE" text="Email" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtCorreo" promptText="correo@ejemplo.com"
+                               GridPane.rowIndex="3" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777;
+                                      -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
+
+                    <Text fill="WHITE" text="NIF/NIE" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtNif" promptText="00000000X"
+                               GridPane.rowIndex="5" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777;
+                                      -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
+
+                    <Text fill="WHITE" text="Teléfono" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtTelefono" promptText="+34..."
+                               GridPane.rowIndex="7" GridPane.columnIndex="0"
+                               style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                      -fx-prompt-text-fill: #777777;
+                                      -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                      -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
+
+                    <Text fill="WHITE" text="Contraseña" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                    <PasswordField fx:id="txtPassword" promptText="••••••••"
+                                   GridPane.rowIndex="9" GridPane.columnIndex="0"
+                                   style="-fx-background-color: #111111; -fx-text-fill: #f5f5f5;
+                                          -fx-prompt-text-fill: #777777;
+                                          -fx-border-color: #3b3320; -fx-border-width: 1.2;
+                                          -fx-background-radius: 16; -fx-border-radius: 16; -fx-padding: 10 14 10 14;"/>
+                </GridPane>
+
+                <CheckBox fx:id="chkCarnet" text="Dispone de carnet de conducir" textFill="WHITE"
+                          style="-fx-text-fill: #f5f5f5;"/>
+
+                <HBox spacing="12">
+                    <Button fx:id="btnGuardar" mnemonicParsing="false" text="Guardar Cambios"
+                            style="-fx-background-color: #ffd666; -fx-text-fill: #111111; -fx-font-weight: bold;
+                                   -fx-background-radius: 18; -fx-padding: 10 18 10 18;"/>
+
+                    <Button fx:id="btnVolver" mnemonicParsing="false" text="Volver"
+                            style="-fx-background-color: transparent; -fx-border-color: #ffd666; -fx-border-width: 1.2;
+                                   -fx-text-fill: #ffd666; -fx-font-weight: bold;
+                                   -fx-background-radius: 18; -fx-border-radius: 18; -fx-padding: 10 18 10 18;"/>
+                </HBox>
+
+            </VBox>
+        </StackPane>
+    </center>
+
+</BorderPane>
 <AnchorPane id="fondo" fx:id="paneConfig" prefHeight="620.0" prefWidth="620.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.PanelConfigUserControlador">
 
    <children>
