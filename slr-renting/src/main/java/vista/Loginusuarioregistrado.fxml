@@ -44,7 +44,6 @@
                 <Text fill="#b5b5b5" text="Ingrese sus datos para acceder"/>
 
                 <GridPane hgap="12" vgap="6">
-                    <!-- EMAIL -->
                     <Text fill="WHITE" text="Email" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                     <TextField fx:id="txtEmail" promptText="correo@ejemplo.com"
                                GridPane.rowIndex="1" GridPane.columnIndex="0"

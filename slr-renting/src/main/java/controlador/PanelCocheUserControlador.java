@@ -109,23 +109,9 @@ public class PanelCocheUserControlador implements Initializable {
     }
 
     private void volverAtras() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/PanelMainUser.fxml"));
-            Parent root = loader.load();
-
-            PanelMainUserControlador controlador = loader.getController();
-            controlador.setNifUsuarioActual(this.nifUsuarioActual);
-
-            Stage stage = (Stage) btnVolver.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Catálogo de Coches");
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Stage stage = (Stage) btnVolver.getScene().getWindow();
-            stage.close();
-        }
+        // Obtener la ventana actual y cerrarla
+        Stage stage = (Stage) btnVolver.getScene().getWindow();
+        stage.close();
     }
 
     @FXML

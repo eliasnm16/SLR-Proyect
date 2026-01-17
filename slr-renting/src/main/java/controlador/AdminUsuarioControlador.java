@@ -39,7 +39,7 @@ public class AdminUsuarioControlador implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Configurar columnas con lambdas (evita problemas de reflection con nombres raros)
+        // Configurar columnas con lambdas
         clmID.setCellValueFactory(cell -> new SimpleIntegerProperty(cell.getValue().getIdCliente()));
         clmNombre.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getNombreCompleto()));
         // TELEFONO en DTO es long; mostramos como texto
@@ -47,7 +47,6 @@ public class AdminUsuarioControlador implements Initializable {
         clmCorreo.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getCorreo()));
         clmNif.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getNif_nie()));
 
-        // Cargar inicialmente
         cargarClientes();
 
         // Eventos botones

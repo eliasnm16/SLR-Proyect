@@ -40,7 +40,6 @@ public class AdminAlquilerControlador implements Initializable {
     @FXML
     private TableColumn<AlquilerDTO, String> colEstado;
     
-    // NUEVAS COLUMNAS para chofer y carnet
     @FXML
     private TableColumn<AlquilerDTO, String> colChofer;
     @FXML
@@ -72,7 +71,7 @@ public class AdminAlquilerControlador implements Initializable {
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
         
         // Configuración especial para la columna CHOEFER
-        // Muestra "Sí" o "No" dependiendo si tiene ID_CHOFER
+        // Muestra Sí o No dependiendo si tiene ID_CHOFER
         colChofer.setCellValueFactory(cell -> {
             AlquilerDTO alquiler = cell.getValue();
             if (alquiler.getId_Chofer() > 0) {
@@ -83,7 +82,7 @@ public class AdminAlquilerControlador implements Initializable {
         });
         
         // Configuración especial para la columna CARNET
-        // Muestra "Sí" o "No" dependiendo si el cliente tiene carnet
+        // Muestra Sí o No dependiendo si el cliente tiene carnet
         colCarnet.setCellValueFactory(cell -> {
             AlquilerDTO alquiler = cell.getValue();
             // Usamos el nuevo campo que añadimos a AlquilerDTO
@@ -119,7 +118,7 @@ public class AdminAlquilerControlador implements Initializable {
         // Obtiene el alquiler seleccionado por el usuario
         AlquilerDTO alquilerSeleccionado = tablaAlquileres.getSelectionModel().getSelectedItem();
 
-        // Si no selecciona nada → error
+        // Si no selecciona nada da error
         if (alquilerSeleccionado == null) {
             mostrarAlerta("Error", "Por favor, selecciona un alquiler para borrar.");
             return;
@@ -159,7 +158,7 @@ public class AdminAlquilerControlador implements Initializable {
         dialog.setHeaderText("Selecciona el nuevo estado para el alquiler");
         dialog.setContentText("Estado:");
 
-        // Si el usuario elige algo → se modifica
+        // Si el usuario elige algo se modifica
         String resultado = dialog.showAndWait().orElse(null);
 
         if (resultado != null) {

@@ -1,5 +1,4 @@
 package controlador;
-
 import dao.CocheDAO;
 import dto.CocheDTO;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -104,7 +103,7 @@ public class AdminCocheControlador implements Initializable {
                             .getMethod("setCoche", CocheDTO.class)
                             .invoke(controller, cocheSeleccionado);
                 } catch (NoSuchMethodException ignored) {
-                    System.err.println("⚠ El formulario no tiene método setCoche(CocheDTO)");
+                    System.err.println("El formulario no tiene método setCoche(CocheDTO)");
                 }
             }
 
