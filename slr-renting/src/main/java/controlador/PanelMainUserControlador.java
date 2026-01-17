@@ -161,7 +161,7 @@ public class PanelMainUserControlador implements Initializable {
     private void cargarColeccion() {
         contenedorCoches.getChildren().clear();
 
-        // TRAE TODOS los coches (reservados y no reservados)
+        // TRAE TODOS los coches 
         List<CocheDTO> todosLosCoches = cocheDAO.listarCoches();
         if (todosLosCoches == null) return;
 

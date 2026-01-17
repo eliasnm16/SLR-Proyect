@@ -68,7 +68,7 @@ public class LoginRegistroControlador {
         label.setVisible(true);
     }
 
-   
+   // para validar los campos del formulario
     private boolean validarCampos() {
         boolean valido = true;
         limpiarErrores();
@@ -122,6 +122,7 @@ public class LoginRegistroControlador {
         return valido;
     }
 
+    //Tambien valida campos y accede o no si los campos son correctos
     @FXML
     private void onAcceder(ActionEvent event) {
         

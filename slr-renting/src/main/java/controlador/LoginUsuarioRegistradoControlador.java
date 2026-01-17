@@ -91,6 +91,7 @@ public class LoginUsuarioRegistradoControlador implements Initializable {
         }
     }
 
+    //validación y acceso de usuario
     @FXML
     private void onAcceder(ActionEvent event) {
 
@@ -124,7 +125,7 @@ public class LoginUsuarioRegistradoControlador implements Initializable {
         boolean correoExiste = verificarCorreoExiste(email);
 
         if (!correoExiste) {
-            mostrarError(lblErrorEmail, "✗ Este correo no está registrado");
+            mostrarError(lblErrorEmail, "Este correo no está registrado");
             return;
         }
 
@@ -134,7 +135,7 @@ public class LoginUsuarioRegistradoControlador implements Initializable {
         if (cliente == null) {
             AlertUtils.error("Acceso denegado", "Usuario o contraseña incorrectos.");
             // El correo existe pero la contraseña es incorrecta
-            mostrarError(lblErrorPassword, "✗ Contraseña incorrecta");
+            mostrarError(lblErrorPassword, "Contraseña incorrecta");
             return;
         }
 

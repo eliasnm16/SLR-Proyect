@@ -12,7 +12,7 @@ public class AlquilerDTO {
     private LocalDate fechaFin;
     private double precioTotal;
     private EstadoAlquiler estado = EstadoAlquiler.PENDIENTE;
-    private boolean clienteTieneCarnet; // NUEVO campo - inicializa en false por defecto
+    private boolean clienteTieneCarnet; //booleano en falso para que aparezca al principio como que no tiene carnet
 
     public enum EstadoAlquiler {
         PENDIENTE,
@@ -99,7 +99,6 @@ public class AlquilerDTO {
         this.estado = estado;
     }
     
-    // NUEVOS getter y setter para clienteTieneCarnet
     public boolean isClienteTieneCarnet() {
         return clienteTieneCarnet;
     }

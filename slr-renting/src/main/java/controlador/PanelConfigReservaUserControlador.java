@@ -58,7 +58,7 @@ public class PanelConfigReservaUserControlador implements Initializable {
 
     public void setNifUsuarioActual(String nif) {
         this.nifUsuarioActual = nif;
-        cargarReservas(); // Carga las reservas del usuario en la tabla
+        cargarReservas(); 
     }
 
         private void cargarReservas() {

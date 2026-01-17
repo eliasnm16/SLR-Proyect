@@ -35,20 +35,17 @@ public class ClienteDAO {
 
     // actualiza los datos del cliente con su ID
     public void modificarCliente(ClienteDTO cliente, int id) {
-
-        // SQL que actualiza todos los campos del cliente
-        String sql = "UPDATE CLIENTE SET Nombre_Completo = ?, Nif_nie = ?, Correo = ?, Contrasena = ?, Carnet = ?, Telefono = ? WHERE ID_Cliente = ?";
+        String sql = "UPDATE CLIENTE SET Nombre_Completo = ?, Correo = ?, Contrasena = ?, Carnet = ?, Telefono = ? WHERE ID_Cliente = ?";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, cliente.getNombreCompleto());
-            stmt.setString(2, cliente.getNif_nie());
-            stmt.setString(3, cliente.getCorreo());
-            stmt.setString(4, cliente.getContrasena());
-            stmt.setBoolean(5, cliente.isCarnet());
-            stmt.setString(6, cliente.getTelefono());
-            stmt.setInt(7, id);
+            stmt.setString(2, cliente.getCorreo());
+            stmt.setString(3, cliente.getContrasena());
+            stmt.setBoolean(4, cliente.isCarnet());
+            stmt.setString(5, cliente.getTelefono());
+            stmt.setInt(6, id);
 
             int filas = stmt.executeUpdate();
             if (filas > 0) {
@@ -168,7 +165,7 @@ public class ClienteDAO {
         return false;
     }
 
-    // También añade este método para verificar duplicados específicos (DE TU VERSIÓN)
+    // También añade este método para verificar duplicados específicos 
     public String obtenerCampoDuplicado(String nif, String correo, String telefono) {
         String sql = "SELECT Nif_nie, Correo, Telefono FROM cliente WHERE Nif_nie = ? OR Correo = ? OR Telefono = ? LIMIT 1";
         
@@ -198,7 +195,7 @@ public class ClienteDAO {
         return null;
     }
     
-    // Comprueba si ya existe un cliente con ese NIF/NIE (DEL REPOSITORIO)
+    // Comprueba si ya existe un cliente con ese NIF/NIE
     public boolean existeNif(String nif) {
         String sql = "SELECT 1 FROM CLIENTE WHERE Nif_nie = ?";
         try (Connection conn = ConexionBD.getConnection();
@@ -214,7 +211,7 @@ public class ClienteDAO {
         }
     }
 
-    // Comprueba si ya existe un cliente con ese correo (DEL REPOSITORIO)
+    // Comprueba si ya existe un cliente con ese correo
     public boolean existeCorreo(String correo) {
         String sql = "SELECT 1 FROM CLIENTE WHERE Correo = ?";
         try (Connection conn = ConexionBD.getConnection();
@@ -230,7 +227,7 @@ public class ClienteDAO {
         }
     }
     
-    // Busca cliente por NIF (DEL REPOSITORIO)
+    // Busca cliente por NIF 
     public ClienteDTO buscarPorNif(String nif) {
         String sql = "SELECT * FROM CLIENTE WHERE Nif_nie = ?";
         try (Connection conn = ConexionBD.getConnection();

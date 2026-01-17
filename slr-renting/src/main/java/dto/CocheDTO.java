@@ -138,9 +138,4 @@ public class CocheDTO {
 	public void setDisponible(boolean disponible) {
 		this.disponible = disponible;
 	}
-	
-	
-	
-	
-
 }
